@@ -28,7 +28,7 @@ nix/
 3. Edit names/usernames around (eg. `flake.nix` and `home/git.nix`)
 4. Run:  
     ```bash
-    darwin-rebuild switch --flake .#mbp
+    darwin-rebuild switch --flake .#<name>
     ```
 5. Or nix-darwin directly for the first time run:  
     ```bash
@@ -39,7 +39,7 @@ nix/
 
 - CLI tools: `home/default.nix`
 - GUI apps: `darwin/homebrew.nix`
-- Host config: `hosts/mbp/configuration.nix`
+- Host config: `hosts/<name>/configuration.nix`
 
 ## Help
 

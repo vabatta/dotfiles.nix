@@ -5,11 +5,21 @@
   ...
 }:
 {
-  networking.hostName = "mbp";
+  networking.hostName = "mbp-unique";
 
   # host-specific homebrew casks
   homebrew.casks = [
-    "container"
+    # devtools
+    "devtunnel"
+    "docker-desktop"
+    "mongodb-compass"
+    "openlens"
+
+    # everyday apps
+    "loom"
+    "slack"
+    "microsoft-auto-update"
+    "microsoft-office-businesspro"
   ];
 
   # host-specific home-manager configuration
@@ -18,7 +28,7 @@
     home.preferXdgDirectories = true;
 
     home.packages = with pkgs; [
-
+      "azure-cli"
     ];
 
     programs = {

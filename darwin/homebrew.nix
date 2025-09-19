@@ -20,17 +20,22 @@
       "keepingyouawake"
       "betterdisplay"
 
-      # dev
+      # everyday apps
+      "iina"
+      "obsidian"
+
+      # devtools
       "ghostty"
       "visual-studio-code"
-      # "container"
+      "claude-code"
+      "tableplus"
 
       # other
       "1password"
       "1password-cli"
     ];
     brews = [
-
+      "mas"
     ];
     taps = [
 

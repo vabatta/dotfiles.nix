@@ -1,4 +1,4 @@
-{ pkgs, primaryUser, ... }:
+{ pkgs, hostUsername, ... }:
 {
   imports = [
     ./shell.nix
@@ -13,11 +13,12 @@
     ./zoxide.nix
     ./fzf.nix
     ./gpg.nix
+    ./ssh.nix
     # ./k9s.nix
   ];
 
   home = {
-    username = primaryUser;
+    username = hostUsername;
     stateVersion = "25.05";
     sessionVariables = {
       LANG = "en_US.UTF-8";
@@ -38,6 +39,8 @@
       noti
       fastfetch
       lesspipe
+      oha
+      kubectl
 
       # misc
       nixfmt-rfc-style

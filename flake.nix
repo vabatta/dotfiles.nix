@@ -25,19 +25,32 @@
       nix-homebrew,
       ...
     }@inputs:
-    let
-      primaryUser = "yeetus";
-    in
     {
       # build darwin flake using:
       # $ darwin-rebuild build --flake .#<name>
+
       darwinConfigurations."mbp" = darwin.lib.darwinSystem {
         system = "aarch64-darwin";
         modules = [
           ./darwin
           ./hosts/mbp/configuration.nix
         ];
-        specialArgs = { inherit inputs self primaryUser; };
+        specialArgs = {
+          inherit inputs self;
+          hostUsername = "yeetus";
+        };
+      };
+
+      darwinConfigurations."mbp-unique" = darwin.lib.darwinSystem {
+        system = "aarch64-darwin";
+        modules = [
+          ./darwin
+          ./hosts/mbp-unique/configuration.nix
+        ];
+        specialArgs = {
+          inherit inputs self;
+          hostUsername = "vb";
+        };
       };
 
     };

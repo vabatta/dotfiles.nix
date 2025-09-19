@@ -2,7 +2,7 @@
   pkgs,
   inputs,
   self,
-  primaryUser,
+  hostUsername,
   ...
 }:
 {
@@ -30,7 +30,7 @@
 
   # homebrew installation manager
   nix-homebrew = {
-    user = primaryUser;
+    user = hostUsername;
     enable = true;
     autoMigrate = true;
   };
@@ -39,20 +39,20 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.${primaryUser} = {
+    users.${hostUsername} = {
       imports = [
         ../home
       ];
     };
     extraSpecialArgs = {
-      inherit inputs self primaryUser;
+      inherit inputs self hostUsername;
     };
   };
 
   # macOS-specific settings
-  system.primaryUser = primaryUser;
-  users.users.${primaryUser} = {
-    home = "/Users/${primaryUser}";
+  system.primaryUser = hostUsername;
+  users.users.${hostUsername} = {
+    home = "/Users/${hostUsername}";
     shell = pkgs.zsh;
   };
   environment = {

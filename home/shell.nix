@@ -383,14 +383,6 @@ in
       KEYTIMEOUT = 1; # 10ms delay for key sequences
     };
 
-    # setOptions = [];
-
-    # siteFunctions = {
-    #   mkcd = ''
-    #     mkdir --parents "$1" && cd "$1"
-    #   '';
-    # };
-
     initContent = lib.mkMerge [
       zshSettings
       themeFunc
@@ -399,14 +391,8 @@ in
     ];
   };
 
-  # programs.starship = {
-  #   enable = true;
-  #   settings = {
-  #     add_newline = false;
-  #     character = {
-  #       success_symbol = "[λ](bold green)";
-  #       error_symbol = "[λ](bold red)";
-  #     };
-  #   };
-  # };
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+  };
 }

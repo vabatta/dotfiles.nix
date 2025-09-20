@@ -365,19 +365,6 @@ in
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
 
-    shellAliases = {
-      "la" = "ls -lah";
-      "ll" = "ls -lh";
-      ".." = "cd ..";
-      "..." = "cd ../..";
-      "...." = "cd ../../..";
-      "cdp" = "cd ~/Projects";
-      "cdd" = "cd ~/Downloads";
-      "g" = "git";
-      "k" = "kubectl";
-      "nix-switch" = "sudo darwin-rebuild switch --flake ~/.config/nix";
-    };
-
     localVariables = {
       REPORTTIME = 10; # display how long all tasks over 10 seconds take
       KEYTIMEOUT = 1; # 10ms delay for key sequences
@@ -389,10 +376,5 @@ in
       zshHighlightTheme
       themeRun
     ];
-  };
-
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = true;
   };
 }

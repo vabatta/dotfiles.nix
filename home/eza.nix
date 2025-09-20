@@ -20,7 +20,6 @@ in
     colors = "auto";
     icons = "auto";
     git = true;
-
   };
 
   home.file."${config.xdg.configHome}/eza/themes".source = "${catppuccinEza}/themes";

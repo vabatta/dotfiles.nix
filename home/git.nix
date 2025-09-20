@@ -196,4 +196,8 @@
       delete-merged-branches = "!f() { git checkout --quiet master && git branch --merged | grep --invert-match '\\*' | xargs -n 1 git branch --delete; git checkout --quiet @{-1}; }; f";
     };
   };
+
+  home.shellAliases = {
+    g = "git";
+  };
 }

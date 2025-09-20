@@ -1,19 +1,22 @@
 { pkgs, hostUsername, ... }:
 {
   imports = [
-    ./shell.nix
-    ./git.nix
+    ./zsh.nix
+    ./starship.nix
+    # ./vivid.nix
     ./ghostty.nix
-    ./mise.nix
-    ./bat.nix
-    ./bottom.nix
-    ./lazygit.nix
-    ./ripgrep.nix
-    ./eza.nix
-    ./zoxide.nix
-    ./fzf.nix
     ./gpg.nix
     ./ssh.nix
+    ./git.nix
+    ./lazygit.nix
+    ./mise.nix
+    ./fzf.nix
+    ./bat.nix
+    ./eza.nix
+    ./zoxide.nix
+    # ./ripgrep.nix
+    # ./fd.nix
+    ./bottom.nix
     # ./k9s.nix
   ];
 
@@ -23,22 +26,34 @@
     sessionVariables = {
       LANG = "en_US.UTF-8";
       LC_ALL = "en_US.UTF-8";
+      PAGER = "less";
       EDITOR = "vim";
       VISUAL = "vim";
-      PAGER = "less";
       GIT_EDITOR = "vim";
+    };
+
+    shellAliases = {
+      "la" = "ls -lah";
+      "ll" = "ls -lh";
+      ".." = "cd ..";
+      "..." = "cd ../..";
+      "...." = "cd ../../..";
+      "cdp" = "cd ~/Projects";
+      "cdd" = "cd ~/Downloads";
+      "k" = "kubectl";
+      "ns" = "nix-shell";
+      "nsz" = "nix-shell --run 'exec zsh'";
+      "nix-switch" = "sudo darwin-rebuild switch --flake ~/.config/nix";
     };
 
     packages = with pkgs; [
       curl
-      fd
       jq
       yq
       entr
       parallel
       noti
       fastfetch
-      lesspipe
       oha
       kubectl
 

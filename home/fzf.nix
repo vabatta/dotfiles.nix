@@ -1,13 +1,18 @@
 { pkgs, lib, ... }:
 let
   zshSettings = lib.mkOrder 1000 ''
-    # To make fzf-tab follow FZF_DEFAULT_OPTS.
-    # NOTE: This may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
+    # make fzf-tab follow FZF_DEFAULT_OPTS
+    # NOTE: this may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
     zstyle ':fzf-tab:*' use-fzf-default-opts yes
     # switch group using `<` and `>`
     zstyle ':fzf-tab:*' switch-group '<' '>'
     # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
     zstyle ':completion:*' menu no
+
+    # use `less` for previewing files (supporting preprocessing with the LESSOPEN environment variable)
+    zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ''${(Q)realpath}'
+    # show environment variable value when completing environment variables
+    zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ''${(P)word}'
   '';
 
   themeFunc = lib.mkOrder 1500 ''
@@ -58,7 +63,13 @@ in
     enableZshIntegration = true;
     defaultOptions = [
       "--style minimal"
+      "--layout reverse"
+      # "--height -3"
     ];
+  };
+
+  programs.zsh.localVariables = {
+    # FZF_TMUX_HEIGHT = "-3";
   };
 
   programs.zsh.plugins = [
@@ -73,15 +84,15 @@ in
       };
     }
 
-    {
-      name = "fzf-tab-source";
-      src = pkgs.fetchFromGitHub {
-        owner = "Freed-Wu";
-        repo = "fzf-tab-source";
-        rev = "a06c2cf1f9b4f1582cb7536ce06f12ba02696ea6"; # latest master 06.09.2025
-        sha256 = "0is2xqi83k0gbp5sxp407mbhc4rfrnsdagkhdbm45waf13hb2knj";
-      };
-    }
+    # {
+    #   name = "fzf-tab-source";
+    #   src = pkgs.fetchFromGitHub {
+    #     owner = "Freed-Wu";
+    #     repo = "fzf-tab-source";
+    #     rev = "a06c2cf1f9b4f1582cb7536ce06f12ba02696ea6"; # latest master 06.09.2025
+    #     sha256 = "0is2xqi83k0gbp5sxp407mbhc4rfrnsdagkhdbm45waf13hb2knj";
+    #   };
+    # }
   ];
 
   programs.zsh.initContent = lib.mkMerge [

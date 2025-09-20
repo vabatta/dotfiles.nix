@@ -11,6 +11,14 @@ in
   programs.bat = {
     enable = true;
 
+    extraPackages = with pkgs.bat-extras; [
+      batpipe
+      # batman
+      # batdiff
+      # batgrep
+      # batwatch
+    ];
+
     config = {
       theme-light = "CatppuccinLatte";
       theme-dark = "CatppuccinMocha";
@@ -36,11 +44,17 @@ in
     };
   };
 
-  programs.zsh.shellAliases = {
+  home.sessionVariables = {
+    MANPAGER = "sh -c 'awk '\\''{ gsub(/\\x1B\\[[0-9;]*m/, \\\"\\\", \\$0); gsub(/.\\x08/, \\\"\\\", \\$0); print }'\\'' | bat -p -lman'";
+  };
+
+  home.shellAliases = {
     cat = "bat";
   };
 
   programs.zsh.initContent = lib.mkOrder 1500 ''
+    eval "$(batpipe)"
+
     theme_bat() {
       local theme="$1"
       case "$theme" in

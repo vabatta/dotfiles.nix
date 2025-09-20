@@ -16,6 +16,7 @@
     ./zoxide.nix
     # ./ripgrep.nix
     # ./fd.nix
+    ./claude-code.nix
     ./bottom.nix
     # ./k9s.nix
   ];
@@ -56,6 +57,7 @@
       fastfetch
       oha
       kubectl
+      _1password-cli
 
       # misc
       nixfmt-rfc-style

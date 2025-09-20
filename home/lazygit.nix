@@ -18,6 +18,7 @@ in
   };
 
   home.file."${config.xdg.configHome}/lazygit/themes".source = "${catppuccinLazygit}/themes";
+  home.shellAliases.lg = "lazygit";
 
   programs.zsh.initContent = lib.mkOrder 1500 ''
     theme_lazygit() {

@@ -27,12 +27,10 @@
       # devtools
       "ghostty"
       "visual-studio-code"
-      "claude-code"
       "tableplus"
 
       # other
       "1password"
-      "1password-cli"
     ];
     brews = [
       "mas"

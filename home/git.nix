@@ -197,7 +197,5 @@
     };
   };
 
-  home.shellAliases = {
-    g = "git";
-  };
+  home.shellAliases.g = "git";
 }

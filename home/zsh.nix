@@ -9,8 +9,6 @@ let
     zstyle ':completion:*' completer _expand _complete _files _correct _approximate
     # enable verbose mode for zsh completion system.
     zstyle ':completion:*' verbose yes
-    # set the format for completion descriptions with bold formatting.
-    zstyle ':completion:*:descriptions' format '%B%d%b'
     # set the format for messages shown during completion.
     zstyle ':completion:*:messages' format '%d'
     # customize the format of warnings when no matches are found.
@@ -21,7 +19,7 @@ let
 
   themeFunc = lib.mkOrder 500 ''
     # theme function
-    typeset -ga THEME_FUNCS
+    declare -ga THEME_FUNCS
 
     themeup() {
       local theme="$1"
@@ -52,7 +50,7 @@ let
       fi
 
       for func in "''${THEME_FUNCS[@]}"; do
-        if whence -w "$func" >/dev/null; then
+        if command -v "$func" >/dev/null; then
           # echo "→ $func $theme $accent"
           "$func" "$theme" "$accent"
         else
@@ -359,6 +357,7 @@ let
   '';
 in
 {
+  home.shell.enableZshIntegration = true;
   programs.zsh = {
     enable = true;
     enableCompletion = true;

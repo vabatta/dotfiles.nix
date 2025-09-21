@@ -12,15 +12,8 @@ let
     rev = "eadd75acd0ecad4a58ade9a1d6daa3b97ccec07c";
     sha256 = "16ba69j4n4qca1zb2qvcggxja69jxwcjh0v08ijhvfpl9rva9yvm";
   };
-in
-{
-  programs.bottom = {
-    enable = true;
-  };
 
-  home.file."${config.xdg.configHome}/bottom/themes".source = "${catppuccinBottom}/themes";
-
-  programs.zsh.initContent = lib.mkOrder 1500 ''
+  themeFunc = lib.mkOrder 1500 ''
     theme_bottom() {
       local theme="$1"
       local cfg="${config.xdg.configHome}/bottom/themes/$theme.toml"
@@ -36,4 +29,13 @@ in
 
     THEME_FUNCS+=("theme_bottom")
   '';
+in
+{
+  programs.bottom = {
+    enable = true;
+  };
+
+  home.file."${config.xdg.configHome}/bottom/themes".source = "${catppuccinBottom}/themes";
+
+  programs.zsh.initContent = themeFunc;
 }

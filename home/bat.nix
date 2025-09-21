@@ -1,11 +1,26 @@
 { pkgs, lib, ... }:
 let
-  catppuccin-bat = pkgs.fetchFromGitHub {
+  catppuccinBat = pkgs.fetchFromGitHub {
     owner = "catppuccin";
     repo = "bat";
     rev = "6810349b28055dce54076712fc05fc68da4b8ec0";
     sha256 = "1y5sfi7jfr97z1g6vm2mzbsw59j1jizwlmbadvmx842m0i5ak5ll";
   };
+
+  themeFunc = lib.mkOrder 1500 ''
+    theme_bat() {
+      local theme="$1"
+      case "$theme" in
+        mocha)     export BAT_THEME="CatppuccinMocha" ;;
+        latte)     export BAT_THEME="CatppuccinLatte" ;;
+        frappe)    export BAT_THEME="CatppuccinFrappe" ;;
+        macchiato) export BAT_THEME="CatppuccinMacchiato" ;;
+        *) unset BAT_THEME ;;
+      esac
+    }
+
+    THEME_FUNCS+=("theme_bat")
+  '';
 in
 {
   programs.bat = {
@@ -26,46 +41,31 @@ in
 
     themes = {
       CatppuccinLatte = {
-        src = catppuccin-bat;
+        src = catppuccinBat;
         file = "themes/Catppuccin Latte.tmTheme";
       };
       CatppuccinFrappe = {
-        src = catppuccin-bat;
+        src = catppuccinBat;
         file = "themes/Catppuccin Frappe.tmTheme";
       };
       CatppuccinMocha = {
-        src = catppuccin-bat;
+        src = catppuccinBat;
         file = "themes/Catppuccin Mocha.tmTheme";
       };
       CatppuccinMacchiato = {
-        src = catppuccin-bat;
+        src = catppuccinBat;
         file = "themes/Catppuccin Macchiato.tmTheme";
       };
     };
   };
 
-  home.sessionVariables = {
-    MANPAGER = "sh -c 'awk '\\''{ gsub(/\\x1B\\[[0-9;]*m/, \\\"\\\", \\$0); gsub(/.\\x08/, \\\"\\\", \\$0); print }'\\'' | bat -p -lman'";
-  };
+  home.sessionVariables.MANPAGER = "sh -c 'awk '\\''{ gsub(/\\x1B\\[[0-9;]*m/, \\\"\\\", \\$0); gsub(/.\\x08/, \\\"\\\", \\$0); print }'\\'' | bat -p -lman'";
+  home.shellAliases.cat = "bat";
 
-  home.shellAliases = {
-    cat = "bat";
-  };
-
-  programs.zsh.initContent = lib.mkOrder 1500 ''
-    eval "$(batpipe)"
-
-    theme_bat() {
-      local theme="$1"
-      case "$theme" in
-        mocha)     export BAT_THEME="CatppuccinMocha" ;;
-        latte)     export BAT_THEME="CatppuccinLatte" ;;
-        frappe)    export BAT_THEME="CatppuccinFrappe" ;;
-        macchiato) export BAT_THEME="CatppuccinMacchiato" ;;
-        *) unset BAT_THEME ;;
-      esac
-    }
-
-    THEME_FUNCS+=("theme_bat")
-  '';
+  programs.zsh.initContent = lib.mkMerge [
+    themeFunc
+    (lib.mkOrder 1500 ''
+      eval "$(batpipe)"
+    '')
+  ];
 }

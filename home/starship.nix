@@ -3,7 +3,7 @@
   # REVIEW: do we need any magic for https://github.com/catppuccin/starship ?
   programs.starship = {
     enable = true;
-    enableZshIntegration = true;
+
     settings = {
       continuation_prompt = "▶ ";
 

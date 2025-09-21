@@ -17,4 +17,6 @@
       controlPersist = "no";
     };
   };
+
+  home.shellAliases.ssh = "TERM=xterm-256color ssh";
 }

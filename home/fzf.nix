@@ -1,18 +1,23 @@
 { pkgs, lib, ... }:
 let
   zshSettings = lib.mkOrder 1000 ''
+    # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
+    zstyle ':completion:*' menu no
+    # format description of completion candidates properly
+    zstyle ':completion:*:descriptions' format '[%d]'
+
     # make fzf-tab follow FZF_DEFAULT_OPTS
     # NOTE: this may lead to unexpected behavior since some flags break this plugin. See Aloxaf/fzf-tab#455.
     zstyle ':fzf-tab:*' use-fzf-default-opts yes
     # switch group using `<` and `>`
     zstyle ':fzf-tab:*' switch-group '<' '>'
-    # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix
-    zstyle ':completion:*' menu no
 
     # use `less` for previewing files (supporting preprocessing with the LESSOPEN environment variable)
     zstyle ':fzf-tab:complete:*:*' fzf-preview 'less ''${(Q)realpath}'
     # show environment variable value when completing environment variables
     zstyle ':fzf-tab:complete:(-command-|-parameter-|-brace-parameter-|export|unset|expand):*' fzf-preview 'echo ''${(P)word}'
+    # show man page when completing commands
+    zstyle ':fzf-tab:complete:(-command-:|command:option-(v|V)-rest)' fzf-preview 'MANWIDTH=$FZF_PREVIEW_COLUMNS man "$word"'
   '';
 
   themeFunc = lib.mkOrder 1500 ''
@@ -60,16 +65,16 @@ in
 {
   programs.fzf = {
     enable = true;
-    enableZshIntegration = true;
+
     defaultOptions = [
       "--style minimal"
       "--layout reverse"
-      # "--height -3"
+      "--height 50%" # -3
     ];
   };
 
   programs.zsh.localVariables = {
-    # FZF_TMUX_HEIGHT = "-3";
+    FZF_TMUX_HEIGHT = "50%"; # -3
   };
 
   programs.zsh.plugins = [

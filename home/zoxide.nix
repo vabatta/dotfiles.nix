@@ -2,10 +2,7 @@
 {
   programs.zoxide = {
     enable = true;
-    enableZshIntegration = true;
   };
 
-  home.shellAliases = {
-    "cd" = "z";
-  };
+  home.shellAliases.cd = "z";
 }

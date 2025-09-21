@@ -1,10 +1,7 @@
 { lib, pkgs, ... }:
-{
-  programs.vivid = {
-    enable = true;
-  };
-
-  programs.zsh.initContent = lib.mkOrder 1500 ''
+# TODO: adjust vivid themes to modern cattppuccin colors
+let
+  themeFunc = lib.mkOrder 1500 ''
     theme_ls_colors() {
       local theme="$1"
       case "$theme" in
@@ -18,4 +15,11 @@
 
     THEME_FUNCS+=("theme_ls_colors")
   '';
+in
+{
+  programs.vivid = {
+    enable = true;
+  };
+
+  programs.zsh.initContent = themeFunc;
 }

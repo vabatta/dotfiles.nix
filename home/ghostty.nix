@@ -2,7 +2,6 @@
 {
   programs.ghostty = {
     enable = true;
-    enableZshIntegration = true;
 
     package = null; # Use the Cask version for now
 

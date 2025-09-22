@@ -11,3 +11,16 @@ function cdroot() {
         return 1
     fi
 }
+
+function palette() {
+    local -a colors
+    for i in {000..255}; do
+        colors+=("%F{$i}$i%f")
+    done
+    print -cP $colors
+}
+
+function printc() {
+    local color="%F{$1}"
+    echo -E ${(qqqq)${(%)color}}
+}

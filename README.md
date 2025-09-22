@@ -6,19 +6,19 @@ My personal macOS dotfiles managed declaratively with Nix flakes through nix-dar
 
 ```
 nix/
-├── flake.nix                 # Main flake config
+├── flake.nix                 # main flake config
 ├── darwin/                  # macOS system settings
 │   ├── default.nix
 │   ├── settings.nix
 │   └── homebrew.nix
 ├── home/                    # Home Manager config
-│   ├── default.nix          # contains non-configured packages as well
-│   ├── shell.nix
+│   ├── default.nix          # contains non-explicitly configured packages as well
 │   └── <program>.nix
+├── scripts/                 # custom shell scripts
+│   └── <script>.sh
 └── hosts/
-    └── mbp/
-        ├── configuration.nix
-        └── shell-functions.sh
+    └── <name>/              # host to configure
+        └── configuration.nix
 ```
 
 ## Usage

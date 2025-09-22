@@ -27,7 +27,7 @@ in
     enable = true;
 
     extraPackages = with pkgs.bat-extras; [
-      batpipe
+      # batpipe
       # batman
       # batdiff
       # batgrep
@@ -64,8 +64,13 @@ in
 
   programs.zsh.initContent = lib.mkMerge [
     themeFunc
-    (lib.mkOrder 1500 ''
-      eval "$(batpipe)"
-    '')
+    # (lib.mkOrder 1500 ''
+    #   eval "$(batpipe)"
+    # '')
   ];
+
+  # TODO: custom and simpler batpipe
+  # home.packages = [
+  #   (pkgs.writeShellScriptBin "batpipe" (builtins.readFile ../scripts/batpipe.sh))
+  # ];
 }

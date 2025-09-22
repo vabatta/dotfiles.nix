@@ -66,6 +66,7 @@
       # fonts
       nerd-fonts.fira-code
       nerd-fonts.fira-mono
+      nerd-fonts.hack
     ];
 
     # create .hushlogin file to suppress login messages

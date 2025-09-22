@@ -7,17 +7,17 @@ let
     zstyle ':completion:*' insert-tab pending
     # default to file completion
     zstyle ':completion:*' completer _expand _complete _files _correct _approximate
-    # enable verbose mode for zsh completion system.
+    # enable verbose mode for zsh completion system
     zstyle ':completion:*' verbose yes
-    # set the format for messages shown during completion.
+    # set the format for messages shown during completion
     zstyle ':completion:*:messages' format '%d'
-    # customize the format of warnings when no matches are found.
+    # customize the format of warnings when no matches are found
     zstyle ':completion:*:warnings' format 'No matches for: %d'
     # disable sort when completing `git checkout`
     zstyle ':completion:*:git-checkout:*' sort false
   '';
 
-  themeFunc = lib.mkOrder 500 ''
+  themeSwitcher = lib.mkOrder 500 ''
     # theme function
     declare -ga THEME_FUNCS
 
@@ -28,8 +28,7 @@ let
       # Auto-detect if no args and running on macOS
       if [[ -z "$theme" ]]; then
         if [[ "$OSTYPE" == darwin* ]]; then
-          local appearance
-          appearance=$(defaults read -g AppleInterfaceStyle 2>/dev/null || echo "Light")
+          local appearance=$(defaults read -g AppleInterfaceStyle 2>/dev/null || echo "Light")
 
           case "$appearance" in
             Dark) theme="mocha" ;;
@@ -60,7 +59,7 @@ let
     }
   '';
 
-  zshHighlightTheme = lib.mkOrder 1500 ''
+  themeFunc = lib.mkOrder 1500 ''
     theme_zsh_highlight() {
       local theme="$1"
 
@@ -371,8 +370,8 @@ in
 
     initContent = lib.mkMerge [
       zshSettings
+      themeSwitcher
       themeFunc
-      zshHighlightTheme
       themeRun
     ];
   };

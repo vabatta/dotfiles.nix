@@ -41,6 +41,7 @@
     useUserPackages = true;
     users.${hostUsername} = {
       imports = [
+        inputs.nvf.homeManagerModules.default # neovim
         ../home
       ];
     };

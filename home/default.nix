@@ -16,6 +16,7 @@
     ./zoxide.nix
     # ./ripgrep.nix
     # ./fd.nix
+    ./nvim.nix
     ./claude-code.nix
     ./bottom.nix
     # ./k9s.nix

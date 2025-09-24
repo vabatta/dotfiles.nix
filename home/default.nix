@@ -1,4 +1,8 @@
-{ pkgs, hostUsername, ... }:
+{
+  pkgs,
+  hostUsername,
+  ...
+}:
 {
   imports = [
     ./zsh.nix
@@ -9,7 +13,7 @@
     ./ssh.nix
     ./git.nix
     ./lazygit.nix
-    ./mise.nix
+    # ./mise.nix
     ./fzf.nix
     ./bat.nix
     ./eza.nix

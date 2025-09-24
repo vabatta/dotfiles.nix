@@ -15,6 +15,9 @@
     # declarative homebrew management
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
+    # utility for writing flakes
+    flake-utils.url = "github:numtide/flake-utils";
+
     # declarative nvim config
     nvf.url = "github:NotAShelf/nvf";
     nvf.inputs.nixpkgs.follows = "nixpkgs";

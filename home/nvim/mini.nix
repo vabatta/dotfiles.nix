@@ -1,4 +1,4 @@
-{ ... }:
+{ lib, ... }:
 {
   # text editing
   ai.enable = true;
@@ -105,13 +105,32 @@
     ];
 
     clues = [
-      # Enhance this by adding descriptions for <Leader> mapping groups
-      "miniclue.gen_clues.builtin_completion()"
-      "miniclue.gen_clues.g()"
-      "miniclue.gen_clues.marks()"
-      "miniclue.gen_clues.registers()"
-      "miniclue.gen_clues.windows()"
-      "miniclue.gen_clues.z()"
+      (lib.generators.mkLuaInline "require('mini.clue').gen_clues.builtin_completion()")
+      (lib.generators.mkLuaInline "require('mini.clue').gen_clues.g()")
+      (lib.generators.mkLuaInline "require('mini.clue').gen_clues.marks()")
+      (lib.generators.mkLuaInline "require('mini.clue').gen_clues.registers()")
+      (lib.generators.mkLuaInline "require('mini.clue').gen_clues.windows()")
+      (lib.generators.mkLuaInline "require('mini.clue').gen_clues.z()")
+      {
+        mode = "n";
+        keys = "<leader>b";
+        desc = "+Buffers";
+      }
+      {
+        mode = "n";
+        keys = "<leader>f";
+        desc = "+Files";
+      }
+      {
+        mode = "n";
+        keys = "<leader>l";
+        desc = "+LSP";
+      }
+      {
+        mode = "n";
+        keys = "<leader>w";
+        desc = "+Windows";
+      }
     ];
   };
   diff.enable = true;
@@ -122,6 +141,11 @@
   };
   extra.enable = true;
   files.enable = true;
+  files.setupOpts = {
+    mappings = {
+      close = "<ESC>";
+    };
+  };
   git.enable = true;
   jump.enable = true;
   jump2d.enable = true;
@@ -164,7 +188,7 @@
       };
 
       # Highlight hex color strings (`#rrggbb`) using that color
-      hex_color = "hipatterns.gen_highlighter.hex_color()";
+      hex_color = lib.generators.mkLuaInline "require('mini.hipatterns').gen_highlighter.hex_color()";
     };
   };
   # hues.enable = true;

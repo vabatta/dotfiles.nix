@@ -1,6 +1,9 @@
 { pkgs, lib, ... }:
 let
+  mini = import ./nvim/mini.nix { inherit lib; };
   events = import ./nvim/events.nix { inherit lib; };
+  keymaps = import ./nvim/keymaps.nix { inherit lib; };
+  options = import ./nvim/options.nix { inherit lib; };
 in
 {
   programs.nvf = {
@@ -26,6 +29,7 @@ in
                 treesitter = true,
                 treesitter_context = true,
                 mini = true,
+                snacks = true,
               },
               highlight_overrides = {
                 all = function(colors)
@@ -46,11 +50,16 @@ in
       };
 
       # mini.nvim
-      vim.mini = import ./nvim/mini.nix { };
+      vim.mini = mini;
+      vim.utility.snacks-nvim.enable = true;
+      vim.utility.snacks-nvim.setupOpts = {
+        input.enabled = true;
+      };
 
-      vim.options = import ./nvim/options.nix { };
+      vim.options = options;
       vim.augroups = events.augroups;
       vim.autocmds = events.autocmds;
+      vim.keymaps = keymaps;
 
       vim.viAlias = false;
       vim.vimAlias = true;

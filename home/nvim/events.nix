@@ -2,12 +2,29 @@
 {
   augroups = [
     {
+      name = "ColorSchemeSync";
+      clear = true;
+    }
+
+    {
       name = "LineNumbersToggle";
       clear = true;
     }
   ];
 
   autocmds = [
+    {
+      desc = "Synchronise HL groups to custom groups";
+      group = "ColorSchemeSync";
+      event = [ "ColorScheme" ];
+      pattern = [ "*" ];
+      callback = lib.generators.mkLuaInline ''
+        function()
+          vim.cmd [[hi! link Todo MiniHipatternsTodo]] -- Make HL Todo use MiniHipatternsTodo (might need an autocmd for scheme reload)
+        end
+      '';
+    }
+
     {
       desc = "Enable relative numbers in normal mode";
       group = "LineNumbersToggle";

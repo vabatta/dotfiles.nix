@@ -20,7 +20,7 @@
       pattern = [ "*" ];
       callback = lib.generators.mkLuaInline ''
         function()
-          vim.cmd [[hi! link Todo MiniHipatternsTodo]] -- Make HL Todo use MiniHipatternsTodo (might need an autocmd for scheme reload)
+          vim.cmd [[hi! link Todo MiniHipatternsTodo]] -- Make HL Todo use MiniHipatternsTodo
         end
       '';
     }

@@ -13,7 +13,7 @@
 
   list = true; # show hidden characters
   fillchars = "foldopen:,foldclose:,fold: ,foldsep: ,diff:╱,eob: ";
-  listchars = "space:·,tab:→ ,eol:↵,trail:⋅,extends:❯,precedes:❮";
+  listchars = "space:·,tab:→ ,trail:⋅,extends:❯,precedes:❮"; # eol:↵
   showbreak = "↪";
 
   expandtab = true; # use spaces instead of tabs
@@ -22,4 +22,6 @@
   shiftwidth = 2; # size of an indent
   softtabstop = 2; # number of spaces inserted instead of a tab character
   wrap = false; # disable line wrap
+
+  formatexpr = "v:lua.require'conform'.formatexpr()"; # use conform for buffer formatting
 }

@@ -23,6 +23,7 @@
       # everyday apps
       "iina"
       "obsidian"
+      "logitech-g-hub"
 
       # devtools
       "ghostty"
@@ -31,6 +32,7 @@
 
       # other
       "1password"
+      "knockknock"
     ];
     brews = [
       "mas"

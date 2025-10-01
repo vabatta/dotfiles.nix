@@ -171,6 +171,7 @@
       latest = "!git for-each-ref --sort='-committerdate' --format='%(color:red)%(refname)%(color:reset)%09%(committerdate)' refs/remotes | sed -e 's-refs/remotes/origin/--' | less -XFR";
 
       # utils
+      whoami = "config --get-regexp ^user\\.";
       # Clones a bare repository and sets up the current directory as its first worktree for use with 'git worktree'
       bare-clone = "!f() { REPO=$1; BARE_DIR=\".bare\"; git clone --bare \"$REPO\" \"$BARE_DIR\" && cd \"$BARE_DIR\" && git config remote.origin.fetch '+refs/heads/*:refs/remotes/origin/*' && cd - > /dev/null && echo \"gitdir: $BARE_DIR\" > .git; }; f";
       # Stage only new lines from my local changes

@@ -20,7 +20,12 @@
     "slack"
     "microsoft-auto-update"
     "microsoft-office-businesspro"
+    "intune-company-portal"
   ];
+
+  homebrew.masApps = {
+    "Tailscale" = 1475387142;
+  };
 
   # host-specific home-manager configuration
   home-manager.users.${hostUsername} = {
@@ -28,7 +33,7 @@
     home.preferXdgDirectories = true;
 
     home.packages = with pkgs; [
-      "azure-cli"
+      azure-cli
     ];
 
     home.sessionVariables.SSH_AUTH_SOCK = "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
@@ -44,7 +49,7 @@
         userEmail = "2137077+vabatta@users.noreply.github.com";
         signing = {
           format = "ssh";
-          key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIERFqyE4flUaslGeGLB/O0KXoPfi+Azp35X8UJ0oAE3U";
+          key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPZjJGPFzlFedQFJ2ez8DwQS8SuiNFeXNFUSwtl+w892";
           signByDefault = true;
         };
         extraConfig.credential.helper = "osxkeychain";

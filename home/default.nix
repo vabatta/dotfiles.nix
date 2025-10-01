@@ -14,6 +14,7 @@
     ./git.nix
     ./lazygit.nix
     # ./mise.nix
+    ./less.nix
     ./fzf.nix
     ./bat.nix
     ./eza.nix

@@ -23,5 +23,6 @@
   softtabstop = 2; # number of spaces inserted instead of a tab character
   wrap = false; # disable line wrap
 
+  # https://github.com/NotAShelf/nvf/issues/790#issuecomment-2877930088
   formatexpr = "v:lua.require'conform'.formatexpr()"; # use conform for buffer formatting
 }

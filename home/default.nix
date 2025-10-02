@@ -55,8 +55,7 @@
 
     packages = with pkgs; [
       curl
-      jq
-      yq
+      fx
       entr
       parallel
       noti

@@ -33,6 +33,7 @@
       # other
       "1password"
       "knockknock"
+      "claude"
     ];
     brews = [
       "mas"

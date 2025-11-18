@@ -64,6 +64,8 @@ in
       vim.viAlias = false;
       vim.vimAlias = true;
 
+      vim.assistant.codecompanion-nvim.enable = true;
+
       vim.lsp.enable = true;
       vim.languages.enableFormat = true;
       vim.languages.enableTreesitter = true;

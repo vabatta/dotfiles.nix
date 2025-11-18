@@ -48,6 +48,7 @@
       "cdp" = "cd ~/Projects";
       "cdd" = "cd ~/Downloads";
       "k" = "kubectl";
+      "nd" = "nix develop";
       "ns" = "nix-shell";
       "nsz" = "nix-shell --run 'exec zsh'";
       "nix-switch" = "sudo darwin-rebuild switch --flake ~/.config/nix";

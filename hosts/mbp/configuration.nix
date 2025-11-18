@@ -30,14 +30,14 @@
       '';
 
       git = {
-        userName = "vabatta";
-        userEmail = "2137077+vabatta@users.noreply.github.com";
+        settings.user.name = "vabatta";
+        settings.user.email = "2137077+vabatta@users.noreply.github.com";
         signing = {
           format = "ssh";
           key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIERFqyE4flUaslGeGLB/O0KXoPfi+Azp35X8UJ0oAE3U";
           signByDefault = true;
         };
-        extraConfig.credential.helper = "osxkeychain";
+        settings.credential.helper = "osxkeychain";
       };
     };
   };

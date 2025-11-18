@@ -104,7 +104,7 @@
       safe = {
         directory = "*";
       };
-      aliases = {
+      alias = {
         list-aliases = "!git config -l | grep alias | cut -c 7-";
 
         # shortcuts

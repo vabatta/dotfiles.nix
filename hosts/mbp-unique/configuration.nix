@@ -14,6 +14,7 @@
     "docker-desktop"
     "mongodb-compass"
     "openlens"
+    "google-chrome"
 
     # everyday apps
     "loom"

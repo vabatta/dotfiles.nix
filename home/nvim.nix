@@ -10,10 +10,6 @@ in
     enable = true;
 
     settings = {
-      vim.startPlugins = [
-        "catppuccin"
-      ];
-
       vim.extraPlugins = {
         catppuccin = {
           package = pkgs.vimPlugins.catppuccin-nvim;

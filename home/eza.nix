@@ -38,6 +38,7 @@ in
     icons = "auto";
     git = true;
   };
+  home.shellAliases.tree = "eza --tree";
 
   home.file."${config.xdg.configHome}/eza/themes".source = "${catppuccinEza}/themes";
   home.sessionVariables.EZA_CONFIG_DIR = "${config.xdg.configHome}/eza";

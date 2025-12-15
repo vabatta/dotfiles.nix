@@ -12,6 +12,7 @@
     ./gpg.nix
     ./ssh.nix
     ./git.nix
+    ./lazydocker.nix
     ./lazygit.nix
     # ./mise.nix
     ./less.nix

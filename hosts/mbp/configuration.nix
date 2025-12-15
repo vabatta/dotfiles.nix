@@ -9,7 +9,7 @@
 
   # host-specific homebrew casks
   homebrew.casks = [
-    "container"
+    "docker-desktop"
   ];
 
   # host-specific home-manager configuration

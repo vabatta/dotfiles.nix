@@ -15,6 +15,7 @@
     "mongodb-compass"
     "openlens"
     "google-chrome"
+    "cursor"
 
     # everyday apps
     "loom"

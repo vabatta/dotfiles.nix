@@ -4,6 +4,7 @@ let
   events = import ./nvim/events.nix { inherit lib; };
   keymaps = import ./nvim/keymaps.nix { inherit lib; };
   options = import ./nvim/options.nix { inherit lib; };
+  codecompanion = import ./nvim/codecompanion.nix { inherit lib; };
 in
 {
   programs.nvf = {
@@ -60,7 +61,7 @@ in
       vim.viAlias = false;
       vim.vimAlias = true;
 
-      vim.assistant.codecompanion-nvim.enable = true;
+      vim.assistant.codecompanion-nvim = codecompanion;
 
       vim.lsp.enable = true;
       vim.languages.enableFormat = true;
@@ -69,23 +70,23 @@ in
 
       vim.languages.nix = {
         enable = true;
-        format.type = "nixfmt";
+        format.type = [ "nixfmt" ];
       };
       vim.languages.bash = {
         enable = true;
-        format.type = "shfmt";
+        format.type = [ "shfmt" ];
       };
       vim.languages.lua = {
         enable = true;
-        format.type = "stylua";
+        format.type = [ "stylua" ];
       };
       vim.languages.go = {
         enable = true;
-        format.type = "gofmt";
+        format.type = [ "gofmt" ];
       };
       vim.languages.ts = {
         enable = true;
-        format.type = "biome";
+        format.type = [ "biome" ];
         extensions.ts-error-translator.enable = true;
       };
     };

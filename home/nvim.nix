@@ -44,6 +44,12 @@ in
             vim.cmd.colorscheme "catppuccin"
           '';
         };
+        render-markdown = {
+          package = pkgs.vimPlugins.render-markdown-nvim;
+          setup = ''
+            require('render-markdown').setup {}
+          '';
+        };
       };
 
       # mini.nvim
@@ -68,21 +74,27 @@ in
       vim.languages.enableTreesitter = true;
       vim.languages.enableExtraDiagnostics = true;
 
+      vim.languages.html = {
+        enable = true;
+      };
+      vim.languages.yaml = {
+        enable = true;
+      };
+      vim.languages.markdown = {
+        enable = true;
+      };
       vim.languages.nix = {
         enable = true;
         format.type = [ "nixfmt" ];
       };
       vim.languages.bash = {
         enable = true;
-        format.type = [ "shfmt" ];
       };
       vim.languages.lua = {
         enable = true;
-        format.type = [ "stylua" ];
       };
       vim.languages.go = {
         enable = true;
-        format.type = [ "gofmt" ];
       };
       vim.languages.ts = {
         enable = true;

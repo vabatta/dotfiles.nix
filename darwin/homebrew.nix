@@ -24,6 +24,7 @@
       "iina"
       "obsidian"
       "logitech-g-hub"
+      "logi-options+"
 
       # devtools
       "ghostty"

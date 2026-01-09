@@ -1,4 +1,4 @@
-{ lib, config, ... }:
+{ config, lib, ... }:
 let
   zshSettings = lib.mkOrder 500 ''
     # matches case insensitive for lowercase

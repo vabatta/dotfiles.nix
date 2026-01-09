@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ lib, pkgs, ... }:
 let
   zshSettings = lib.mkOrder 1000 ''
     # force zsh not to show completion menu, which allows fzf-tab to capture the unambiguous prefix

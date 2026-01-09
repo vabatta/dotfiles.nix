@@ -1,27 +1,23 @@
-{
-  pkgs,
-  hostUsername,
-  ...
-}:
+{ hostUsername, pkgs, ... }:
 {
   imports = [
-    ./zsh.nix
-    ./starship.nix
-    ./vivid.nix
+    ./bat.nix
+    ./bottom.nix
+    ./claude-code.nix
+    ./eza.nix
+    ./fzf.nix
     ./ghostty.nix
-    ./gpg.nix
-    ./ssh.nix
     ./git.nix
+    ./gpg.nix
     ./lazydocker.nix
     ./lazygit.nix
     ./less.nix
-    ./fzf.nix
-    ./bat.nix
-    ./eza.nix
-    ./zoxide.nix
     ./nvim.nix
-    ./claude-code.nix
-    ./bottom.nix
+    ./ssh.nix
+    ./starship.nix
+    ./vivid.nix
+    ./zoxide.nix
+    ./zsh.nix
     # ./k9s.nix
   ];
 
@@ -29,39 +25,39 @@
     username = hostUsername;
     stateVersion = "25.05";
     sessionVariables = {
+      EDITOR = "vim";
+      GIT_EDITOR = "vim";
       LANG = "en_US.UTF-8";
       LC_ALL = "en_US.UTF-8";
       PAGER = "less";
-      EDITOR = "vim";
       VISUAL = "vim";
-      GIT_EDITOR = "vim";
     };
 
     shellAliases = {
-      "la" = "ls -lah";
-      "ll" = "ls -lh";
       ".." = "cd ..";
       "..." = "cd ../..";
       "...." = "cd ../../..";
-      "cdp" = "cd ~/Projects";
       "cdd" = "cd ~/Downloads";
+      "cdp" = "cd ~/Projects";
       "k" = "kubectl";
+      "la" = "ls -lah";
+      "ll" = "ls -lh";
       "nd" = "nix develop";
+      "nix-switch" = "sudo darwin-rebuild switch --flake ~/.config/nix";
       "ns" = "nix-shell";
       "nsz" = "nix-shell --run 'exec zsh'";
-      "nix-switch" = "sudo darwin-rebuild switch --flake ~/.config/nix";
     };
 
     packages = with pkgs; [
-      curl
-      fx
-      entr
-      parallel
-      noti
-      fastfetch
-      oha
-      kubectl
       _1password-cli
+      curl
+      entr
+      fastfetch
+      fx
+      kubectl
+      noti
+      oha
+      parallel
 
       # misc
       nixfmt-rfc-style

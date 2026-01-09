@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ lib, pkgs, ... }:
 let
   catppuccinBat = pkgs.fetchFromGitHub {
     owner = "catppuccin";

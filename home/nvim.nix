@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ lib, pkgs, ... }:
 let
   mini = import ./nvim/mini.nix { inherit lib; };
   events = import ./nvim/events.nix { inherit lib; };

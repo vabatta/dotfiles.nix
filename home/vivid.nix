@@ -1,5 +1,4 @@
 { lib, pkgs, ... }:
-# TODO: adjust vivid themes to modern cattppuccin colors
 let
   themeFunc = lib.mkOrder 1500 ''
     theme_ls_colors() {
@@ -19,6 +18,7 @@ in
 {
   programs.vivid = {
     enable = true;
+    activeTheme = "catppuccin-latte";
   };
 
   programs.zsh.initContent = themeFunc;

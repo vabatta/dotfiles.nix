@@ -7,21 +7,18 @@
   imports = [
     ./zsh.nix
     ./starship.nix
-    # ./vivid.nix
+    ./vivid.nix
     ./ghostty.nix
     ./gpg.nix
     ./ssh.nix
     ./git.nix
     ./lazydocker.nix
     ./lazygit.nix
-    # ./mise.nix
     ./less.nix
     ./fzf.nix
     ./bat.nix
     ./eza.nix
     ./zoxide.nix
-    # ./ripgrep.nix
-    # ./fd.nix
     ./nvim.nix
     ./claude-code.nix
     ./bottom.nix

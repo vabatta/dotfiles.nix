@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ lib, config, ... }:
 let
   zshSettings = lib.mkOrder 500 ''
     # matches case insensitive for lowercase
@@ -358,6 +358,7 @@ in
 {
   home.shell.enableZshIntegration = true;
   programs.zsh = {
+    dotDir = "${config.xdg.configHome}/zsh";
     enable = true;
     enableCompletion = true;
     autosuggestion.enable = true;

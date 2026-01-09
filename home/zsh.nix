@@ -350,7 +350,7 @@ let
     THEME_FUNCS+=("theme_zsh_highlight")
   '';
 
-  themeRun = lib.mkOrder 1500 ''
+  themeRun = lib.mkOrder 2000 ''
     # Run themeing
     themeup
   '';

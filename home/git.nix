@@ -111,6 +111,7 @@
         aa = "add --all";
         co = "checkout";
         cb = "checkout -b";
+        sw = "switch";
         br = "branch";
         s = "status -sb";
         st = "status";

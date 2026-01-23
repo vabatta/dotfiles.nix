@@ -21,6 +21,10 @@
     # declarative nvim config
     nvf.url = "github:NotAShelf/nvf";
     nvf.inputs.nixpkgs.follows = "nixpkgs";
+
+    # shell scripts (theme orchestrator)
+    scriptorium.url = "github:proventuslabs/scriptorium";
+    scriptorium.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs =

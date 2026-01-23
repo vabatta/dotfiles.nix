@@ -1,4 +1,4 @@
-{ hostUsername, pkgs, ... }:
+{ hostUsername, pkgs, inputs, ... }:
 {
   imports = [
     ./bat.nix
@@ -67,6 +67,9 @@
       nerd-fonts.fira-code
       nerd-fonts.fira-mono
       nerd-fonts.hack
+
+      # scriptorium (theme, cz, dotenv, jwt)
+      inputs.scriptorium.packages.${pkgs.system}.default
     ];
 
     # create .hushlogin file to suppress login messages

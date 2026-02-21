@@ -48,6 +48,7 @@
       "ns" = "nix-shell";
       "nsz" = "nix-shell --run 'exec zsh'";
       "nnz" = "nix shell nixpkgs#nodejs_22 nixpkgs#corepack_22 --command zsh";
+      "gsd" = "nix shell nixpkgs#nodejs_22 nixpkgs#corepack_22 --command npx get-shit-done-cc@latest";
     };
 
     packages = with pkgs; [

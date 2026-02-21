@@ -25,6 +25,10 @@
     # shell scripts (theme orchestrator)
     scriptorium.url = "github:proventuslabs/scriptorium";
     scriptorium.inputs.nixpkgs.follows = "nixpkgs";
+
+    # claude code CLI
+    claude-code.url = "github:sadjow/claude-code-nix";
+
   };
 
   outputs =

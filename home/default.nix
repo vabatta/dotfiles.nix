@@ -47,6 +47,7 @@
       "nix-switch" = "sudo darwin-rebuild switch --flake ~/.config/nix";
       "ns" = "nix-shell";
       "nsz" = "nix-shell --run 'exec zsh'";
+      "nnz" = "nix shell nixpkgs#nodejs_22 nixpkgs#corepack_22 --command zsh";
     };
 
     packages = with pkgs; [

@@ -1,6 +1,6 @@
-{ ... }:
+{ pkgs, inputs, ... }:
 {
-  programs.claude-code = {
-    enable = true;
-  };
+  home.packages = [
+    inputs.claude-code.packages.${pkgs.system}.claude-code
+  ];
 }

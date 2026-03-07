@@ -26,6 +26,7 @@
       "logitech-g-hub"
 
       # devtools
+      "cmux"
       "ghostty"
       "visual-studio-code"
       "tableplus"
@@ -39,7 +40,7 @@
       "mas"
     ];
     taps = [
-
+      "manaflow-ai/cmux"
     ];
     masApps = {
       "1Password for Safari" = 1569813296;

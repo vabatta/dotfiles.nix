@@ -26,7 +26,7 @@
       "logitech-g-hub"
 
       # devtools
-      "cmux"
+      "manaflow-ai/cmux/cmux"
       "ghostty"
       "visual-studio-code"
       "tableplus"

@@ -4,6 +4,7 @@
     ./bat.nix
     ./bottom.nix
     ./claude-code.nix
+    ./direnv.nix
     ./eza.nix
     ./fzf.nix
     ./gh.nix

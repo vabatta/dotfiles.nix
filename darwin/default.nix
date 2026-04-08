@@ -8,6 +8,7 @@
 {
   imports = [
     ./homebrew.nix
+    ./ollama.nix
     ./settings.nix
     inputs.home-manager.darwinModules.home-manager
     inputs.nix-homebrew.darwinModules.nix-homebrew
@@ -33,6 +34,13 @@
     user = hostUsername;
     enable = true;
     autoMigrate = true;
+    taps = {
+      "local/homebrew-tableplus" = builtins.path {
+        path = ../taps/tableplus;
+        name = "homebrew-tableplus";
+      };
+    };
+    mutableTaps = false;
   };
 
   # home-manager config

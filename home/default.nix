@@ -2,6 +2,7 @@
 {
   imports = [
     ./bat.nix
+    ./pi-agent.nix
     ./bottom.nix
     ./claude-code.nix
     ./direnv.nix
@@ -20,7 +21,6 @@
     ./vivid.nix
     ./zoxide.nix
     ./zsh.nix
-    # ./k9s.nix
   ];
 
   home = {
@@ -64,7 +64,7 @@
       parallel
 
       # misc
-      nixfmt-rfc-style
+      nixfmt
 
       # fonts
       nerd-fonts.fira-code
@@ -72,7 +72,7 @@
       nerd-fonts.hack
 
       # scriptorium (theme, cz, dotenv, jwt)
-      inputs.scriptorium.packages.${pkgs.system}.default
+      inputs.scriptorium.packages.${pkgs.stdenv.hostPlatform.system}.default
     ];
 
     # create .hushlogin file to suppress login messages

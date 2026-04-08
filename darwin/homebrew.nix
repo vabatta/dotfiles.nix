@@ -9,7 +9,6 @@
       cleanup = "zap";
     };
 
-    caskArgs.no_quarantine = true;
     global.brewfile = true;
 
     # homebrew is best for GUI apps
@@ -26,10 +25,9 @@
       "logitech-g-hub"
 
       # devtools
-      "manaflow-ai/cmux/cmux"
       "ghostty"
       "visual-studio-code"
-      "tableplus"
+      "local/tableplus/tableplus"
 
       # other
       "1password"
@@ -39,9 +37,7 @@
     brews = [
       "mas"
     ];
-    taps = [
-      "manaflow-ai/cmux"
-    ];
+    taps = [ "local/tableplus" ];
     masApps = {
       "1Password for Safari" = 1569813296;
       "Magnet" = 441258766;

@@ -1,5 +1,7 @@
 { pkgs, hostUsername, ... }:
 {
+  environment.systemPackages = [ pkgs.ollama ];
+
   launchd.agents.ollama = {
     serviceConfig = {
       Label = "dev.ollama.ollama";

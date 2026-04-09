@@ -9,6 +9,7 @@
     ./eza.nix
     ./fzf.nix
     ./gh.nix
+    ./jujutsu.nix
     ./ghostty.nix
     ./git.nix
     ./gpg.nix

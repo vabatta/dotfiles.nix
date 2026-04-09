@@ -20,9 +20,6 @@
     # everyday apps
     "loom"
     "slack"
-    "microsoft-auto-update"
-    "microsoft-office-businesspro"
-    "intune-company-portal"
   ];
 
   homebrew.masApps = {

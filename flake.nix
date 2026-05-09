@@ -26,6 +26,10 @@
     scriptorium.url = "github:proventuslabs/scriptorium";
     scriptorium.inputs.nixpkgs.follows = "nixpkgs";
 
+    # pi coding agent home-manager module
+    pi-nix.url = "github:vabatta/pi-nix";
+    pi-nix.inputs.nixpkgs.follows = "nixpkgs";
+
     # claude code CLI
     claude-code.url = "github:sadjow/claude-code-nix";
 

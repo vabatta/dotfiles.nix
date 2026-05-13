@@ -1,5 +1,7 @@
 { pkgs, lib, inputs, ... }:
 {
+  home.file.".pi/agent/skills".source = ../skills;
+
   programs.pi = {
     enable = true;
     package = inputs.pi-nix.packages.${pkgs.stdenv.hostPlatform.system}.default;

@@ -96,7 +96,7 @@ in
       vim.languages.go = {
         enable = true;
       };
-      vim.languages.ts = {
+      vim.languages.typescript = {
         enable = true;
         format.type = [ "biome" ];
         extensions.ts-error-translator.enable = true;

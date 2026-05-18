@@ -73,9 +73,10 @@ board.
 
 ### Dependencies (blocked by / blocking)
 
-Use when one issue cannot proceed until another is resolved. GitHub supports
-two directions: "blocked by" (this issue waits on another) and "blocking"
-(this issue is in the way of another). Up to 50 issues per relationship type.
+Use when one issue cannot proceed until another is resolved. Create
+dependencies in the "blocked by" direction (this issue waits on another).
+The reverse "blocking" direction is derived automatically and is read-only.
+Up to 50 issues per relationship type.
 
 Before advancing a ticket to a new status, query its dependencies. If any
 blocker is still open, warn the user — this prevents wasted work.
@@ -142,5 +143,5 @@ ambiguous, or new labels/fields need to be created.
 
 For every GitHub API operation this skill needs — issues, projects,
 dependencies, sub-issues, issue types, labels, and milestones — read
-`references/github-api.md`. It covers both `gh` CLI commands and raw REST/GraphQL
-endpoints with step-by-step examples and gotchas.
+`references/github-api.md`. It covers `gh` CLI commands and REST endpoints
+with step-by-step examples and gotchas.

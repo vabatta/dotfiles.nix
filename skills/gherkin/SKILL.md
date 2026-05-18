@@ -94,12 +94,15 @@ Feature: <Short business capability name>
     Given <common setup>
 
   Rule: <Business rule>   # Optional — groups related scenarios under a rule
+    <1–3 line plain-English description of the business rule>
 
     Scenario: <Descriptive name of the specific behaviour>
       Given <precondition>
       When <action>
       Then <outcome>
 ```
+
+**Description blocks** (the free-form text lines between a keyword's title and the next keyword) are the most underused part of Gherkin. They are ignored at runtime but included in reports and serve as standing documentation. Both `Feature:` and `Rule:` support them. Use the Feature description to state the scope, purpose, and domain boundaries the reader needs before encountering scenarios — keep it to 1–3 lines of plain prose. Use Rule descriptions to clarify the business constraint when the title alone isn't sufficient: edge cases it covers, why the constraint exists, or how it interacts with other rules in the feature.
 
 ### 7. Naming Conventions
 
@@ -135,7 +138,7 @@ Use vivid, memorable names in backgrounds (e.g., `Given a customer named "Thrift
 
 ### 10. Tags
 
-Use tags for cross-cutting concerns: `@smoke`, `@wip`, `@slow`, `@billing`, `@regression`. Place them above `Feature`, `Rule`, or `Scenario` lines. Never use tags to encode test data or implementation details.
+Place tags above `Feature`, `Rule`, or `Scenario` lines. See **section 14** for full guidance on using tags for both execution filtering and cross-cutting documentation indexing.
 
 ### 11. Data Tables and Doc Strings
 
@@ -162,6 +165,44 @@ Given a blog post with the body:
 
 Use `#` comments sparingly — only to explain _why_ a scenario exists if the title and steps are not self-evident. Never use comments to explain _how_ — that belongs in step definitions.
 
+### 13. Self-Contained Features — Bounded Context Thinking
+
+Each feature file must be a **standalone specification** that can be read and fully understood without consulting any other feature file. A reader should never need to chase cross-references to grasp the behaviour.
+
+**Domain concepts that constrain the feature's behaviour belong inside that feature file, expressed as `Rule:` blocks in the feature's own ubiquitous language.** If scoping, permissions, tenancy, or any other cross-cutting domain concept affects how a feature behaves, state those constraints as rules within the feature — do not extract them into a separate shared feature file that other features depend on.
+
+This follows the DDD bounded-context principle: the same domain term may carry different rules in different features, and that divergence is intentional. Each feature owns its own definition of the concepts it uses.
+
+**Where reuse happens:** at the **step definition** level (shared automation code behind declarative steps), never at the Gherkin level. Feature files are documentation; they tolerate restating a concept in each context. Step definitions are code; they should not duplicate logic.
+
+**Use `Rule:` with its own `Background`** to group scenarios under a business constraint. Each `Rule:` can carry its own `Background` to set up the context that only applies to scenarios under that rule, keeping everything self-contained without bloating a top-level `Background`.
+
+### 14. Tags as a Cross-Cutting Index
+
+Tags serve two purposes: **execution filtering** (selecting which scenarios to run) and **documentation indexing** (finding all scenarios related to a cross-cutting concept across the entire suite).
+
+When a domain concept spans multiple feature files, apply a shared tag to each relevant `Feature`, `Rule`, or `Scenario`. This creates a queryable index without coupling the files to each other. Tags are inherited: a tag on a `Feature` applies to all its scenarios; a tag on a `Rule` applies to all scenarios in that rule.
+
+Never use tags to encode test data, implementation details, or as a substitute for writing proper rules and scenarios.
+
+### 15. When to Split a Feature File
+
+A feature file should be readable in one sitting. When it grows beyond what a reader can hold in their head, split it. Signals that a file is doing too much: the `Background` has scrolled off screen, scenarios under different `Rule:` blocks share nothing in common, or the file covers multiple distinct capabilities rather than one. Split along `Rule:` boundaries — each resulting file should still be a self-contained specification of a coherent capability. Use `Rule:`-level `Background` sections to keep each split file's context lean and local.
+
+### 16. Negative Scenarios and Boundaries
+
+Positive scenarios alone do not fully specify a feature. Business rules are often best revealed by what the system **refuses, rejects, or prevents**. Write negative scenarios as first-class specifications — they document the boundaries of acceptable behaviour and are where the most critical business rules often live.
+
+A negative scenario follows the same Given/When/Then structure. The `Then` step describes the observable refusal or error outcome, not the internal reason. Use `But` when a negative assertion follows a positive one within the same scenario.
+
+When a rule has a threshold or limit, consider boundary scenarios that test the values at, just below, and just above the boundary. These expose off-by-one and comparison-operator ambiguities that prose specifications frequently leave unclear.
+
+### 17. Actors and Perspective
+
+Write steps in **third-person perspective**, naming the actor explicitly. Third-person is generic and can expressively name any user or system component, whereas first-person ("I") forces assumptions about who the speaker is and becomes confusing when multiple roles are involved.
+
+When a feature involves multiple actors (one role configures something, another consumes it), establish each actor in `Given` steps and refer to them by name or role throughout. The `When` step should make clear which actor performs the action. Do not mix first-person and third-person within a scenario. When personas recur across scenarios, define them in `Background` using vivid, memorable names.
+
 ## Output Checklist
 
 Before delivering any `.feature` file, verify every item:
@@ -176,3 +217,8 @@ Before delivering any `.feature` file, verify every item:
 - [ ] No scenario tests more than one business rule
 - [ ] `Then` steps assert only observable outputs (never database/internal state)
 - [ ] The file would make sense to a non-technical stakeholder reading it cold
+- [ ] The feature is self-contained — no other feature file is needed to understand it
+- [ ] Domain concepts that constrain behaviour are stated as `Rule:` blocks, not deferred to other files
+- [ ] The feature description states scope and purpose in plain prose
+- [ ] Negative and boundary scenarios are included where business rules define limits or rejections
+- [ ] Actors are named in third-person; no mixed first/third-person within a scenario

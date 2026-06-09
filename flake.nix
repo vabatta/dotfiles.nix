@@ -2,7 +2,7 @@
   description = "My system configuration";
   inputs = {
     # monorepo w/ recipes ("derivations")
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-26.05";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     # manages configs
     home-manager.url = "github:nix-community/home-manager/master";

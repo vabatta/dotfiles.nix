@@ -16,19 +16,6 @@
       key = "!op read 'op://Development/OpenRouter API Key/credential' --no-newline";
     };
 
-    customProviders.ollama-local = {
-      name = "Ollama (local)";
-      baseUrl = "http://localhost:11434/v1";
-      apiKey = "ollama";
-      models = [
-        { id = "qwen3.5:35b"; name = "Qwen 3.5 35B"; input = [ "text" ]; contextWindow = 131072; }
-        { id = "nemotron-cascade-2:30b"; name = "Nemotron Cascade 2 30B"; input = [ "text" ]; contextWindow = 4096; }
-        { id = "gemma4:26b"; name = "Gemma 4 26B"; input = [ "text" "image" ]; contextWindow = 131072; }
-        { id = "gemma4:31b"; name = "Gemma 4 31B"; input = [ "text" "image" ]; contextWindow = 131072; }
-        { id = "qwen3.6:27b-coding-mxfp8"; name = "Qwen 3.6 27B Coding"; input = [ "text" ]; contextWindow = 131072; }
-      ];
-    };
-
     packages = [
       "npm:pi-mcp-adapter"
       "npm:pi-subagents"

@@ -45,6 +45,12 @@
     ];
 
     settings = {
+      gpg = {
+        ssh = {
+          # Verify SSH-signed commits locally against our own signing key.
+          allowedSignersFile = "${config.xdg.configHome}/git/allowed_signers";
+        };
+      };
       github = {
         user = "vabatta";
       };
@@ -192,4 +198,7 @@
   };
 
   home.shellAliases.g = "git";
+
+  home.file."${config.xdg.configHome}/git/allowed_signers".text =
+    "${config.programs.git.settings.user.email} ${config.programs.git.signing.key}\n";
 }

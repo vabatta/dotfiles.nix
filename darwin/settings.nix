@@ -3,6 +3,18 @@
   # touch ID for sudo
   security.pam.services.sudo_local.touchIdAuth = true;
 
+  # raise global launchd file-descriptor limit (default 256) so launchd-spawned
+  # daemons — notably nix-daemon — can honor their own higher SoftResourceLimits.
+  # without this, large parallel fetches/builds hit EMFILE ("Too many open files").
+  launchd.daemons.limit-maxfiles = {
+    serviceConfig = {
+      Label = "limit.maxfiles";
+      ProgramArguments = [ "launchctl" "limit" "maxfiles" "245760" "491520" ];
+      RunAtLoad = true;
+      ServiceIPC = false;
+    };
+  };
+
   # system defaults and preferences
   system = {
     stateVersion = 6;

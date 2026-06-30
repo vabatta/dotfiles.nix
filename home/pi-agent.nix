@@ -1,6 +1,6 @@
-{ pkgs, lib, inputs, ... }:
+{ pkgs, lib, inputs, skillsTree, ... }:
 {
-  home.file.".pi/agent/skills".source = ../skills;
+  home.file.".pi/agent/skills".source = skillsTree;
 
   programs.pi = {
     enable = true;

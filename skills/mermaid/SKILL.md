@@ -25,6 +25,37 @@ You write Mermaid diagrams — text-based specifications that render into SVG gr
 
 ## Core Principles (Non-Negotiable)
 
+### 0. Mandatory: Validate Every Diagram Before You Deliver It
+
+A diagram that does not parse is worse than no diagram — it renders as a broken-syntax error box. **Every Mermaid diagram you produce or edit MUST be passed through the `validate-mermaid` validator before you present it.** This is not optional and applies every time, including small edits.
+
+`validate-mermaid` is a command on your `PATH`. It runs the **real Mermaid parser** (`mermaid.parse()` — the exact grammar the renderer uses, run headless), so it catches every syntax error Mermaid itself would reject, with line numbers, across all diagram types. It reads a diagram on **stdin** (raw Mermaid or Markdown containing ```mermaid fences) and:
+
+- exits `0` with **empty output** when the diagram parses, or
+- exits `1` and prints the parser's error (line number + what it expected) to **stderr**.
+
+Run it by piping the exact diagram text you intend to deliver:
+
+```bash
+validate-mermaid <<'MMD'
+flowchart LR
+  req[Receive Request] --> validate[Validate Input]
+  validate --> respond[Send Confirmation]
+MMD
+```
+
+You can also pass file paths instead of stdin: `validate-mermaid diagram.mmd README.md` (each ```mermaid block in a Markdown file is validated separately).
+
+**Workflow:**
+1. Write the diagram.
+2. Pipe it through `validate-mermaid`.
+3. If it exits non-zero, **read the stderr message, fix the diagram, and re-validate.** Repeat until it passes.
+4. Only then present the diagram to the user.
+
+This is the genuine Mermaid grammar — if it passes, the diagram renders. Still apply every authoring rule below: the parser guarantees the diagram is *valid*, the rules make it *good*.
+
+> If `validate-mermaid` is not found on `PATH`, ask the user what to do. Do not skip validation without user consent.
+
 ### 1. Readable Node Labels — Zero Cryptic IDs
 
 Diagrams are **communication tools**, not code artefacts. Every visible label must use plain, meaningful language.
@@ -231,3 +262,4 @@ Before delivering any Mermaid diagram, verify every item:
 - [ ] No parser pitfalls: `end` is escaped, special characters are quoted
 - [ ] Markdown embedding uses fenced ````mermaid` blocks with surrounding context
 - [ ] The diagram would make sense to a team member reading it without explanation
+- [ ] **The diagram was piped through `validate-mermaid` and exited 0 (empty output) — re-validate after any edit**

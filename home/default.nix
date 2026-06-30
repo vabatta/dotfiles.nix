@@ -6,6 +6,7 @@
     ./opencode.nix
     ./bottom.nix
     ./claude-code.nix
+    ./skills.nix
     ./direnv.nix
     ./eza.nix
     ./fzf.nix

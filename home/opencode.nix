@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, skillsTree, ... }:
 let
   # Wrap the real opencode so the OpenRouter key is injected from 1Password at
   # launch, mirroring pi's deferred `!op read` behavior: no secret lands in the
@@ -31,7 +31,9 @@ in
       theme = "system";
     };
 
-    # Reuse the same skills tree pi used; already in opencode's <name>/SKILL.md layout.
-    skills = ../skills;
+    # Merged skills tree (mine + Matt Pocock's), built in skills.nix.
+    # Coerced to a store-path string — this option is path/string-typed, so a
+    # bare derivation would make the module recurse into its attributes.
+    skills = toString skillsTree;
   };
 }

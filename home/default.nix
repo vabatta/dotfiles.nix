@@ -2,7 +2,6 @@
 {
   imports = [
     ./bat.nix
-    ./pi-agent.nix
     ./opencode.nix
     ./bottom.nix
     ./claude-code.nix

@@ -16,7 +16,7 @@ let
 
   # Merged skills tree: my own ../skills plus Matt Pocock's promoted skills.
   # His skills nest under bucket dirs (skills/engineering/<name>, skills/
-  # productivity/<name>); Claude/pi/opencode want a flat <name>/SKILL.md layout,
+  # productivity/<name>); Claude/opencode want a flat <name>/SKILL.md layout,
   # so the bucket leaves are flattened to the top level. Sibling reference files
   # (GLOSSARY.md, *-FORMAT.md, scripts/) travel with each skill. Each agent
   # registers this tree itself in its own module (see _module.args.skillsTree).

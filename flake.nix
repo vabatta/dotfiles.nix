@@ -26,11 +26,6 @@
     scriptorium.url = "github:proventuslabs/scriptorium";
     scriptorium.inputs.nixpkgs.follows = "nixpkgs";
 
-    # pi coding agent home-manager module
-    # NOTE: pi-nix's node_modules FOD hash is computed against unstable's npm
-    # fetcher; don't make it follow our nixpkgs or the hash will mismatch.
-    pi-nix.url = "github:vabatta/pi-nix";
-
     # claude code CLI
     claude-code.url = "github:sadjow/claude-code-nix";
 

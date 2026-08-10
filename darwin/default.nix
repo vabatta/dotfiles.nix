@@ -49,7 +49,6 @@
     users.${hostUsername} = {
       imports = [
         inputs.nvf.homeManagerModules.default # neovim
-        inputs.pi-nix.homeManagerModules.default # pi coding agent
         ../home
       ];
     };

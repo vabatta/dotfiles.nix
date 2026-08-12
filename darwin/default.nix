@@ -38,6 +38,14 @@
         path = ../taps/tableplus;
         name = "homebrew-tableplus";
       };
+      "local/homebrew-container" = builtins.path {
+        path = ../taps/container;
+        name = "homebrew-container";
+      };
+      "local/homebrew-davit" = builtins.path {
+        path = ../taps/davit;
+        name = "homebrew-davit";
+      };
     };
     mutableTaps = false;
   };

@@ -10,6 +10,13 @@
   # host-specific homebrew casks
   homebrew.casks = [
     "docker-desktop"
+    "local/container/container"
+    "local/davit/davit"
+  ];
+
+  homebrew.taps = [
+    "local/container"
+    "local/davit"
   ];
 
   # host-specific home-manager configuration

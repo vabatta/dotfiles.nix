@@ -26,7 +26,6 @@ in
                 treesitter = true,
                 treesitter_context = true,
                 mini = true,
-                snacks = true,
               },
               highlight_overrides = {
                 all = function(colors)
@@ -50,14 +49,23 @@ in
             require('render-markdown').setup {}
           '';
         };
+        mini-input = {
+          package = pkgs.vimPlugins.mini-nvim;
+          setup = ''
+            require('mini.input').setup {}
+            -- route Neovim's vim.ui.input (SmartShift places, SPC f n / f s)
+            -- through mini.input for a consistent styled prompt
+            vim.ui.input = function(opts, on_confirm)
+              opts = vim.tbl_deep_extend('force', { prompt = " " }, opts or {})
+              opts.prompt = " ➤ " .. opts.prompt .. " "
+              return MiniInput.input(opts, on_confirm)
+            end
+          '';
+        };
       };
 
       # mini.nvim
       vim.mini = mini;
-      vim.utility.snacks-nvim.enable = true;
-      vim.utility.snacks-nvim.setupOpts = {
-        input.enabled = true;
-      };
 
       vim.options = options;
       vim.augroups = events.augroups;

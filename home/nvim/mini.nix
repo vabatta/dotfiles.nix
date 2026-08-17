@@ -11,7 +11,18 @@
   pairs.enable = true;
   snippets.enable = true;
   splitjoin.enable = true;
+  # remapped off the `s` prefix so mini.jump2d can own bare `s`
   surround.enable = true;
+  surround.setupOpts = {
+    mappings = {
+      add = "gza";
+      delete = "gzd";
+      find = "gzf";
+      find_left = "gzF";
+      highlight = "gzh";
+      replace = "gzr";
+    };
+  };
 
   # workflow
   basics.enable = true;
@@ -130,6 +141,16 @@
         mode = "n";
         keys = "<leader>w";
         desc = "+Windows";
+      }
+      {
+        mode = "n";
+        keys = "<leader>s";
+        desc = "+Search";
+      }
+      {
+        mode = "n";
+        keys = "<leader>q";
+        desc = "+Quickfix";
       }
     ];
   };

@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NE0VIM // electric cheatsheet</title>
+<style>
+  :root {
+    --base:     #11111b;
+    --mantle:   #181825;
+    --crust:    #0c0c14;
+    --surface:  rgba(30, 30, 46, 0.72);
+    --text:     #cdd6f4;
+    --subtext:  #a6adc8;
+    --mauve:    #cba6f7;
+    --green:    #a6e3a1;
+    --blue:     #89b4fa;
+    --sky:      #89dceb;
+    --peach:    #fab387;
+    --yellow:   #f9e2af;
+    --red:      #f38ba8;
+    --teal:     #94e2d5;
+    --lav:      #b4befe;
+    --mono: "SFMono-Regular", "JetBrains Mono", "Fira Code", ui-monospace, "Cascadia Code", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", system-ui, sans-serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: var(--sans);
+    background: var(--base);
+    color: var(--text);
+    line-height: 1.5;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(900px 500px at 15% -10%, rgba(203, 166, 247, 0.14), transparent 60%),
+      radial-gradient(800px 500px at 90% 0%, rgba(137, 220, 235, 0.12), transparent 55%),
+      radial-gradient(1000px 700px at 50% 110%, rgba(166, 227, 161, 0.08), transparent 60%);
+  }
+  body::before {
+    content: "";
+    position: fixed; inset: 0; z-index: -1;
+    background:
+      linear-gradient(120deg, transparent 0 49.5%, rgba(166, 227, 161, 0.05) 49.5% 50.5%, transparent 50.5% 100%),
+      linear-gradient(60deg, transparent 0 49.5%, rgba(137, 180, 250, 0.05) 49.5% 50.5%, transparent 50.5% 100%);
+    background-size: 140px 140px;
+  }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 24px 96px; }
+
+  /* nav */
+  nav {
+    position: sticky; top: 12px; z-index: 50;
+    margin: 18px 0 8px;
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px;
+    background: rgba(17, 17, 27, 0.75);
+    border: 1px solid rgba(203, 166, 247, 0.18);
+    border-radius: 14px;
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  }
+  nav .brand {
+    font-family: var(--mono); font-weight: 700; letter-spacing: -0.5px;
+    font-size: 15px; white-space: nowrap;
+    background: linear-gradient(90deg, var(--mauve), var(--sky), var(--green));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  nav .links { display: flex; gap: 4px; flex-wrap: wrap; }
+  nav a {
+    color: var(--subtext); text-decoration: none;
+    font-size: 12px; padding: 4px 9px; border-radius: 8px;
+    transition: 0.18s ease;
+  }
+  nav a:hover { color: var(--base); background: linear-gradient(90deg, var(--mauve), var(--sky)); }
+  #search {
+    margin-left: auto; min-width: 130px;
+    background: rgba(30,30,46,0.9); color: var(--text);
+    border: 1px solid rgba(137,180,250,0.25); border-radius: 9px;
+    padding: 5px 10px; font-family: var(--mono); font-size: 12px; outline: none;
+    transition: 0.2s;
+  }
+  #search:focus { border-color: var(--sky); box-shadow: 0 0 0 3px rgba(137,220,235,0.15); }
+  #search::placeholder { color: var(--subtext); }
+
+  header { padding: 56px 0 8px; text-align: center; }
+  .kicker {
+    font-family: var(--mono); font-size: 13px; letter-spacing: 0.35em;
+    color: var(--teal); text-transform: uppercase;
+  }
+  header h1 {
+    font-size: clamp(44px, 8vw, 92px); font-weight: 800; letter-spacing: -0.04em;
+    line-height: 1; margin: 8px 0 14px;
+    background: linear-gradient(100deg, var(--mauve) 0%, var(--blue) 35%, var(--sky) 60%, var(--green) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    filter: drop-shadow(0 0 24px rgba(203,166,247,0.35));
+  }
+  header p.sub { color: var(--subtext); font-size: 16px; max-width: 620px; margin: 0 auto 26px; }
+  .chips { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+  .chip {
+    font-family: var(--mono); font-size: 12px; padding: 7px 14px; border-radius: 999px;
+    border: 1px solid rgba(137,180,250,0.3); color: var(--lav);
+    background: rgba(30,30,46,0.6);
+  }
+  .chip em { font-style: normal; color: var(--green); font-weight: 600; }
+
+  /* legend */
+  .legend {
+    display: flex; gap: 18px; justify-content: center; flex-wrap: wrap;
+    margin: 30px 0 8px; padding: 12px 18px;
+    border: 1px dashed rgba(166,173,200,0.25); border-radius: 12px;
+    font-size: 12.5px; color: var(--subtext);
+  }
+  .legend span { display: inline-flex; align-items: center; gap: 7px; }
+
+  /* sections */
+  section { margin-top: 46px; scroll-margin-top: 90px; }
+  .sec-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 18px; }
+  .sec-head h2 {
+    font-size: 24px; font-weight: 800; letter-spacing: -0.02em;
+    background: linear-gradient(90deg, var(--text), var(--subtext));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .sec-head .idx {
+    font-family: var(--mono); font-size: 13px; color: var(--mauve); font-weight: 700; opacity: 0.85;
+  }
+  .sec-head .rule { flex: 1; height: 1px; background: linear-gradient(90deg, rgba(203,166,247,0.5), transparent); }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 14px; }
+  .card {
+    background: var(--surface);
+    border: 1px solid rgba(203,166,247,0.14);
+    border-radius: 16px;
+    padding: 16px 18px;
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+  }
+  .card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(137,220,235,0.4);
+    box-shadow: 0 10px 36px rgba(137,220,235,0.12), 0 0 0 1px rgba(137,220,235,0.08);
+  }
+  .card h3 {
+    font-size: 11.5px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 11px; font-weight: 700;
+  }
+  .row { display: flex; align-items: center; gap: 10px; padding: 5px 0; font-size: 13.5px; }
+  .row + .row { border-top: 1px solid rgba(166,173,200,0.08); }
+  .keys { display: flex; gap: 4px; min-width: 118px; flex-shrink: 0; flex-wrap: wrap; }
+  .desc { color: var(--subtext); }
+  .desc b { color: var(--text); font-weight: 600; }
+
+  kbd {
+    font-family: var(--mono); font-size: 12.5px; font-weight: 600;
+    color: var(--base);
+    padding: 3px 8px; border-radius: 8px; white-space: nowrap;
+    background: linear-gradient(135deg, var(--mauve), var(--blue));
+    box-shadow: 0 0 14px rgba(148,226,213,0.25), inset 0 1px 0 rgba(255,255,255,0.25);
+  }
+  .accent-sky   kbd { background: linear-gradient(135deg, var(--sky), var(--blue)); color: #06121a; }
+  .accent-green kbd { background: linear-gradient(135deg, var(--green), var(--teal)); color: #06280f; }
+  .accent-peach kbd { background: linear-gradient(135deg, var(--peach), var(--yellow)); color: #2b1707; }
+  .accent-pink  kbd { background: linear-gradient(135deg, var(--red), var(--mauve)); color: #2b0b16; }
+  .accent-plain kbd { background: linear-gradient(135deg, var(--mantle), var(--surface)); color: var(--text); border: 1px solid rgba(166,173,200,0.3); box-shadow: inset 0 1px 0 rgba(255,255,255,0.06); }
+
+  .note {
+    margin-top: 18px; padding: 12px 16px; border-radius: 12px;
+    font-size: 13px; color: var(--subtext);
+    border: 1px solid rgba(166,227,161,0.2); background: rgba(166,227,161,0.05);
+  }
+  .note code, .row code, .desc code, .chip code {
+    font-family: var(--mono); font-size: 0.95em; color: var(--sky);
+  }
+
+  .pair-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 4px 18px; }
+  .pair { display: flex; align-items: baseline; gap: 8px; padding: 6px 0; font-size: 13.5px; border-bottom: 1px dashed rgba(166,173,200,0.09); }
+  .pair kbd { font-size: 12px; padding: 2px 7px; border-radius: 6px; }
+  .pair .lbl { color: var(--lav); font-weight: 600; font-family: var(--mono); font-size: 12.5px; min-width: 52px; }
+  .pair .expl { color: var(--subtext); }
+
+  footer { margin-top: 70px; text-align: center; color: var(--subtext); font-size: 12.5px; font-family: var(--mono); }
+  footer .glow { color: var(--green); animation: pulse 2.4s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: 0.45 } }
+  .dim { opacity: .55; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <nav>
+    <span class="brand">neovim/cheatsheet</span>
+    <div class="links">
+      <a href="#leader">leader</a>
+      <a href="#motion">motion</a>
+      <a href="#text">text-objs</a>
+      <a href="#edit">edit</a>
+      <a href="#navigate">navigate</a>
+      <a href="#files">files</a>
+      <a href="#pick">pick</a>
+      <a href="#windows">windows</a>
+      <a href="#numbers">numbers</a>
+      <a href="#appearance">appearance</a>
+      <a href="#sessions">sessions</a>
+    </div>
+    <input id="search" placeholder="⚡ filter keys…" autocomplete="off">
+  </nav>
+
+  <header>
+    <div class="kicker">wired &amp; powered by nvf</div>
+    <h1>NE0VIM</h1>
+    <p class="sub">The electric cheatsheet — every hotkey that makes this setup hum. Everything is declarative: tweak it in <code>home/nvim/</code>, rebuild, done.</p>
+    <div class="chips">
+      <span class="chip"><em>mini.nvim</em>&nbsp;~30 modules</span>
+      <span class="chip"><em>catppuccin</em>&nbsp;mocha↔latte auto</span>
+      <span class="chip"><em>conform</em>&nbsp;= format via <em>gq</em></span>
+      <span class="chip"><em>mini.input</em>&nbsp;prompts</span>
+      <span class="chip"><em>treesitter</em>&nbsp;+ lsp</span>
+    </div>
+    <div class="legend">
+      <span><kbd class="accent-plain">SPC</kbd> = leader (Space)</span>
+      <span><kbd class="accent-plain">C-</kbd> = Ctrl</span>
+      <span><kbd class="accent-plain">A-</kbd> = Alt / Option</span>
+      <span><kbd class="accent-plain">&lt;leader&gt;</kbd> or <kbd class="accent-plain">g?</kbd> → live key menu (mini.clue)</span>
+    </div>
+  </header>
+
+  <!-- LEADER -->
+  <section id="leader">
+    <div class="sec-head"><span class="idx">01</span><h2>Leader · your custom maps</h2><div class="rule"></div></div>
+    <div class="grid">
+      <div class="card accent-sky"><h3>Files</h3>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>f</kbd><kbd>e</kbd></span><span class="desc"><b>Explore files</b> — MiniFiles browser</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>f</kbd><kbd>f</kbd></span><span class="desc"><b>Find file</b> — fuzzy picker</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>f</kbd><kbd>n</kbd></span><span class="desc"><b>New file</b> — prompts filename</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>f</kbd><kbd>s</kbd></span><span class="desc"><b>Save as…</b></span></div>
+      </div>
+      <div class="card accent-green"><h3>Buffers</h3>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>b</kbd><kbd>f</kbd></span><span class="desc"><b>Find</b> buffer — fuzzy picker</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>b</kbd><kbd>h</kbd></span><span class="desc"><b>Hide</b> buffer (no close)</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>b</kbd><kbd>d</kbd></span><span class="desc"><b>Close</b> buffer</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>b</kbd><kbd>w</kbd></span><span class="desc"><b>Wipeout</b> buffer</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>b</kbd><kbd>n</kbd></span><span class="desc"><b>New</b> empty buffer</span></div>
+      </div>
+      <div class="card accent-peach"><h3>Windows</h3>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>w</kbd><kbd>h</kbd></span><span class="desc"><b>Split</b> horizontal (<code>:split</code>)</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>w</kbd><kbd>v</kbd></span><span class="desc"><b>Split</b> vertical (<code>:vsplit</code>)</span></div>
+      </div>
+      <div class="card accent-sky"><h3>Language · LSP &mdash; <kbd class="accent-plain">SPC l</kbd></h3>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>l</kbd><kbd>d</kbd></span><span class="desc">go to <b>definition</b></span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>l</kbd><kbd>D</kbd></span><span class="desc">go to <b>declaration</b></span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>l</kbd><kbd>r</kbd></span><span class="desc">find <b>references</b></span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>l</kbd><kbd>i</kbd></span><span class="desc">go to <b>implementation</b></span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>l</kbd><kbd>a</kbd></span><span class="desc"><b>code actions</b> (visual too)</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>l</kbd><kbd>h</kbd></span><span class="desc"><b>hover</b> docs</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>l</kbd><kbd>H</kbd></span><span class="desc"><b>signature</b> help</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>l</kbd><kbd>R</kbd></span><span class="desc"><b>rename</b> symbol</span></div>
+      </div>
+      <div class="card accent-green"><h3>Search · Tools</h3>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>s</kbd><kbd>s</kbd></span><span class="desc"><b>grep</b> workspace</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>s</kbd><kbd>w</kbd></span><span class="desc">grep <b>word</b> under cursor</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>q</kbd><kbd>q</kbd></span><span class="desc"><b>toggle</b> quickfix window</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>S</kbd></span><span class="desc"><b>save</b> session</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>L</kbd></span><span class="desc"><b>load</b> session</span></div>
+      </div>
+    </div>
+    <div class="note">⚡ Typing just <code>SPC</code> (or <code>g?</code>) pops an inline <b>clue menu</b> — mini.clue now knows <code>&lt;leader&gt;f</code>, <code>&lt;leader&gt;b</code>, <code>&lt;leader&gt;l</code>, <code>&lt;leader&gt;w</code>, <code>&lt;leader&gt;s</code> and <code>&lt;leader&gt;q</code> prefixes plus built-ins for <code>g</code>, <code>z</code>, <code>'</code>, registers, and <code>C-w</code>.</div>
+  </section>
+
+  <!-- MOTION -->
+  <section id="motion">
+    <div class="sec-head"><span class="idx">02</span><h2>Motion · moving fast, feeling electric</h2><div class="rule"></div></div>
+    <div class="grid">
+      <div class="card accent-sky"><h3>mini.jump — enhanced f/t</h3>
+        <div class="row"><span class="keys"><kbd>f</kbd></span><span class="desc">Jump to next <b>any-line</b> char (highlights all matches)</span></div>
+        <div class="row"><span class="keys"><kbd>F</kbd></span><span class="desc">Jump to previous char</span></div>
+        <div class="row"><span class="keys"><kbd>t</kbd><kbd>T</kbd></span><span class="desc">Jump <b>till</b> char (before/after it)</span></div>
+        <div class="row"><span class="keys"><kbd>;</kbd></span><span class="desc">Repeat last jump</span></div>
+        <div class="row"><span class="desc"><code>w</code> stays a word-motion &mdash; <b>hopping</b> lives on <kbd>s</kbd></span></div>
+      </div>
+      <div class="card accent-green"><h3>mini.basics — sensible defaults</h3>
+        <div class="row"><span class="keys"><kbd>j</kbd><kbd>k</kbd></span><span class="desc">Move by <b>visual</b> lines (wrap-aware)</span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>o</kbd><kbd>g</kbd><kbd>O</kbd></span><span class="desc">Insert blank line below / above cursor</span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>V</kbd></span><span class="desc">Re-select last change or yank</span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>y</kbd><kbd>g</kbd><kbd>p</kbd></span><span class="desc">Yank / paste via <b>system clipboard</b></span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>/</kbd></span><span class="desc">Search inside visual selection</span></div>
+        <div class="row"><span class="keys"><kbd>C-s</kbd></span><span class="desc">Save file (any mode)</span></div>
+      </div>
+      <div class="card accent-peach"><h3>mini.move — swipe lines &amp; selections</h3>
+        <div class="row"><span class="keys"><kbd>A-h</kbd></span><span class="desc">Move line left (re-indents)</span></div>
+        <div class="row"><span class="keys"><kbd>A-l</kbd></span><span class="desc">Move line right</span></div>
+        <div class="row"><span class="keys"><kbd>A-j</kbd></span><span class="desc">Move line / selection down</span></div>
+        <div class="row"><span class="keys"><kbd>A-k</kbd></span><span class="desc">Move line / selection up</span></div>
+      </div>
+      <div class="card accent-sky"><h3>mini.jump2d — hop to a spot</h3>
+        <div class="row"><span class="keys"><kbd>s</kbd></span><span class="desc"><b>Labeled hop</b> — overlay letters on visible spots, type the one you want</span></div>
+        <div class="row"><span class="desc">Takes <code>s</code> (mini.surround freed it, moving to <code>gz</code>)</span></div>
+        <div class="row"><span class="desc">Works in visual &amp; operator mode too; <code>f/F/t/T/;</code> still own single-char jumps</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEXT OBJECTS -->
+  <section id="text">
+    <div class="sec-head"><span class="idx">03</span><h2>Text objects · mini.ai</h2><div class="rule"></div></div>
+    <div class="note"><b>&lt;a&gt;</b> = around (includes delimiters) · <b>&lt;i&gt;</b> = inside. Daemonize with <code>c</code>, <code>d</code>, <code>y</code>, <code>g=</code>… e.g. <code>daw</code> = delete a word.</div>
+    <div class="card accent-sky"><h3>the core set</h3>
+      <div class="pair-grid">
+        <div class="pair"><span class="lbl">a / i +</span><kbd class="accent-plain">w</kbd><span class="expl">word</span></div>
+        <div class="pair"><kbd class="accent-plain">W</kbd><span class="expl">WORD (no punct)</span></div>
+        <div class="pair"><kbd class="accent-plain">'</kbd><span class="expl">backtick</span></div>
+        <div class="pair"><kbd class="accent-plain">q / Q</kbd><span class="expl">" / ' quotes</span></div>
+        <div class="pair"><kbd class="accent-plain">(</kbd><span class="expl">parens</span></div>
+        <div class="pair"><kbd class="accent-plain">[</kbd><span class="expl">square brackets</span></div>
+        <div class="pair"><kbd class="accent-plain">{</kbd><span class="expl">curly braces</span></div>
+        <div class="pair"><kbd class="accent-plain">t / T</kbd><span class="expl">tag / tag name</span></div>
+        <div class="pair"><kbd class="accent-plain">f / F</kbd><span class="expl">function call / def</span></div>
+        <div class="pair"><kbd class="accent-plain">a / i</kbd><span class="expl">argument</span></div>
+        <div class="pair"><kbd class="accent-plain">c</kbd><span class="expl">comment</span></div>
+        <div class="pair"><kbd class="accent-plain">s</kbd><span class="expl">sentence</span></div>
+        <div class="pair"><kbd class="accent-plain">i</kbd><span class="expl">indentation</span></div>
+        <div class="pair"><kbd class="accent-plain">g</kbd><span class="expl">whole buffer</span></div>
+        <div class="pair"><kbd class="accent-plain">x</kbd><span class="expl">digits / numbers</span></div>
+        <div class="pair"><kbd class="accent-plain">u</kbd><span class="expl">URL</span></div>
+      </div>
+    </div>
+    <div class="note">Bracket shorthand is inherited: <code>aB</code> = around braces, <code>ab</code> = around square brackets, <code>a(</code> = inside parens… all work with counts &amp; operators.</div>
+  </section>
+
+  <!-- EDIT -->
+  <section id="edit">
+    <div class="sec-head"><span class="idx">04</span><h2>Edit · surgical strikes</h2><div class="rule"></div></div>
+    <div class="grid">
+      <div class="card accent-green"><h3>mini.comment</h3>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>c</kbd><kbd>c</kbd></span><span class="desc">Toggle comment on line</span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>c</kbd></span><span class="desc">Comment operator: <code>gcaw</code></span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>b</kbd><kbd>c</kbd></span><span class="desc">Toggle <b>block</b> comment</span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>b</kbd></span><span class="desc">Block-comment operator (visual too)</span></div>
+      </div>
+      <div class="card accent-pink"><h3>mini.surround · now on <kbd class="accent-plain">gz</kbd></h3>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>z</kbd><kbd>a</kbd></span><span class="desc">Add surround: <code>gza"</code>, <code>gza(</code>, <code>gzaw</code></span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>z</kbd><kbd>d</kbd></span><span class="desc">Delete surround: <code>gzd"</code></span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>z</kbd><kbd>r</kbd></span><span class="desc">Replace surround: <code>gzr({"</code></span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>z</kbd><kbd>h</kbd></span><span class="desc">Highlight / preview surrounding</span></div>
+        <div class="row"><span class="desc">Moved off <code>s</code> so hopping owns <b><kbd>s</kbd></b></span></div>
+      </div>
+      <div class="card accent-sky"><h3>mini.pairs &amp; mini.splitjoin</h3>
+        <div class="row"><span class="desc">Auto-close <b>()[]{} " ' \`</b> with smart <kbd class="accent-plain">BS</kbd> &amp; <kbd class="accent-plain">CR</kbd></span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>S</kbd></span><span class="desc">Split / join <b>arguments</b> under cursor</span></div>
+      </div>
+      <div class="card accent-peach"><h3>mini.operators — numbers &amp; power</h3>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>=</kbd></span><span class="desc"><b>Evaluate</b> text → replace with result</span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>r</kbd></span><span class="desc"><b>Replace</b> with register (<code>grr</code> = line)</span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>m</kbd></span><span class="desc"><b>Multiply</b> selection ×count</span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>s</kbd></span><span class="desc"><b>Sort</b> lines</span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>x</kbd></span><span class="desc"><b>Exchange</b> two regions (url-open moved to <kbd class="accent-plain">gX</kbd>)</span></div>
+      </div>
+      <div class="card accent-plain"><h3>formatting</h3>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>q</kbd></span><span class="desc"><b>Format</b> via conform (formatexpr + nixfmt/biome)</span></div>
+        <div class="row"><span class="desc">Clipboard sync is on: <code>"unnamed</code> — yanks hit the OS.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NAVIGATE -->
+  <section id="navigate">
+    <div class="sec-head"><span class="idx">05</span><h2>Navigate · mini.bracketed [ ]</h2><div class="rule"></div></div>
+    <div class="note">Every pair supports <kbd class="accent-plain">count</kbd><kbd class="accent-plain">[</kbd><kbd class="accent-plain">x</kbd>. <code>]x</code> forward / <code>[x</code> backward / <code>]X</code> last / <code>[X</code> first.</div>
+    <div class="pair-grid">
+      <div class="pair"><span class="lbl">b</span><span class="expl">next / prev <b>buffer</b></span></div>
+      <div class="pair"><span class="lbl">d</span><span class="expl">next / prev <b>diagnostic</b></span></div>
+      <div class="pair"><span class="lbl">t</span><span class="expl">next / prev <b>tree-sitter node</b></span></div>
+      <div class="pair"><span class="lbl">w</span><span class="expl">next / prev <b>window</b></span></div>
+      <div class="pair"><span class="lbl">f</span><span class="expl">next / prev <b>file</b> on disk</span></div>
+      <div class="pair"><span class="lbl">i</span><span class="expl">next / prev <b>indent</b> change</span></div>
+      <div class="pair"><span class="lbl">j</span><span class="expl">jump forward / back in jumplist</span></div>
+      <div class="pair"><span class="lbl">q</span><span class="expl">quickfix list entry</span></div>
+      <div class="pair"><span class="lbl">l</span><span class="expl">location list entry</span></div>
+      <div class="pair"><span class="lbl">o</span><span class="expl">older / newer <b>oldfile</b></span></div>
+      <div class="pair"><span class="lbl">u</span><span class="expl">linear <b>undo</b> replay (<code>u</code>/<code>C-r</code> breath by breath)</span></div>
+      <div class="pair"><span class="lbl">y</span><span class="expl">swap last put with older <b>yank</b></span></div>
+      <div class="pair"><span class="lbl">x</span><span class="expl">git <b>conflict</b> marker</span></div>
+      <div class="pair"><span class="lbl">c</span><span class="expl">comment block</span></div>
+    </div>
+  </section>
+
+  <!-- FILES -->
+  <section id="files">
+    <div class="sec-head"><span class="idx">06</span><h2>Files · mini.files explorer</h2><div class="rule"></div></div>
+    <div class="grid">
+      <div class="card accent-sky"><h3>open &amp; move</h3>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>f</kbd><kbd>e</kbd></span><span class="desc">Open explorer (Miller columns)</span></div>
+        <div class="row"><span class="keys"><kbd>l</kbd></span><span class="desc">Go in → directory / open file</span></div>
+        <div class="row"><span class="keys"><kbd>L</kbd></span><span class="desc">Go in + close explorer</span></div>
+        <div class="row"><span class="keys"><kbd>h</kbd></span><span class="desc">Go out to parent</span></div>
+        <div class="row"><span class="keys"><kbd>H</kbd></span><span class="desc">Go out + trim right</span></div>
+      </div>
+      <div class="card accent-green"><h3>manage</h3>
+        <div class="row"><span class="keys"><kbd>m</kbd></span><span class="desc">Set bookmark (then a key)</span></div>
+        <div class="row"><span class="keys"><kbd>'</kbd></span><span class="desc">Jump to bookmark</span></div>
+        <div class="row"><span class="keys"><kbd>=</kbd></span><span class="desc"><b>Synchronize</b> → apply edits (rename/create/delete/copy/move by editing names!)</span></div>
+        <div class="row"><span class="keys"><kbd>@</kbd></span><span class="desc">Reveal cwd</span></div>
+        <div class="row"><span class="keys"><kbd>q</kbd></span><span class="desc">Close explorer</span></div>
+      </div>
+      <div class="card accent-peach"><h3>shrink &amp; help</h3>
+        <div class="row"><span class="keys"><kbd>&lt;</kbd><kbd>&gt;</kbd></span><span class="desc">Trim branch left / right</span></div>
+        <div class="row"><span class="keys"><kbd>g</kbd><kbd>?</kbd></span><span class="desc">Show help window</span></div>
+        <div class="row"><span class="keys"><kbd>BS</kbd></span><span class="desc">Reset to anchor dir</span></div>
+        <div class="row"><span class="keys"><kbd>j</kbd><kbd>k</kbd></span><span class="desc">Move through entries</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PICK -->
+  <section id="pick">
+    <div class="sec-head"><span class="idx">07</span><h2>Pick · fuzzy finding</h2><div class="rule"></div></div>
+    <div class="grid">
+      <div class="card accent-plain"><h3>launch</h3>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>f</kbd><kbd>f</kbd></span><span class="desc">Find <b>files</b></span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>b</kbd><kbd>f</kbd></span><span class="desc">Find <b>buffers</b></span></div>
+      </div>
+      <div class="card accent-sky"><h3>choose</h3>
+        <div class="row"><span class="keys"><kbd>CR</kbd></span><span class="desc">Open selection</span></div>
+        <div class="row"><span class="keys"><kbd>C-s</kbd></span><span class="desc">Open in <b>split</b></span></div>
+        <div class="row"><span class="keys"><kbd>C-v</kbd></span><span class="desc">Open in <b>vsplit</b></span></div>
+        <div class="row"><span class="keys"><kbd>C-t</kbd></span><span class="desc">Open in <b>tab</b></span></div>
+        <div class="row"><span class="keys"><kbd>Tab</kbd><kbd>S-Tab</kbd></span><span class="desc">Preview / info pane</span></div>
+      </div>
+      <div class="card accent-green"><h3>edit the query</h3>
+        <div class="row"><span class="keys"><kbd>C-n</kbd><kbd>C-p</kbd></span><span class="desc">Next / previous item</span></div>
+        <div class="row"><span class="keys"><kbd>C-w</kbd></span><span class="desc">Delete word</span></div>
+        <div class="row"><span class="keys"><kbd>C-u</kbd></span><span class="desc">Clear query</span></div>
+        <div class="row"><span class="keys"><kbd>C-g</kbd></span><span class="desc">Jump to start</span></div>
+        <div class="row"><span class="keys"><kbd>C-r</kbd></span><span class="desc">Paste register</span></div>
+        <div class="row"><span class="keys"><kbd>C-x</kbd><kbd>C-a</kbd></span><span class="desc">Mark / mark all</span></div>
+        <div class="row"><span class="keys"><kbd>Esc</kbd></span><span class="desc">Close</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WINDOWS -->
+  <section id="windows">
+    <div class="sec-head"><span class="idx">08</span><h2>Windows · split city</h2><div class="rule"></div></div>
+    <div class="grid">
+      <div class="card accent-sky"><h3>focus (mini.basics)</h3>
+        <div class="row"><span class="keys"><kbd>C-h</kbd></span><span class="desc">Focus left</span></div>
+        <div class="row"><span class="keys"><kbd>C-j</kbd></span><span class="desc">Focus below</span></div>
+        <div class="row"><span class="keys"><kbd>C-k</kbd></span><span class="desc">Focus above</span></div>
+        <div class="row"><span class="keys"><kbd>C-l</kbd></span><span class="desc">Focus right</span></div>
+      </div>
+      <div class="card accent-peach"><h3>resize (mini.basics)</h3>
+        <div class="row"><span class="keys"><kbd>C-←</kbd></span><span class="desc">Narrower</span></div>
+        <div class="row"><span class="keys"><kbd>C-→</kbd></span><span class="desc">Wider</span></div>
+        <div class="row"><span class="keys"><kbd>C-↑</kbd></span><span class="desc">Taller</span></div>
+        <div class="row"><span class="keys"><kbd>C-↓</kbd></span><span class="desc">Shorter</span></div>
+      </div>
+      <div class="card accent-green"><h3>create (custom)</h3>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>w</kbd><kbd>h</kbd></span><span class="desc">Horizontal split</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>w</kbd><kbd>v</kbd></span><span class="desc">Vertical split</span></div>
+        <div class="row"><span class="keys"><kbd>]</kbd><kbd>w</kbd></span><span class="desc">Cycle windows (bracketed)</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- NUMBERS / VIEW -->
+  <section id="numbers">
+    <div class="sec-head"><span class="idx">09</span><h2>Options &amp; toggles · mini.basics</h2><div class="rule"></div></div>
+    <div class="grid">
+      <div class="card accent-plane plain"><h3>toggle grid (prefix <kbd class="accent-plain">\</kbd>)</h3>
+        <div class="pair-grid">
+          <div class="pair"><span class="lbl">\b</span><span class="expl">background</span></div>
+          <div class="pair"><span class="lbl">\c</span><span class="expl">cursorline</span></div>
+          <div class="pair"><span class="lbl">\C</span><span class="expl">cursorcolumn</span></div>
+          <div class="pair"><span class="lbl">\d</span><span class="expl">diagnostics</span></div>
+          <div class="pair"><span class="lbl">\h</span><span class="expl">hlsearch</span></div>
+          <div class="pair"><span class="lbl">\i</span><span class="expl">ignorecase</span></div>
+          <div class="pair"><span class="lbl">\l</span><span class="expl">list chars</span></div>
+          <div class="pair"><span class="lbl">\n</span><span class="expl">number</span></div>
+          <div class="pair"><span class="lbl">\r</span><span class="expl">relativenumber</span></div>
+          <div class="pair"><span class="lbl">\s</span><span class="expl">spell</span></div>
+          <div class="pair"><span class="lbl">\w</span><span class="expl">wrap</span></div>
+        </div>
+      </div>
+      <div class="card accent-green"><h3>auto behaviors</h3>
+        <div class="row"><span class="desc"><code>relativenumber</code> in normal mode ⇄ absolute in insert (autocmd) — the classic power move</span></div>
+        <div class="row"><span class="desc">Cursor row + column highlighted; smoothscroll on; scrolloff 8; virtualedit in block</span></div>
+        <div class="row"><span class="desc">Hidden chars shown: <code>·→⋅❯❮</code> — no 🍝 whitespace</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- APPEARANCE -->
+  <section id="appearance">
+    <div class="sec-head"><span class="idx">10</span><h2>Appearance · synthwave default</h2><div class="rule"></div></div>
+    <div class="grid">
+      <div class="card accent-pink"><h3>catppuccin</h3>
+        <div class="row"><span class="desc"><b>mocha</b> by default, <b>latte</b> when the lights are on — flavour follows background</span></div>
+        <div class="row"><span class="desc">Tuned integrations: native LSP, treesitter, mini, render-markdown</span></div>
+      </div>
+      <div class="card accent-peach"><h3>code rain</h3>
+        <div class="row"><span class="keys"><kbd>g?</kbd></span><span class="desc">mini.clue window — discover any mapping live</span></div>
+        <div class="row"><span class="desc">mini.hipatterns glows <code>TODO</code> <code>FIXME</code> <code>HACK</code> <code>REVIEW</code>… + live hex-color preview</span></div>
+        <div class="row"><span class="desc">mini.starter launch screen, statusline, git + diff signs, icons, idle cursor-word &amp; indent scope</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SESSIONS -->
+  <section id="sessions">
+    <div class="sec-head"><span class="idx">11</span><h2>Sessions · pick up where you crashed</h2><div class="rule"></div></div>
+    <div class="grid">
+      <div class="card accent-plain"><h3>mini.sessions</h3>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>S</kbd></span><span class="desc">Save session</span></div>
+        <div class="row"><span class="keys"><kbd>SPC</kbd><kbd>L</kbd></span><span class="desc">Load session (pick from list)</span></div>
+      </div>
+      <div class="card accent-sky"><h3>memory &amp; git</h3>
+        <div class="row"><span class="desc">mini.visits / mini.jump track old files &amp; recent spots</span></div>
+        <div class="row"><span class="desc">mini.git &amp; mini.diff paint blame / hunks in the sign column</span></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>built from <span class="glow">~/.config/nix/home/nvim/</span> · nvf + mini.nvim + catppuccin · tweak &amp; <code>nix-switch</code></div>
+    <div class="dim">gq → conform · SPC? → clue · be kind, rebind</div>
+  </footer>
+</div>
+
+<script>
+  const input = document.getElementById('search');
+  input.addEventListener('input', () => {
+    const q = input.value.trim().toLowerCase();
+    document.querySelectorAll('.card').forEach(card => {
+      const text = card.textContent.toLowerCase();
+      card.style.display = (!q || text.includes(q)) ? '' : 'none';
+    });
+    document.querySelectorAll('section').forEach(sec => {
+      const visible = [...sec.querySelectorAll('.card')].some(c => c.style.display !== 'none');
+      sec.style.display = visible ? '' : 'none';
+    });
+  });
+</script>
+</body>
+</html>

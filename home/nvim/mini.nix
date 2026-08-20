@@ -154,6 +154,7 @@
       }
     ];
   };
+  cmdline.enable = true;
   diff.enable = true;
   diff.setupOpts = {
     view = {

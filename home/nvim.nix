@@ -4,7 +4,6 @@ let
   events = import ./nvim/events.nix { inherit lib; };
   keymaps = import ./nvim/keymaps.nix { inherit lib; };
   options = import ./nvim/options.nix { inherit lib; };
-  codecompanion = import ./nvim/codecompanion.nix { inherit lib; };
 in
 {
   programs.nvf = {
@@ -75,8 +74,6 @@ in
       vim.viAlias = false;
       vim.vimAlias = true;
 
-      vim.assistant.codecompanion-nvim = codecompanion;
-
       vim.lsp.enable = true;
       vim.languages.enableFormat = true;
       vim.languages.enableTreesitter = true;
@@ -102,6 +99,9 @@ in
         enable = true;
       };
       vim.languages.go = {
+        enable = true;
+      };
+      vim.languages.rust = {
         enable = true;
       };
       vim.languages.typescript = {

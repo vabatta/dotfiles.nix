@@ -101,7 +101,11 @@
   # SECTION: Motion — mini.jump2d (hop to a labeled spot on screen)
   {
     key = "s";
-    mode = [ "n" "x" "o" ];
+    mode = [
+      "n"
+      "x"
+      "o"
+    ];
     desc = "Hop to labeled spot (mini.jump2d)";
     action = "<cmd>lua MiniJump2d.start()<CR>";
   }
@@ -137,21 +141,30 @@
 
   {
     key = "<leader>la";
-    mode = [ "n" "v" ];
+    mode = [
+      "n"
+      "v"
+    ];
     desc = "Code actions";
     action = "<cmd>lua vim.lsp.buf.code_action()<CR>";
   }
 
   {
     key = "<leader>lh";
-    mode = [ "n" "v" ];
+    mode = [
+      "n"
+      "v"
+    ];
     desc = "Hover documentation";
     action = "<cmd>lua vim.lsp.buf.hover()<CR>";
   }
 
   {
     key = "<leader>lH";
-    mode = [ "n" "v" ];
+    mode = [
+      "n"
+      "v"
+    ];
     desc = "Signature help";
     action = "<cmd>lua vim.lsp.buf.signature_help()<CR>";
   }
@@ -221,4 +234,5 @@
     desc = "Load session";
     action = "<cmd>lua MiniSessions.read()<CR>";
   }
+
 ]

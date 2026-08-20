@@ -29,10 +29,11 @@
     # claude code CLI
     claude-code.url = "github:sadjow/claude-code-nix";
 
-    # Matt Pocock's agent skills (plain skill files, consumed as a source tree).
-    # Pinned to a commit; to bump, edit the ref below and run `nix flake lock`.
-    mattpocock-skills.url = "github:mattpocock/skills/43ea0884b07a3e67a5a07f025ce92aefa983177b";
+    # skills
+    mattpocock-skills.url = "github:mattpocock/skills/0ab1b63a410a03d3627979a109c8695de27af954";
     mattpocock-skills.flake = false;
+    pstack.url = "github:cursor/plugins/51a96e0dd838404da19ba83dc70aa21eef71f868";
+    pstack.flake = false;
 
   };
 

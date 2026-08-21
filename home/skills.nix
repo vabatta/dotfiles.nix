@@ -17,15 +17,15 @@ let
     chmod -R u+w "$out"
 
     # Overlay: Matt Pocock's skills, flattening the bucket directories.
-    for bucket in engineering productivity; do
-      for d in ${inputs.mattpocock-skills}/skills/"$bucket"/*; do
-        [ -e "$d/SKILL.md" ] || continue
-        name=$(basename "$d")
-        rm -rf "$out/$name"
-        cp -RL "$d" "$out/$name"
-      done
-    done
-    chmod -R u+w "$out"
+    # for bucket in engineering productivity; do
+    #   for d in ${inputs.mattpocock-skills}/skills/"$bucket"/*; do
+    #     [ -e "$d/SKILL.md" ] || continue
+    #     name=$(basename "$d")
+    #     rm -rf "$out/$name"
+    #     cp -RL "$d" "$out/$name"
+    #   done
+    # done
+    # chmod -R u+w "$out"
 
     # Overlay only pstack's skills. Do not copy its agents, automations, docs, or scripts.
     for d in ${inputs.pstack}/pstack/skills/*; do
@@ -34,7 +34,6 @@ let
       rm -rf "$out/$name"
       cp -RL "$d" "$out/$name"
     done
-
     chmod -R u+w "$out"
   '';
 in

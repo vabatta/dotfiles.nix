@@ -163,11 +163,6 @@
   };
   extra.enable = true;
   files.enable = true;
-  files.setupOpts = {
-    mappings = {
-      close = "<ESC>";
-    };
-  };
   git.enable = true;
   jump.enable = true;
   jump2d.enable = true;

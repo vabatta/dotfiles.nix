@@ -27,9 +27,12 @@ in
     tui = {
       # Follow macOS appearance automatically (replaces the themeup/PI_THEME hook).
       theme = "system";
+
+      # Claude Code-style side sessions for isolated /btw questions.
+      plugin = [ "opencode-bytheway@0.8.0" ];
     };
 
-    # Merged skills tree (mine + Matt Pocock's), built in skills.nix.
+    # Merged skills tree, built in skills.nix.
     # Coerced to a store-path string — this option is path/string-typed, so a
     # bare derivation would make the module recurse into its attributes.
     skills = toString skillsTree;

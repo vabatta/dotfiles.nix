@@ -33,6 +33,7 @@
       "1password"
       "knockknock"
       "claude"
+      "opensuperwhisper"
     ];
     brews = [
       "mas"

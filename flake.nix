@@ -29,12 +29,6 @@
     # claude code CLI
     claude-code.url = "github:sadjow/claude-code-nix";
 
-    # skills
-    mattpocock-skills.url = "github:mattpocock/skills/0ab1b63a410a03d3627979a109c8695de27af954";
-    mattpocock-skills.flake = false;
-    pstack.url = "github:cursor/plugins/51a96e0dd838404da19ba83dc70aa21eef71f868";
-    pstack.flake = false;
-
   };
 
   outputs =

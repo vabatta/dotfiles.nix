@@ -7,7 +7,6 @@
 {
   networking.hostName = "mbp";
 
-  # host-specific homebrew casks
   homebrew.casks = [
     "docker-desktop"
     "local/container/container"
@@ -19,7 +18,6 @@
     "local/davit"
   ];
 
-  # host-specific home-manager configuration
   home-manager.users.${hostUsername} = {
     xdg.enable = true;
     home.preferXdgDirectories = true;
@@ -32,7 +30,6 @@
 
     programs = {
       zsh.initContent = lib.mkOrder 1500 ''
-        # Source shell functions
         source ${../../scripts/shell-functions.sh}
       '';
 

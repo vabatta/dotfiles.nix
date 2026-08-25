@@ -3,8 +3,8 @@ let
   catppuccinLazygit = pkgs.fetchFromGitHub {
     owner = "catppuccin";
     repo = "lazygit";
-    rev = "c24895902ec2a3cb62b4557f6ecd8e0afeed95d5";
-    sha256 = "1fjp1b8s4aa8xi9mpw6h7d0bfx45dqxdjdw428w1fb7h8ww49qp1";
+    rev = "798ad2e75a11766e9ba50e76e59aea6a81eb4866"; # v2.3.0
+    sha256 = "0xj8mz6s0hiyffgj7qm28kbd926qy4li2ga6bwy0mnb2nch9203p";
   };
 
   themeFunc = lib.mkOrder 1500 ''

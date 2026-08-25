@@ -1,44 +1,42 @@
-{ pkgs, skillsTree, ... }:
+{ ai, pkgs, ... }:
 let
-  # Wrap the real opencode so the OpenRouter key is injected from 1Password at
-  # launch: no secret lands in the Nix store, and `op` only runs (touch ID
-  # prompt) when opencode is launched.
-  # opencode auto-activates the OpenRouter provider when OPENROUTER_API_KEY is set.
-  #
-  # This is set as `programs.opencode.package` (rather than a separate
-  # home.packages entry) to avoid a bin/opencode collision, and because the
-  # module crashes on `package = null` (it calls lib.versionAtLeast on a null
-  # version in its deprecation-warning logic).
+  # 1Password stays outside the Nix store while OpenCode receives the key at launch.
+  # The wrapper avoids a bin/opencode collision and the Home Manager null-package bug.
   opencodeWrapped = pkgs.writeShellScriptBin "opencode" ''
     export OPENROUTER_API_KEY="$(${pkgs._1password-cli}/bin/op read 'op://Development/OpenRouter API Key/credential' --no-newline)"
     exec ${pkgs.opencode}/bin/opencode "$@"
   '';
+
 in
 {
-  programs.opencode = {
-    enable = true;
-    package = opencodeWrapped;
+  config = {
+    programs.opencode = {
+      enable = true;
+      package = opencodeWrapped;
 
-    settings = {
-      # Updates are managed by nix, not opencode's self-updater.
-      autoupdate = false;
+      settings = {
+        # Updates are managed by Nix, not OpenCode's self-updater.
+        autoupdate = false;
+      };
+
+      tui = {
+        # Follow macOS appearance automatically instead of the themeup/PI_THEME hook.
+        theme = "system";
+
+        plugin = [
+          "opencode-bytheway@0.8.0" # btw
+          "opencode-session-recall@2.1.0" # memory/history lookups
+        ];
+      };
+
+      # `skills` must receive a path string; passing the derivation directly recurses.
+      skills = toString ai.skills;
     };
 
-    tui = {
-      # Follow macOS appearance automatically (replaces the themeup/PI_THEME hook).
-      theme = "system";
+    home.file.".config/opencode/agents".source = ai.agents;
 
-      # Claude Code-style side sessions for isolated /btw questions.
-      plugin = [ "opencode-bytheway@0.8.0" ];
+    home.shellAliases = {
+      oc = "opencode";
     };
-
-    # Merged skills tree, built in skills.nix.
-    # Coerced to a store-path string — this option is path/string-typed, so a
-    # bare derivation would make the module recurse into its attributes.
-    skills = toString skillsTree;
-  };
-
-  home.shellAliases = {
-    oc = "opencode";
   };
 }

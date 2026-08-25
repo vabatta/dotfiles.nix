@@ -1,4 +1,5 @@
 cask "tableplus" do
+  # Do not update: this version is pinned because of licensing constraints.
   version "6.4.2"
   sha256 :no_check
 

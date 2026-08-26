@@ -38,7 +38,7 @@ When asked to CHECK text instead of writing it, report each violation as: rule n
 | Mode | When | What you apply |
 |---|---|---|
 | **Pragmatic** (default) | Docs, READMEs, error messages — the user wants clear text | All structural rules. Domain words stay ("idempotent", "webhook"). |
-| **Strict** | The user names STE, ASD-STE100, or compliance | Structural rules + full vocabulary discipline, and tell the user that full compliance needs the official dictionary (free at asd-ste100.org). |
+| **Strict** | The user names STE, ASD-STE100, or compliance | Structural rules + the vocabulary guidance in this file. |
 
 ## Step 1: Classify the Text
 
@@ -53,7 +53,7 @@ Do not mix the two in one passage. A "Getting started" section is procedural. An
 
 ## THE RULE CATALOG
 
-53 rules in 9 sections, paraphrased from ASD-STE100 Issue 9 with software examples. The official wording is in the free standard at asd-ste100.org.
+53 rules in 9 sections, paraphrased from ASD-STE100 Issue 9 with software examples.
 
 ### Section 1 — Words (Rules 1.1-1.14)
 
@@ -198,7 +198,7 @@ GR-6 for software docs: "e.g." → "for example", "i.e." → "that is", and dele
 
 ## VOCABULARY DISCIPLINE
 
-The official dictionary (~900 approved words, ~1,200 banned words with alternatives) is copyrighted by ASD and is not reproduced here. Its mechanics apply without it: **one word, one meaning, one part of speech.**
+Apply the core vocabulary discipline: **one word, one meaning, one part of speech.**
 
 Known part-of-speech rulings, useful as patterns:
 

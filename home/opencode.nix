@@ -17,6 +17,7 @@ in
       settings = {
         # Updates are managed by Nix, not OpenCode's self-updater.
         autoupdate = false;
+        permission = "allow";
       };
 
       tui = {
@@ -34,6 +35,7 @@ in
     };
 
     home.file.".config/opencode/agents".source = ai.agents;
+    home.file.".config/opencode/plugins".source = ai.plugins;
 
     home.shellAliases = {
       oc = "opencode";

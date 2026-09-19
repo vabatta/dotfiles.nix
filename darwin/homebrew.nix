@@ -27,6 +27,7 @@
       # devtools
       "ghostty"
       "visual-studio-code"
+      "zed"
       "local/tableplus/tableplus"
 
       # other

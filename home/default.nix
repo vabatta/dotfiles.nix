@@ -21,6 +21,7 @@
     ./ssh.nix
     ./starship.nix
     ./vivid.nix
+    ./zed.nix
     ./zoxide.nix
     ./zsh.nix
   ];

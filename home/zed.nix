@@ -14,9 +14,9 @@
         dark = "Catppuccin Mocha";
       };
       buffer_font_family = "Hack Nerd Font";
-      ui_font_family = "Hack Nerd Font";
+      ui_font_family = "Helvetica Neue";
       buffer_font_size = 14;
-      ui_font_size = 14;
+      ui_font_size = 15;
       option_as_meta = true;
 
       language_models.open_router.api_url = "https://openrouter.ai/api/v1";
@@ -29,4 +29,5 @@
   };
 
   home.file.".agents/skills".source = ai.skills;
+  home.file.".config/zed/AGENTS.md".source = ai.rules;
 }

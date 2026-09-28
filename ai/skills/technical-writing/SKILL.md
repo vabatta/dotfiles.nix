@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/technical-writing/SKILL.md
 name: technical-writing
-description: "Layered technical-writing standard: Diátaxis structure, Google developer style sentences, STE instruction rules, Global English syntax. Use for /technical-writing or when writing or reviewing docs, RFCs, readmes, PR descriptions, or commit messages."
+description: A layered technical-writing standard covering Diátaxis structure, Google developer style sentences, STE instruction rules, and Global English syntax. Use when writing or reviewing docs, RFCs, readmes, PR descriptions, or commit messages.
 ---
 
 # Technical writing

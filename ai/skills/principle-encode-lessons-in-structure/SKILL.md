@@ -29,3 +29,5 @@ When you catch yourself writing the same instruction a second time:
 - Acknowledging without recording ("I'll keep that in mind" does not persist)
 - Recording without routing (a brain note about a lint rule that should exist is wasted unless the lint rule gets implemented)
 - Fixing without generalizing (fixing one instance while leaving the recurring pattern intact)
+
+**Test:** The same instruction no longer needs to be written twice; a lint, flag, check, or script now fails when the rule is violated. An instruction repeated in a second place means the structure was skipped.

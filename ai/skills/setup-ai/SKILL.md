@@ -1,5 +1,4 @@
 ---
-source: https://github.com/vabatta/dotfiles.nix/blob/main/ai/skills/setup-ai/SKILL.md
 name: setup-ai
 description: Explains and updates the runtime-owned model preferences used by the shared AI workflow.
 ---

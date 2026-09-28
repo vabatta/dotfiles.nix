@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-fix-root-causes/SKILL.md
 name: principle-fix-root-causes
-description: "Apply when debugging. Trace each symptom to its root cause and fix it there; reproduce first, ask why until you reach it, resist nil-check guards that silence crashes."
+description: Apply when debugging. Trace each symptom to its root cause and fix it there. Reproduce first, ask why until you reach it, and resist nil-check guards that silence crashes.
 ---
 
 # Fix Root Causes
@@ -21,3 +21,5 @@ When debugging, do not paper over symptoms. Trace every problem to its root caus
 **Restart bugs: suspect state before code**
 
 Code doesn't change between runs. State does. When something "fails after restart," suspect stale persistent state first: config files, caches, lock files, serialized state. If clearing a state file restores behavior, prioritize state validation as the fix.
+
+**Test:** The reproduction now passes, the same pattern is fixed everywhere it appears, and no new guard was needed to silence the symptom.

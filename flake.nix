@@ -41,7 +41,20 @@
       nvf,
       ...
     }@inputs:
+    let
+      pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+    in
     {
+      checks.aarch64-darwin.skills =
+        pkgs.runCommand "check-skills"
+          {
+            nativeBuildInputs = [ pkgs.bash ];
+          }
+          ''
+            bash ${./scripts/check-skills.sh} ${./ai/skills}
+            touch $out
+          '';
+
       # build darwin flake using:
       # $ darwin-rebuild build --flake .#<name>
 

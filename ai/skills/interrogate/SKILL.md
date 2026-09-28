@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/interrogate/SKILL.md
 name: interrogate
-description: Performs independent adversarial reviews of a design or change and turns the findings into a prioritized decision.
+description: "Use when a design or change needs adversarial pressure before it ships. Runs independent reviewers and classifies findings as act, consider, noted, or dismissed."
 ---
 
 # Interrogate

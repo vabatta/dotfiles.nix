@@ -36,6 +36,7 @@ in
 
     home.file.".config/opencode/agents".source = ai.agents;
     home.file.".config/opencode/plugins".source = ai.plugins;
+    home.file.".config/opencode/AGENTS.md".source = ai.rules;
 
     home.shellAliases = {
       oc = "opencode";

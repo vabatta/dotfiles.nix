@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-never-block-on-the-human/SKILL.md
 name: principle-never-block-on-the-human
-description: "Apply when tempted to ask 'should I do X?' on reversible work. Proceed, present the result, let the human course-correct after the fact; reserve confirmation for irreversible actions."
+description: Apply when tempted to ask 'should I do X?' on reversible work. Proceed, present the result, and let the human course-correct after the fact. Reserve confirmation for irreversible actions.
 ---
 
 # Never Block on the Human
@@ -21,3 +21,5 @@ The human supervises asynchronously. Agents must stay unblocked: make reasonable
 - **Irreversible actions** (force-push, delete production data, send external messages) still require confirmation.
 - **Reversible actions** (write code, edit notes, split tasks) should proceed without blocking.
 - **Product direction** comes from the human; *execution* should not block.
+
+**Test:** Did any reversible action wait on a human answer? If yes, it should have proceeded. If you blocked, the action had to be irreversible.

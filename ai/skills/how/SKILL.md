@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/how/SKILL.md
 name: how
-description: Explains how a subsystem works, traces runtime flow, and answers placement or ownership questions before a change.
+description: Use when asked how a subsystem works or where code should live. Traces inputs, state, flow, and outputs to build a real mental model.
 ---
 
 # How

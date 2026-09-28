@@ -20,3 +20,5 @@ Make simplification a continual investment. Leave the design slightly simpler an
 - Out-of-spec features drag validators behind them. Persistence, retry-on-startup, and schema migration each need guards to defend their inputs.
 - Simplify prompts (remove redundant instructions, excessive templates)
 - When a reference has no novel content, delete it rather than leaving a stub
+
+**Test:** The diff has removals before additions, and the new code is smaller than what it replaces. If nothing was cut, subtraction was skipped.

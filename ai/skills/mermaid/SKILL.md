@@ -1,17 +1,7 @@
 ---
 source: https://github.com/vabatta/dotfiles.nix/blob/1f400cc1f081e7270e0e75e329ce187aa8ef87cd/skills/mermaid/SKILL.md
 name: mermaid
-description: >
-  Write production-quality Mermaid diagrams following modern best practices.
-  Use this skill whenever the user asks to write, review, fix, or generate Mermaid diagrams,
-  flowcharts, sequence diagrams, class diagrams, state diagrams, ER diagrams, Gantt charts,
-  or any Mermaid-supported diagram type. Also trigger when the user mentions "mermaid",
-  "diagram as code", "flowchart", "sequence diagram", "class diagram", "state diagram",
-  "ER diagram", "Gantt chart", "pie chart", "mindmap", "timeline", "gitgraph", "C4 diagram",
-  "sankey", "block diagram", "kanban", "architecture diagram", or asks to visualize, diagram,
-  or chart anything using text-based syntax. Even if the user just says "draw this flow" or
-  "diagram this architecture", use this skill — it covers all Mermaid authoring. Trigger when
-  writing markdown that includes diagrams or when the user provides `.md` or `.mermaid` files.
+description: Write production-quality Mermaid diagrams following modern best practices. Use whenever the user asks to write, review, fix, or generate Mermaid diagrams, flowcharts, sequence diagrams, class diagrams, state diagrams, ER diagrams, Gantt charts, or any Mermaid-supported diagram type. Also trigger on mermaid, diagram as code, flowchart, sequence diagram, class diagram, state diagram, ER diagram, Gantt chart, pie chart, mindmap, timeline, gitgraph, C4 diagram, sankey, block diagram, kanban, or architecture diagram, or when asked to visualize or diagram anything in text-based syntax.
 ---
 
 # Mermaid Diagram Authoring

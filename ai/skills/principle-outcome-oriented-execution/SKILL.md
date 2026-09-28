@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-outcome-oriented-execution/SKILL.md
 name: principle-outcome-oriented-execution
-description: "Apply during planned rewrites and migrations with explicit phase boundaries. Converge on the target architecture; don't preserve smooth intermediate states with throwaway compatibility code."
+description: Apply during planned rewrites and migrations with explicit phase boundaries. Converge on the target architecture. Do not preserve smooth intermediate states with throwaway compatibility code.
 ---
 
 # Outcome-Oriented Execution
@@ -20,3 +20,5 @@ Optimize for the intended, verifiable end state rather than preserving smooth in
 - Declare where temporary breakage is acceptable
 - Keep high-signal checks for actively touched areas while migrating
 - Require full static and runtime verification at plan completion
+
+**Test:** The final verification runs at plan completion against the target architecture. If an intermediate compatibility shim ships as permanent, execution drifted from the outcome.

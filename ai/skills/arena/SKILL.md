@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/arena/SKILL.md
 name: arena
-description: Compares competing solutions, selects a base, and verifies a synthesized result when one design would lock in the wrong shape.
+description: "Use when choosing between competing designs, implementations, or approaches. Produces candidates in isolation, scores them against a rubric, and verifies the synthesized result."
 ---
 
 # Arena

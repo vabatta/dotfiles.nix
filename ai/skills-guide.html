@@ -1,0 +1,423 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skill guide</title>
+<style>
+  :root {
+    --bg: #f6f7f9;
+    --panel: #ffffff;
+    --panel-2: #f0f1f4;
+    --text: #1b1d21;
+    --muted: #5c636e;
+    --line: #e2e5ea;
+    --accent: #3b5bdb;
+    --accent-soft: #e7ecfd;
+    --rule: #0f766e;
+    --rule-soft: #d8f0ec;
+    --entry: #b45309;
+    --entry-soft: #fbeed3;
+    --proc: #6d28d9;
+    --proc-soft: #ede4fb;
+    --write: #b91c5c;
+    --write-soft: #fbe0ea;
+    --tool: #2563a8;
+    --tool-soft: #dcebf9;
+    --radius: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #14161a;
+      --panel: #1c1f24;
+      --panel-2: #23272e;
+      --text: #e7e9ee;
+      --muted: #9aa2af;
+      --line: #2d323a;
+      --accent: #8aa2ff;
+      --accent-soft: #232a44;
+      --rule: #5eead4;
+      --rule-soft: #16302c;
+      --entry: #fbbf24;
+      --entry-soft: #33280f;
+      --proc: #c4b5fd;
+      --proc-soft: #2a2340;
+      --write: #f9a8d4;
+      --write-soft: #3a1d2c;
+      --tool: #93c5fd;
+      --tool-soft: #182b42;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    border-bottom: 1px solid var(--line);
+    padding: 14px 22px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  header h1 { font-size: 17px; margin: 0; letter-spacing: -0.01em; }
+  header .count { color: var(--muted); font-size: 13px; }
+  header input {
+    margin-left: auto;
+    min-width: 220px;
+    flex: 1 1 220px;
+    max-width: 360px;
+    padding: 8px 12px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--panel);
+    color: var(--text);
+    font-size: 14px;
+    outline: none;
+  }
+  header input:focus { border-color: var(--accent); }
+  main { max-width: 1080px; margin: 0 auto; padding: 26px 22px 80px; }
+  section { margin-bottom: 40px; }
+  h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 14px; }
+  h2 .hint { text-transform: none; letter-spacing: 0; font-weight: 400; }
+  p.lead { margin: 0 0 16px; color: var(--muted); max-width: 70ch; }
+  code, .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  code {
+    background: var(--panel-2);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 1px 6px;
+    font-size: 0.88em;
+  }
+  .callout {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    margin: 0 0 16px;
+  }
+  .layers { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+  .layer {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+  }
+  .layer .n {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 22px; height: 22px; border-radius: 999px;
+    background: var(--accent-soft); color: var(--accent);
+    font-size: 12px; font-weight: 700; margin-bottom: 8px;
+  }
+  .layer h3 { margin: 0 0 6px; font-size: 15px; }
+  .layer p { margin: 0; color: var(--muted); font-size: 13.5px; }
+  .flows { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+  .flow {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .flow h3 { margin: 0; font-size: 15px; }
+  .flow .row { font-size: 13.5px; color: var(--muted); }
+  .flow .row b { color: var(--text); font-weight: 600; }
+  .trig {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 12.5px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    border-radius: 8px;
+    padding: 6px 10px;
+    align-self: flex-start;
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 5px; }
+  .chip {
+    font-family: ui-monospace, monospace;
+    font-size: 12px;
+    border: 1px solid var(--line);
+    background: var(--panel-2);
+    border-radius: 999px;
+    padding: 2px 9px;
+    color: var(--text);
+  }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    border-top: 3px solid var(--line);
+  }
+  .card.rule { border-top-color: var(--rule); }
+  .card.entry { border-top-color: var(--entry); }
+  .card.proc { border-top-color: var(--proc); }
+  .card.write { border-top-color: var(--write); }
+  .card.tool { border-top-color: var(--tool); }
+  .card h3 { margin: 0 0 6px; font-size: 14.5px; }
+  .card h3 .name { font-family: ui-monospace, monospace; }
+  .card p { margin: 0; color: var(--muted); font-size: 13px; }
+  .card .tag { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+  .hidden { display: none !important; }
+  footer { border-top: 1px solid var(--line); padding: 20px 22px; color: var(--muted); font-size: 13px; text-align: center; }
+  .empty { color: var(--muted); font-style: italic; padding: 20px 0; display: none; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Skill guide</h1>
+    <span class="count"><span id="visible">0</span> shown &middot; 49 skills, 10 flows</span>
+  </div>
+  <input id="search" type="search" placeholder="Filter skills and flows..." autocomplete="off">
+</header>
+
+<main>
+
+  <section>
+    <h2>The idea</h2>
+    <p class="lead">Skills are invoked on demand: the host reads each skill's description and loads the one that matches the task. On top of that, a short rules file is always in context, so the invariants apply without being asked. There is no router skill: every skill is one hop away.</p>
+    <div class="layers">
+      <div class="layer"><span class="n">1</span><h3>Always-on rules</h3><p>Short invariants in every conversation: nix flakes only, deletion bias, prove it works, reuse before building. Deployed to Claude Code, opencode, and Zed.</p></div>
+      <div class="layer"><span class="n">2</span><h3>Principles (22)</h3><p>Narrow rules loaded only when their trigger matches, then applied inline. The backbone of code quality.</p></div>
+      <div class="layer"><span class="n">3</span><h3>Entry points</h3><p>How you start a kind of work: review-code, plan-work, delegate, architect, figure-it-out, team-discussion.</p></div>
+      <div class="layer"><span class="n">4</span><h3>Procedures and tools</h3><p>Single-purpose helpers for tracing, explaining, writing, and domain tasks.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How to invoke</h2>
+    <div class="callout">
+      <p style="margin:0">Ask in plain words and the host selects the skill, or name it directly: <code>use review-code on this diff</code>. Trigger phrases below are the words that reliably select each skill.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Flows <span class="hint">trigger one of these to start a kind of work</span></h2>
+    <div class="flows" id="flows">
+
+      <div class="flow" data-search="implement add fix write code feature">
+        <h3>Implement something</h3>
+        <span class="trig">add X / fix X / write the code for X</span>
+        <div class="row"><b>Runs:</b> the matching principles plus the always-on rules (laziness, boundary, model-the-domain, type-system-discipline, use-before-build).</div>
+        <div class="row"><b>You get:</b> the smallest correct change, verified against the real artifact.</div>
+      </div>
+
+      <div class="flow" data-search="review accept check diff pr merge safe">
+        <h3>Accept or review a change</h3>
+        <span class="trig">review this / is this safe to merge</span>
+        <div class="chips"><span class="chip">review-code</span><span class="chip">interrogate</span><span class="chip">blast-radius</span><span class="chip">no-comments</span><span class="chip">prove-it-works</span></div>
+        <div class="row"><b>You get:</b> a prioritized verdict: act on, consider, noted, dismissed, plus breakage analysis and proof.</div>
+      </div>
+
+      <div class="flow" data-search="plan break tasks sequence migration multi-step">
+        <h3>Plan a multi-step effort</h3>
+        <span class="trig">break this into tasks / plan the migration</span>
+        <div class="chips"><span class="chip">plan-work</span><span class="chip">sequence-verifiable-units</span><span class="chip">foundational-thinking</span><span class="chip">subtract-before-you-add</span></div>
+        <div class="row"><b>You get:</b> a done predicate, a baseline, and ordered units each with a check.</div>
+      </div>
+
+      <div class="flow" data-search="delegate subagents parallel fan out workers">
+        <h3>Fan out work</h3>
+        <span class="trig">use subagents / parallelize this</span>
+        <div class="chips"><span class="chip">delegate</span></div>
+        <div class="row"><b>You get:</b> briefs with owned outputs and proof requirements, then verified artifacts. One script beats a fan-out.</div>
+      </div>
+
+      <div class="flow" data-search="debug broken regression fail root cause">
+        <h3>Debug</h3>
+        <span class="trig">it's broken / this regressed</span>
+        <div class="chips"><span class="chip">principle-fix-root-causes</span><span class="chip">blast-radius</span><span class="chip">tdd</span></div>
+        <div class="row"><b>You get:</b> a reproduced bug, a root-cause fix, and a regression check.</div>
+      </div>
+
+      <div class="flow" data-search="design architect module interface shape">
+        <h3>Design something new</h3>
+        <span class="trig">design a new module / how should we shape this</span>
+        <div class="chips"><span class="chip">architect</span><span class="chip">arena</span><span class="chip">how</span><span class="chip">why</span></div>
+        <div class="row"><b>You get:</b> sketched types and boundaries, competing candidates scored, then implementation against the chosen sketch.</div>
+      </div>
+
+      <div class="flow" data-search="discuss decision roundtable panel perspectives tradeoffs">
+        <h3>Discuss a decision</h3>
+        <span class="trig">team discussion / roundtable</span>
+        <div class="chips"><span class="chip">team-discussion</span></div>
+        <div class="row"><b>You get:</b> agreements, disagreements, assumptions, and one evidenced recommendation.</div>
+      </div>
+
+      <div class="flow" data-search="understand explain teach how why learn">
+        <h3>Understand or explain</h3>
+        <span class="trig">how does X work / explain this</span>
+        <div class="chips"><span class="chip">how</span><span class="chip">why</span><span class="chip">teach</span></div>
+        <div class="row"><b>You get:</b> a traced mental model, the rationale, or a plain explanation built up one step at a time.</div>
+      </div>
+
+      <div class="flow" data-search="long audited trail multi-session document">
+        <h3>Long or audited work</h3>
+        <span class="trig">large change / work I'll review later</span>
+        <div class="chips"><span class="chip">figure-it-out</span><span class="chip">show-me-your-work</span></div>
+        <div class="row"><b>You get:</b> a phased playbook with a hypothesis loop and a TSV decision trail.</div>
+      </div>
+
+      <div class="flow" data-search="docs writing rfc readme gherkin mermaid diagram style">
+        <h3>Write docs and prose</h3>
+        <span class="trig">write docs / document this / diagram this</span>
+        <div class="chips"><span class="chip">technical-writing</span><span class="chip">simple-english</span><span class="chip">unslop</span><span class="chip">gherkin</span><span class="chip">mermaid</span></div>
+        <div class="row"><b>You get:</b> docs that follow Diátaxis and plain-English rules, diagrams as code, no AI tells.</div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Entry points <span class="hint">start here for a kind of work</span></h2>
+    <div class="grid" id="entries"></div>
+  </section>
+
+  <section>
+    <h2>Principles <span class="hint">rules applied inline when their trigger matches</span></h2>
+    <div class="grid" id="principles"></div>
+  </section>
+
+  <section>
+    <h2>Procedures <span class="hint">single-purpose helpers</span></h2>
+    <div class="grid" id="procedures"></div>
+  </section>
+
+  <section>
+    <h2>Writing</h2>
+    <div class="grid" id="writing"></div>
+  </section>
+
+  <section>
+    <h2>Tools</h2>
+    <div class="grid" id="tools"></div>
+  </section>
+
+  <p class="empty" id="empty">No skills match that filter.</p>
+
+</main>
+
+<footer>
+  After editing skills, run <code>bash scripts/check-skills.sh ai/skills</code>. The same check runs in the flake.
+</footer>
+
+<script>
+const DATA = {
+  entries: [
+    ["review-code", "Use when asked to review, check, or accept a diff, PR, or change. Runs an acceptance pass with adversarial review, breakage analysis, and comment cleanup, then returns a prioritized verdict."],
+    ["plan-work", "Use when asked to break work into tasks, sequence a change, or plan a multi-step effort. Produces verifiable units, a baseline to measure against, and a check per unit."],
+    ["delegate", "Use when asked to use subagents, parallelize work, or fan out research or edits. Briefs each worker with an owned output and a proof requirement, then verifies the artifacts."],
+    ["architect", "Use when designing a new module, interface, or data shape before writing code. Sketches types and boundaries, runs competing candidates, then implements against the chosen sketch."],
+    ["arena", "Use when choosing between competing designs, implementations, or approaches. Produces candidates in isolation, scores them against a rubric, and verifies the synthesized result."],
+    ["figure-it-out", "Use when a large, cross-cutting, or multi-session change matches no single playbook. Designs an auditable phase plan with a hypothesis loop and a decision trail."],
+    ["team-discussion", "Use when a decision needs several perspectives, such as a roundtable or panel. Runs independent lenses on the same question, surfaces disagreements, and returns one evidenced recommendation."],
+    ["interrogate", "Use when a design or change needs adversarial pressure before it ships. Runs independent reviewers and classifies findings as act, consider, noted, or dismissed."]
+  ],
+  principles: [
+    ["principle-boundary-discipline", "Apply when wiring validation, error handling, or framework adapters. Concentrate guards at system boundaries; trust internal types and keep business logic in pure functions."],
+    ["principle-build-the-lever", "Apply to edits, migrations, analyses, or checks that are more than a couple of obvious changes. Build the tool that does it or proves it instead of working by hand."],
+    ["principle-encode-lessons-in-structure", "Apply when you catch yourself writing the same instruction a second time. Encode the rule as a lint, check, or script instead of more text."],
+    ["principle-exhaust-the-design-space", "Apply when facing a novel UI interaction or architectural decision with no precedent. Build 2-3 competing prototypes and compare before committing."],
+    ["principle-experience-first", "Apply when product, UX, or feature-scope tradeoffs come up. Choose user delight over implementation convenience."],
+    ["principle-fix-root-causes", "Apply when debugging. Trace each symptom to its root cause and fix it there; reproduce first, resist nil-check guards that silence crashes."],
+    ["principle-foundational-thinking", "Apply before writing logic: choosing core types and data structures, sequencing scaffold-vs-feature work, asking what concurrent actors share."],
+    ["principle-guard-the-context-window", "Apply when context is filling up. Route bulk to subagents; keep summaries in the main thread, not raw payloads."],
+    ["principle-laziness-protocol", "Apply when refactoring, evaluating diff size, or tempted to add abstractions. Bias toward deletion and the smallest change that solves the problem."],
+    ["principle-make-operations-idempotent", "Apply when designing commands, lifecycle steps, or loops that run amid crashes and retries. Converge to the same end state regardless of prior runs."],
+    ["principle-migrate-callers-then-delete-legacy-apis", "Apply when introducing a new internal API while old callers exist. Migrate callers and delete the old API in the same wave."],
+    ["principle-minimize-reader-load", "Apply when code is hard to trace. Count layers and hidden state; collapse one-caller wrappers and shrink mutable scope."],
+    ["principle-model-the-domain", "Apply when writing stateful logic, or when code branches a lot. Encode the domain in a structure instead of scattered conditionals."],
+    ["principle-never-block-on-the-human", "Apply when tempted to ask 'should I do X?' on reversible work. Proceed and let the human course-correct; reserve confirmation for irreversible actions."],
+    ["principle-outcome-oriented-execution", "Apply during planned rewrites and migrations. Converge on the target architecture; don't preserve smooth intermediate states with throwaway compatibility code."],
+    ["principle-prove-it-works", "Apply after completing a task. Verify against the real artifact, not a proxy, self-report, or 'it compiles.'"],
+    ["principle-redesign-from-first-principles", "Apply when integrating a new requirement into an existing design. Redesign as if it had been a day-one assumption, instead of bolting it on."],
+    ["principle-separate-before-serializing-shared-state", "Apply when actors might write the same file, branch, key, or state. Eliminate the sharing first; serialize structurally only when sharing is a real invariant."],
+    ["principle-sequence-verifiable-units", "Apply to multi-step work. Break it into small units that each end in a check, and order delivery so the sequence proves itself."],
+    ["principle-subtract-before-you-add", "Apply when sequencing an addition, refactor, or rewrite. Remove dead weight and speculative guards first, then build on the simpler base."],
+    ["principle-type-system-discipline", "Apply when designing types or signatures in a typed language. Brand primitives, parse at boundaries, refuse casts, exhaust variants, derive from schemas."],
+    ["principle-use-before-build", "Apply before writing custom code, wrappers, or helpers. Check the standard library, dependencies, and existing project APIs first."]
+  ],
+  procedures: [
+    ["how", "Use when asked how a subsystem works or where code should live. Traces inputs, state, flow, and outputs to build a real mental model."],
+    ["why", "Use when the reason behind a design, regression, or threshold matters. Searches history and sources and separates facts from inference."],
+    ["teach", "Use when asked to explain how something works so it is understood, not just stated. Weaves a traced flow and its rationale into one plain explanation."],
+    ["blast-radius", "Use when you need to know what a change could break elsewhere, beyond the diff, and prove the safety fact by running real code. Trigger on 'blast radius' or 'what could this break'."],
+    ["tdd", "Use when the user asks for TDD, a failing test, or a regression test, or when the bug has an obvious cheap test target. Skip when the test path is expensive or unclear."],
+    ["recall", "Use when resuming work or the current state is unclear. Reconstructs recent work from the conversation, repository state, and history, and returns one next move."],
+    ["reflect", "Use when turning a completed session into durable improvements. Examines the work from independent lenses and routes learnings into skills, checks, or structure."],
+    ["show-me-your-work", "Use when work is long-running or reviewed after the fact. Keeps a TSV decision trail with one row per decision, its reason, evidence, and result."]
+  ],
+  writing: [
+    ["technical-writing", "A layered standard (Diátaxis, Google developer style, STE, Global English) for docs, RFCs, readmes, PR descriptions, and commit messages."],
+    ["simple-english", "Write or rewrite technical text in ASD-STE100 Simplified Technical English: short sentences, one meaning per word, clear procedures."],
+    ["unslop", "Cut AI tells from any writing: puffery, filler, em dashes, hedging, inline-header lists."],
+    ["gherkin", "Write and review production-quality Gherkin .feature files: Given/When/Then, scenario outlines, BDD best practices."],
+    ["mermaid", "Write and review Mermaid diagrams: flowcharts, sequence, class, state, ER, Gantt, and more."],
+    ["no-comments", "Use when comments, suppressions, or warnings need cleanup: remove restatements, keep durable constraints, encode recurring ones as structure."]
+  ],
+  tools: [
+    ["nixification", "Use when a tool, binary, library, or dependency is missing, or when wrapping a project in a Nix flake for a reproducible dev environment."],
+    ["tickets", "GitHub issues, projects, milestones, labels, dependencies, and workflow status. Trigger on ticket, issue, board, backlog, status, or #12."],
+    ["setup-ai", "Explains and updates the runtime-owned model preferences used by the shared AI workflow."],
+    ["skill-creator", "Create new skills, edit existing ones, run evals, and optimize descriptions for better triggering."],
+    ["bro", "Restate the last message in plain human language, with no jargon."]
+  ]
+};
+
+function card(kind, name, desc) {
+  const el = document.createElement("div");
+  el.className = "card " + kind;
+  el.dataset.search = (name + " " + desc).toLowerCase();
+  el.innerHTML = '<h3><span class="name"></span></h3><p></p>';
+  el.querySelector(".name").textContent = name;
+  el.querySelector("p").textContent = desc;
+  return el;
+}
+
+function fill(id, kind, rows) {
+  const root = document.getElementById(id);
+  for (const [name, desc] of rows) root.appendChild(card(kind, name, desc));
+}
+
+fill("entries", "entry", DATA.entries);
+fill("principles", "rule", DATA.principles);
+fill("procedures", "proc", DATA.procedures);
+fill("writing", "write", DATA.writing);
+fill("tools", "tool", DATA.tools);
+
+const search = document.getElementById("search");
+const cards = Array.from(document.querySelectorAll(".card"));
+const flows = Array.from(document.querySelectorAll(".flow"));
+const empty = document.getElementById("empty");
+const visible = document.getElementById("visible");
+
+function update() {
+  const q = search.value.trim().toLowerCase();
+  let shown = 0;
+  for (const el of [...cards, ...flows]) {
+    const hit = !q || (el.dataset.search || "").includes(q);
+    el.classList.toggle("hidden", !hit);
+    if (hit) shown++;
+  }
+  visible.textContent = String(shown);
+  empty.style.display = shown === 0 ? "block" : "none";
+}
+
+search.addEventListener("input", update);
+update();
+</script>
+
+</body>
+</html>

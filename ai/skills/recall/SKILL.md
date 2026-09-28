@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/recall/SKILL.md
 name: recall
-description: Reconstructs recent work from the current conversation, repository state, history, and any host-provided session records.
+description: "Use when resuming work or the current state is unclear. Reconstructs recent work from the conversation, repository state, and history, and returns one next move."
 ---
 
 # Recall

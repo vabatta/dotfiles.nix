@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/blast-radius/SKILL.md
 name: blast-radius
-description: "Find what a change could break somewhere else before it ships, beyond the diff, and prove the one fact it's safe because of by running real code instead of writing it up. Use for 'blast radius of X', 'what could this break', or reviewing a small diff you don't trust."
+description: "Use when you need to know what a change could break elsewhere, beyond the diff, and prove the safety fact by running real code instead of writing it up. Trigger on 'blast radius of X' or 'what could this break'."
 ---
 
 # Blast radius

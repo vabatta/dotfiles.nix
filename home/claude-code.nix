@@ -6,6 +6,7 @@
 
   home.file.".claude/skills".source = ai.skills;
   home.file.".claude/agents".source = ai.agents;
+  home.file.".claude/CLAUDE.md".source = ai.rules;
 
   home.shellAliases = {
     "cc" = "claude";

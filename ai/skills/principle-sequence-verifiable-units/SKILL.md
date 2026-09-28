@@ -20,3 +20,5 @@ Order work as a sequence of small units, each ending in a state you can check, a
 - Order the units so the sequence builds confidence on its own, for you while executing and for a reviewer reading the stack.
 
 The sequencing complement to the **prove-it-works** principle skill, which keeps each check real, and the **build-the-lever** principle skill, which makes the per-unit check cheap.
+
+**Test:** Every unit ends red-then-green before the next begins, and the final stack reads as the problem then the proof. A check deferred to the end of a batch is not sequenced.

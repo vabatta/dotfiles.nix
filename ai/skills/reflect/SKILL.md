@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/reflect/SKILL.md
 name: reflect
-description: Reviews a completed conversation or change from independent lenses and routes durable learnings into concrete skill or structural improvements.
+description: "Use when turning a completed session into durable improvements. Examines the work from independent lenses and routes learnings into skills, checks, or structure."
 ---
 
 # Reflect

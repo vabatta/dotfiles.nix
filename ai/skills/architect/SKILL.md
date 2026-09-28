@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/architect/SKILL.md
 name: architect
-description: "Sketch types, signatures, and module structure before code, then stay in the loop while implementation fills in. Use when asked to architect or design something, or when non-trivial work would lock in the wrong shape."
+description: "Use when designing a new module, interface, or data shape before writing code. Sketches types and boundaries, runs competing candidates, then implements against the chosen sketch."
 ---
 
 # Architect
@@ -24,10 +24,9 @@ still show their position and do not silently skip phases.
 
 Build a real mental model of every system the new code touches. Run the **how** skill over the relevant subsystems. Critique mode if existing structure is the constraint or the design must push back on it.
 
-Before sketching new interfaces, apply
-[Use Before Build](../principle-use-before-build/SKILL.md). Inspect the standard
-library, installed dependencies, and existing project APIs that could already
-provide the capability.
+Before sketching new interfaces, apply **principle-use-before-build**. Inspect
+the standard library, installed dependencies, and existing project APIs that
+could already provide the capability.
 
 Naming a file isn't grounding. Produce the traced model `how` prescribes. If the design redefines ownership or layering, also run the **why** skill on the existing shape so the rationale becomes a constraint, not a guess.
 

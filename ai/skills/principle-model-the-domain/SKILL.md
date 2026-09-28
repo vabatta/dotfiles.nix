@@ -10,6 +10,8 @@ Encode the real domain in a data structure instead of scattering it across condi
 
 **Why:** Scattered booleans, repeated shape assumptions, and branching spread across files are accidental complexity. A structure that matches the domain makes invalid states unrepresentable and deletes branches. Choosing it at write time is cheap; recovering it later reads as a refactor and gets deferred.
 
+This skill owns the encode-the-domain call, including when to make invalid states unrepresentable. **principle-type-system-discipline** covers the typed-language mechanics that express it (branded primitives, exhaustive matching, parsing at boundaries).
+
 **Reach for structures like these:**
 
 - A state machine instead of scattered booleans, phases, or lifecycle checks.
@@ -23,4 +25,4 @@ Encode the real domain in a data structure instead of scattering it across condi
 
 Do not force an abstraction. Prefer boring code if the current shape is already clear, local, and unlikely to grow. Be skeptical of an abstraction that adds indirection without removing branches, duplicated rules, invalid states, or lifecycle risk.
 
-The tell that you skipped this is a new feature that grows an existing if/else chain by one more branch, or a second boolean that must stay in sync with the first. Temporal decomposition is another tell. Phase-named modules repeat the same domain rules across steps.
+**Test:** A new feature grows an existing if/else chain by one more branch, or adds a second boolean that must stay in sync with the first. Temporal decomposition is another tell: phase-named modules repeat the same domain rules across steps. If any of these appear, the domain should be a structure.

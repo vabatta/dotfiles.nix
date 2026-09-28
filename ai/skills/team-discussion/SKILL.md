@@ -1,7 +1,7 @@
 ---
 source: https://github.com/vabatta/dotfiles.nix/blob/main/ai/skills/team-discussion/SKILL.md
 name: team-discussion
-description: Runs a structured discussion with multiple agents for decisions, tradeoffs, architecture questions, and difficult investigations. Use when the user asks to discuss something with a team, panel, roundtable, or multiple perspectives.
+description: "Use when a decision needs several perspectives, such as a roundtable or panel. Runs independent lenses on the same question, surfaces disagreements, and returns one evidenced recommendation."
 ---
 
 # Team Discussion
@@ -15,7 +15,7 @@ edit the repository.
 
 Use this skill for a decision or investigation that benefits from disagreement.
 
-- Use `swarm` when workers can complete independent slices without discussion.
+- Use **delegate** when workers can complete independent slices without discussion.
 - Use `arena` when the output is several competing artifacts that need scoring.
 - Use `interrogate` when an existing change needs adversarial review.
 - Use `how` or `why` when one explanation or evidence search is enough.

@@ -1,15 +1,7 @@
 ---
 source: https://github.com/vabatta/dotfiles.nix/blob/9a25969e4fa5ec8be5b9c334f1154f0d3bae455a/skills/gherkin/SKILL.md
 name: gherkin
-description: >
-  Write production-quality Gherkin `.feature` files that follow all modern best practices.
-  Use this skill whenever the user asks to write, review, fix, or generate Gherkin scenarios,
-  Cucumber feature files, BDD specifications, acceptance criteria in Given/When/Then format,
-  or anything involving `.feature` files. Also trigger when the user mentions "BDD", "behaviour-driven",
-  "behavior-driven", "Given/When/Then", "scenario outline", "feature file", "acceptance test scenarios",
-  "executable specification", or asks to convert requirements/user stories into Gherkin.
-  Even if the user just says "write tests for this feature" or "turn these requirements into scenarios",
-  use this skill — it covers all Gherkin authoring.
+description: Write production-quality Gherkin `.feature` files that follow all modern best practices. Use whenever the user asks to write, review, fix, or generate Gherkin scenarios, Cucumber feature files, BDD specifications, acceptance criteria in Given/When/Then format, or anything involving `.feature` files. Also trigger on BDD, behaviour-driven, behavior-driven, scenario outline, feature file, acceptance test scenarios, or executable specification, or when asked to convert requirements or user stories into Gherkin.
 ---
 
 # Gherkin Feature File Authoring

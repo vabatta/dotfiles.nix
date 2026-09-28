@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/no-comments/SKILL.md
 name: no-comments
-description: Reviews comments and suppressions for durable constraints, removes explanations that duplicate the code, and proposes structural encodings for real constraints.
+description: Use when comments, suppressions, or warnings need cleanup. Remove restatements, keep durable constraints, and encode recurring ones as structure.
 ---
 
 # No Comments

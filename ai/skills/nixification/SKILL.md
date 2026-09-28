@@ -29,7 +29,7 @@ When a dependency is missing, don't just run an ad-hoc `nix shell` one-liner and
 
 ## Finding Packages
 
-Apply [Use Before Build](../principle-use-before-build/SKILL.md) before adding a
+Apply **principle-use-before-build** before adding a
 package. Check the current environment and project dependencies first. Before
 assuming a package name, search for it:
 

@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/figure-it-out/SKILL.md
 name: figure-it-out
-description: "Design an auditable playbook when no narrower one fits: a large migration, an ambitious multi-part change, or work a human reviews after stepping away. Scales rigor to the task, runs a hypothesis loop, and logs decisions via show-me-your-work. Use when asked to figure out a large or multi-phase task, or when no narrower playbook applies."
+description: "Use when a large, cross-cutting, or multi-session change matches no single playbook. Designs an auditable phase plan with a hypothesis loop and a decision trail."
 ---
 
 # Figure it out
@@ -12,9 +12,13 @@ Don't reinvent a playbook you already have. A focused single-unit task that matc
 
 ## Start
 
-Record a task-list whose first item is to read the Principles section of the
-**poteto-mode** skill when the host provides task tracking. Otherwise keep the
-same list in the working notes. Then add the phases below.
+Record a task-list whose first item is to apply the rule skills this playbook
+depends on: **principle-prove-it-works**, **principle-foundational-thinking**,
+**principle-sequence-verifiable-units**, **principle-encode-lessons-in-structure**,
+**principle-laziness-protocol**, **principle-separate-before-serializing-shared-state**,
+**principle-never-block-on-the-human**, and **principle-use-before-build**. Do this
+when the host provides task tracking. Otherwise keep the same list in the working
+notes. Then add the phases below.
 
 ## Phase A: Frame
 
@@ -31,8 +35,8 @@ Present the framing and tradeoffs before committing to a long run. Reversible wo
 Decompose into atomic, independently-landable units. Sequence riskiest-unknown-first so option value stays high. Scaffold and verification come before features (the **foundational-thinking** principle skill).
 
 Before adding a dependency, helper, wrapper, or verification tool, apply
-[Use Before Build](../principle-use-before-build/SKILL.md). Search the existing
-environment and repository before creating new machinery.
+**principle-use-before-build**. Search the existing environment and repository
+before creating new machinery.
 
 - Build the verification harness before the work, with the baseline captured from the pre-change state, so the check reads as "old value vs new value".
 - For one-way-door design decisions, run the **architect** skill (it runs the **arena** workflow) with diverse, isolated, opinionated candidates and a read-only judge on an independent model configuration when the host supports that. Skip it for mechanical work whose shape is already concrete. A second arena over a settled design is over-engineering (the **laziness-protocol** principle skill).

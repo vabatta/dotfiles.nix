@@ -1,16 +1,7 @@
 ---
 source: https://github.com/vabatta/dotfiles.nix/blob/9a25969e4fa5ec8be5b9c334f1154f0d3bae455a/skills/tickets/SKILL.md
 name: tickets
-description: >
-  Use when the user says "ticket", "issue", "board", "backlog", "status",
-  "blocked", "depends on", references a ticket number like "#12", or asks
-  about work status. Also use proactively: when starting implementation (move
-  the ticket to "In progress"), when opening PRs (suggest "Closes #N"), when
-  design reveals new needs (suggest sub-issues), when a ticket depends on
-  another (add a dependency relationship), or when a feature is done (move to
-  "Done"). Trigger whenever GitHub Projects, issue tracking, milestones,
-  labels, dependencies, sub-issues, or workflow status boards are relevant —
-  even if the user doesn't say "ticket" explicitly.
+description: Use when the user mentions a ticket, issue, board, backlog, status, blocked, or dependency, or references a ticket number like 12, or asks about work status. Also use proactively when starting implementation, opening PRs, splitting out sub-issues, recording dependencies, or closing a feature. Trigger whenever GitHub Projects, issue tracking, milestones, labels, dependencies, sub-issues, or workflow status boards are relevant.
 ---
 
 # Ticket Management — GitHub Projects

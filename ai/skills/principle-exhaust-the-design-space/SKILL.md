@@ -8,6 +8,8 @@ description: "Apply when facing a novel UI interaction or architectural decision
 
 When a novel interaction or architectural decision has no established precedent, explore several concrete alternatives before implementation. Building the wrong thing costs more than exploring three options.
 
+**Why:** Building the wrong thing costs more than exploring three options; a decision made without comparison locks in the first idea that came to mind.
+
 **The rule.** When the right answer is not obvious, build 2-3 competing prototypes or sketches. Compare them side by side. Only then commit. Design it twice is this rule by another name. A second flavor of the first shape does not count.
 
 **When it applies:**
@@ -19,3 +21,5 @@ When a novel interaction or architectural decision has no established precedent,
 - Mechanical implementation where the pattern is established
 - Bug fixes or refactors with a clear target state
 - Changes where constraints dictate a single viable approach
+
+**Test:** Did you build and compare at least two genuinely different shapes? One prototype, or three variants of one idea, fails.

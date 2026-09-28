@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-guard-the-context-window/SKILL.md
 name: principle-guard-the-context-window
-description: "Apply when context is filling up: large outputs, long files, repeated reads, fan-out planning. Route bulk to subagents; keep summaries in the main thread, not raw payloads."
+description: Apply when context is filling up, on large outputs, long files, repeated reads, or fan-out planning. Route bulk to subagents and keep summaries in the main thread, not raw payloads.
 ---
 
 # Guard the Context Window
@@ -15,3 +15,5 @@ The context window is finite and non-renewable within a session. Every token tha
 - **Don't read what you won't use.** Read selectively based on relevance. If a file isn't needed for the current task, skip it.
 - **Keep frequently used content inline.** Templates and references used on every invocation belong in the skill file, not in separate files that cost a read each time.
 - **Size phases and cap scope.** Limit files per phase, set turn budgets, account for mechanism costs.
+
+**Test:** Would this token change a decision later in the session? If not, it should not be in the main thread.

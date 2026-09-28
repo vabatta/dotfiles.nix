@@ -1,7 +1,7 @@
 ---
 source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/why/SKILL.md
 name: why
-description: Investigates the evidence behind a design, regression, threshold, or workflow and separates facts from inference.
+description: Use when the reason behind a design, regression, or threshold matters. Searches history and sources and separates facts from inference.
 ---
 
 # Why

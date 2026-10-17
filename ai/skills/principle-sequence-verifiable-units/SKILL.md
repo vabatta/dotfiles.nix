@@ -1,24 +1,19 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-sequence-verifiable-units/SKILL.md
 name: principle-sequence-verifiable-units
-description: "Apply to multi-step work (sweeps, migrations, runs of similar edits) and to how you stack commits and PRs. Break work into small units that each end in a verifiable state, check each before the next, and order delivery so the sequence proves itself to a reviewer."
+description: "Apply when work spans many steps or commits that need checkable intermediate states. Split it into units that each end at a passing check, and order the delivery so the sequence replays."
 ---
 
-# Sequence work into verifiable units
+# Sequence Verifiable Units
 
-Order work as a sequence of small units, each ending in a state you can check, and don't advance until the current one is green. The same discipline runs at two altitudes, how you execute and how you deliver.
+Order work as small units, each ending in a state that can be checked, and advance only when the current unit is green. The same discipline runs at two altitudes, execution and delivery.
 
-**Why:** A break caught at the unit that caused it is cheap to localize. A break caught after a batch is buried, and you have already built further on a broken base. Sequencing those same units into a delivery a reviewer can replay turns "trust me" into "watch it go red, then green."
-
-**Execution.** In a sweep, migration, or any run of similar edits, verify each change before starting the next. Never batch the edits and verify once at the end. Each unit is a before/after bracket: known-good state, one change, run the check, then proceed. Rebase onto clean trunk first so every check measures against the real baseline. When a lever does the edits, the per-unit check is nearly free; run it anyway.
-
-**Delivery.** Stack commits and PRs in the order that proves the work. The canonical shape is the failing test first, then the fix on top. The first unit shows the bug is real (red), the next shows it resolved (green), so a reviewer sees both the problem and the proof. Other story orders are a subtraction before the reshape, a baseline capture before the treatment, the scaffold before the feature. Each commit lands on its own and the sequence reads as an argument.
+**Why:** A break caught at the unit that caused it is cheap to localize. A break caught after a batch is buried under further work built on a broken base. Sequenced units a reviewer can replay turn "trust me" into "watch it go red, then green."
 
 **Pattern:**
-- Pick the smallest unit that ends in a check: an edit plus its test, or a commit that stands alone.
-- Verify before advancing. Red to green per unit, never deferred to a final batch.
-- Order the units so the sequence builds confidence on its own, for you while executing and for a reviewer reading the stack.
+- **Pick the smallest unit that ends in a check,** such as an edit plus its test, or one independently revertable commit. When no check exists, unit 1 builds the smallest one and pins current behavior.
+- **Verify each change before starting the next** in a sweep, migration, or run of similar edits. Each unit is a before/after bracket: known-good state, one change, run the check. Rebase onto clean trunk first so every check measures against the real baseline.
+- **Stack commits and PRs in the order that proves the work.** The canonical shape is the failing test first, then the fix on top. The red-first commit counts as passing when its check is the failing run itself: the test fails for the stated reason, and the run is recorded in the commit message. Every other commit, and every phase boundary, is green. Other story orders are a subtraction before the reshape, a baseline capture before the treatment, and the scaffold before the feature. Each commit lands on its own.
 
-The sequencing complement to the **prove-it-works** principle skill, which keeps each check real, and the **build-the-lever** principle skill, which makes the per-unit check cheap.
+**Test:** Every unit ends at a passing check (for a red-first commit, the recorded failing run) recorded before the next unit starts, every phase boundary is a green commit, and the final stack reads as the problem then the proof.
 
-**Test:** Every unit ends red-then-green before the next begins, and the final stack reads as the problem then the proof. A check deferred to the end of a batch is not sequenced.
+Complements **principle-prove-it-works**, which keeps each check real, and **principle-build-the-lever**, which makes the per-unit check cheap.

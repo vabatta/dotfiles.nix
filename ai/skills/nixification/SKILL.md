@@ -1,7 +1,6 @@
 ---
-source: https://github.com/vabatta/dotfiles.nix/blob/a4e009a74623947a5e6dab841c22b6dcde01dbb1/skills/nixification/SKILL.md
 name: nixification
-description: Use this skill whenever a required tool, binary, library, or dependency is missing from the current machine. Trigger when you encounter "command not found", missing package errors, unavailable system dependencies, or when the user explicitly says mention nix. Also trigger when the user asks you to create or maintain a flake.nix, set up a reproducible dev environment, or wrap a project in a Nix flake. If you already tried to install something with apt/brew/pip and it failed or is unavailable, and the user tells you to use nix instead, this is your skill. Do NOT trigger for NixOS system configuration, home-manager, or deploying NixOS machines — only for using nix as a dependency/tooling provider.
+description: "Resolves a missing tool, binary, library, or dependency with Nix flakes or an ephemeral shell. Use on command not found, missing-package errors, or a request to create a flake.nix or reproducible environment. Not for NixOS system or home-manager configuration, nor for errors whose cause is not an absent tool."
 ---
 
 # Nixification
@@ -10,21 +9,21 @@ Resolve missing tools and dependencies using Nix, favoring flakes for reproducib
 
 ## Core Principle
 
-When a dependency is missing, don't just run an ad-hoc `nix shell` one-liner and move on. Prefer creating (or extending) a `flake.nix` so the environment is reproducible. Fall back to ephemeral `nix shell` only for one-off, throwaway commands.
+When a dependency is missing, don't just run an ad-hoc `nix shell` one-liner and move on. Prefer creating (or extending) a `flake.nix` so the environment is reproducible. Fall back to ephemeral `nix shell` only for one-off, throwaway commands. Tie-break: one tool used once means ephemeral. A tool reused, or two or more tools, means a flake.
 
 ## Decision Flow
 
 1. **Check if a `flake.nix` already exists** in the project root (or the working directory).
-   - If yes → read it, add the missing package to `buildInputs`, and enter the environment with `nix develop`.
+   - If yes → read it, add the missing package to `buildInputs` (or create a `devShells` output from the template when none exists), and enter the environment with `nix develop`.
    - If no → decide whether to create one (see below).
 
 2. **Create a `flake.nix` when:**
-   - The task involves more than one dependency.
+   - The task involves more than one dependency, or one tool that will be reused.
    - The user is working inside a project directory that will persist.
    - The user explicitly asks for a flake.
 
 3. **Use ephemeral `nix shell` when:**
-   - You need a single binary for a one-off command (e.g., `nix shell nixpkgs#jq --command jq '.name' file.json`).
+   - A single binary is needed once, for a one-off command (e.g., `nix shell nixpkgs#jq --command jq '.name' file.json`).
    - The user explicitly asks for a quick/throwaway approach.
 
 ## Finding Packages
@@ -40,10 +39,10 @@ nix search nixpkgs <query> --json 2>/dev/null | head -80
 If `nix search` is slow or unavailable, fall back to:
 
 ```bash
-nix eval --expr 'let pkgs = import <nixpkgs> {}; in builtins.attrNames pkgs' --json 2>/dev/null | tr ',' '\n' | grep -i <query>
+nix eval --impure --json --expr 'builtins.attrNames (builtins.getFlake "nixpkgs").legacyPackages.${builtins.currentSystem}' | tr ',' '\n' | grep -i <query>
 ```
 
-Use the `packages.x86_64-linux` attribute path (adjust arch if needed). Package names in nixpkgs often differ from the binary name — e.g., the `rg` binary is `ripgrep`, `fd` is `fd`, `python3` may be `python3Full` or `python312`.
+Package names in nixpkgs often differ from the binary name — e.g., the `rg` binary is `ripgrep`, `fd` is `fd`, `python3` may be `python3Full` or `python312`.
 
 ## Ephemeral Shell (one-off)
 
@@ -71,59 +70,49 @@ When creating a new flake, use this minimal template:
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    flake-utils.url = "github:numtide/flake-utils";
   };
 
-  outputs = { self, nixpkgs, flake-utils }:
-    flake-utils.lib.eachDefaultSystem (system:
-      let
-        pkgs = nixpkgs.legacyPackages.${system};
-      in
-      {
-        devShells.default = pkgs.mkShell {
+  outputs = { nixpkgs, ... }:
+    let
+      systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
+      forAll = f: nixpkgs.lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system});
+    in
+    {
+      devShells = forAll (pkgs: {
+        default = pkgs.mkShell {
           buildInputs = with pkgs; [
             # Add packages here
           ];
-
-          shellHook = ''
-            echo "nixification: dev shell ready"
-          '';
         };
       });
+    };
 }
 ```
 
-After creating or editing `flake.nix`:
+The template needs only `nixpkgs`, so it adds no `flake-utils` input. After writing `flake.nix`, run in this order. Nix flakes read only git-tracked files, so stage each new file before the next command:
 
 ```bash
-# Generate the lock file
-nix flake update
-
-# Enter the dev shell
+git add flake.nix      # only in a git repo
+nix flake lock
+git add flake.lock     # only in a git repo
 nix develop
 ```
 
-If git is in use and `flake.nix` is new, stage it first — Nix flakes require tracked files:
-
-```bash
-git add flake.nix flake.lock
-```
+Done when the missing binary resolves inside `nix develop` (`command -v <binary>`).
 
 ## Extending an Existing flake.nix
 
-Read the current file, locate the `buildInputs` list, and append the missing package. Do not rewrite unrelated parts of the flake. After editing, run `nix flake update` only if you changed `inputs`; otherwise just re-enter with `nix develop`.
+Read the current file, locate the `buildInputs` list, and append the missing package. Do not rewrite unrelated parts of the flake. After editing, run `nix flake lock` only after adding an input; otherwise just re-enter with `nix develop`.
 
 ## Handling `experimental-features`
 
-Flakes may require opt-in. If you get an error about experimental features:
-
-```bash
-mkdir -p ~/.config/nix
-echo "experimental-features = nix-command flakes" >> ~/.config/nix/nix.conf
-```
-
-Do this once, then retry the command.
+Flakes may require opt-in. If an error about experimental features appears, rerun the command with `--extra-experimental-features 'nix-command flakes'`.
 
 ## Troubleshooting
 
-Ask the human what to do.
+Decide and proceed. Ask only before a one-way door, such as changing the pinned nixpkgs of a shared flake.
+
+- Package not found: search again with a broader query, check the binary-to-package name map above, then fall back to the `nix eval --impure` listing.
+- `has an unfree license` error: rerun with `NIXPKGS_ALLOW_UNFREE=1` and `--impure`, and report that the package is unfree.
+- `not supported on this system` error: look for an alternative package, else tell the human that no build exists for this platform.
+- Download or cache failure: retry once, then report the unreachable host and the command to rerun.

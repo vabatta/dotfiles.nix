@@ -1,7 +1,6 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/arena/SKILL.md
 name: arena
-description: "Use when choosing between competing designs, implementations, or approaches. Produces candidates in isolation, scores them against a rubric, and verifies the synthesized result."
+description: "Builds competing candidate artifacts in isolation, scores them against a rubric, and synthesizes one result. Use when asked to implement or draft several versions and pick the best, not for one design to build or a feel test. Trigger on bake-off, score the options, or compare candidate implementations."
 ---
 
 # Arena
@@ -9,17 +8,28 @@ description: "Use when choosing between competing designs, implementations, or a
 Use an arena for a design or implementation choice with several credible
 solutions. Do not use it for a mechanical change.
 
-1. Define the artifact and a three-to-six-point rubric.
+1. Define the artifact, its definition of done, and a three-to-six-point rubric.
+   Done when all three are written.
 2. Produce at least two structurally different candidates when the decision is
    architectural.
-3. Give each writer the same brief and an isolated output location.
+3. Fan the writers out per **delegate**, each with its own directory under
+   `.agent/runs/arena/<slug>/candidate-N/`. Candidates
+   are working state and stay out of git, so ignore `.agent/` first per the rule
+   in the skills `AGENTS.md`. Isolation comes from the separate directories (**principle-separate-before-serializing-shared-state**).
 4. Read every candidate and score it against the rubric.
-5. Select the base with the smallest, clearest public surface.
+5. Select the base by rubric score. Break ties with the smallest, clearest
+   public surface.
 6. Graft only ideas that preserve one coherent design. Record rejected ideas.
 7. Verify the synthesized artifact against the original definition of done.
-
-The host chooses whether to delegate, which models to use, and how to schedule
-workers. If delegation is unavailable, perform the candidates sequentially.
+8. Fold the verdict into real code, unless the caller asked only for the
+   selected artifact. When the decision is hard to reverse,
+   surprising, or a real trade-off, record it as an ADR via the
+   **domain-modeling** skill, which owns the ADR format and location; the
+   rejected ideas are exactly what an ADR should carry. Write the rejected ideas
+   into the rationale or ADR before deleting the candidate directories, which
+   stay working state.
 
 Return the candidates considered, the rubric scores, the selection, the grafts,
 the rejected ideas, and the verification result.
+
+For a human-felt throwaway comparison rather than scored candidates, use **prototype**.

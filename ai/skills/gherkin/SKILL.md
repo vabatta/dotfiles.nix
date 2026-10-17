@@ -1,18 +1,19 @@
 ---
-source: https://github.com/vabatta/dotfiles.nix/blob/9a25969e4fa5ec8be5b9c334f1154f0d3bae455a/skills/gherkin/SKILL.md
 name: gherkin
-description: Write production-quality Gherkin `.feature` files that follow all modern best practices. Use whenever the user asks to write, review, fix, or generate Gherkin scenarios, Cucumber feature files, BDD specifications, acceptance criteria in Given/When/Then format, or anything involving `.feature` files. Also trigger on BDD, behaviour-driven, behavior-driven, scenario outline, feature file, acceptance test scenarios, or executable specification, or when asked to convert requirements or user stories into Gherkin.
+description: "Writes production-quality Gherkin `.feature` files. Use when asked to write, review, fix, or generate Gherkin scenarios, Cucumber feature files, BDD specifications, or Given/When/Then acceptance criteria, or to convert requirements or user stories into Gherkin. Trigger on BDD, behaviour-driven, behavior-driven, scenario outline, or executable specification."
 ---
 
 # Gherkin Feature File Authoring
 
-You write `.feature` files using the Gherkin language (the syntax understood by Cucumber and compatible BDD frameworks). Your output must read as **living documentation** — plain-English specifications that any stakeholder (product owner, developer, tester) can understand without technical knowledge.
+Write `.feature` files using the Gherkin language (the syntax understood by Cucumber and compatible BDD frameworks). The output must read as **living documentation** — plain-English specifications that any stakeholder (product owner, developer, tester) can understand without technical knowledge.
 
-## Before You Write Anything
+## Before Writing Anything
 
-1. Read `references/gherkin-syntax.md` for the **complete keyword reference and structural rules**.
-2. Read `references/best-practices.md` for **style rules, anti-patterns, and the BRIEF principles**.
-3. Apply every rule below on top of those references.
+1. One or two scenarios in a familiar shape: skip the references and go to the rules below. Otherwise read `references/gherkin-syntax.md` for the keyword reference and structural rules, before writing any keyword. Its samples are upstream Cucumber text in first person, so write third person per section 17.
+2. For a whole feature, read `references/best-practices.md` for style rules, anti-patterns, and the BRIEF principles, before drafting scenarios.
+3. Apply every rule below. Put the file where the repo keeps its features, else `features/<slug>.feature`.
+
+**Review or fix mode.** For an existing `.feature` file, check it against the Output Checklist and list each violation with the quoted step. Then apply the fixes in place. Done when the file passes every item.
 
 ## Core Principles (Non-Negotiable)
 
@@ -58,7 +59,7 @@ Each step should express a single business-meaningful action or assertion, not a
 
 ### 3. One Scenario = One Behaviour
 
-Each scenario tests exactly **one** business rule or acceptance criterion. It should fail for exactly **one** reason. If you find yourself testing multiple outcomes, split into separate scenarios.
+Each scenario tests exactly **one** business rule or acceptance criterion. It should fail for exactly **one** reason. When a scenario tests multiple outcomes, split into separate scenarios.
 
 ### 4. The Given/When/Then Contract
 
@@ -72,7 +73,7 @@ Use `And` / `But` for continuation. Never repeat the parent keyword (`Given … 
 
 ### 5. Scenario Length
 
-Aim for **3–5 steps** per scenario. If you exceed 5 steps, the scenario likely tests more than one behaviour or contains incidental detail. Push complexity into `Background` or higher-level step abstractions.
+Aim for **3–5 steps** per scenario. When a scenario exceeds 5 steps, the scenario likely tests more than one behaviour or contains incidental detail. Push complexity into `Background` or higher-level step abstractions.
 
 ### 6. Feature File Structure
 
@@ -188,6 +189,8 @@ Positive scenarios alone do not fully specify a feature. Business rules are ofte
 
 A negative scenario follows the same Given/When/Then structure. The `Then` step describes the observable refusal or error outcome, not the internal reason. Use `But` when a negative assertion follows a positive one within the same scenario.
 
+When the source defines no limit or rejection (a discount above 100 percent, say), do not invent the behaviour. List it as an open question for the requester and leave the scenario out.
+
 When a rule has a threshold or limit, consider boundary scenarios that test the values at, just below, and just above the boundary. These expose off-by-one and comparison-operator ambiguities that prose specifications frequently leave unclear.
 
 ### 17. Actors and Perspective
@@ -198,7 +201,7 @@ When a feature involves multiple actors (one role configures something, another 
 
 ## Output Checklist
 
-Before delivering any `.feature` file, verify every item:
+Before delivering any `.feature` file, verify every item. Done when all pass. Grep the steps for the forbidden words in section 1 and judge the rest yourself, unless a domain term legitimately uses one (a leave request):
 
 - [ ] Every step uses domain language; zero UI/tech/API terms leak through
 - [ ] Every scenario has exactly one `When` block

@@ -368,6 +368,9 @@ def main():
 
     # Generate benchmark
     benchmark = generate_benchmark(args.benchmark_dir, args.skill_name, args.skill_path)
+    if not benchmark["runs"]:
+        print(f"No graded runs found in {args.benchmark_dir}. Expected eval-N/<config>/run-N/grading.json.")
+        sys.exit(1)
 
     # Determine output paths
     output_json = args.output or (args.benchmark_dir / "benchmark.json")

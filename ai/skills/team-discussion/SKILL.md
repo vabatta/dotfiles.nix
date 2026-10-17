@@ -1,7 +1,6 @@
 ---
-source: https://github.com/vabatta/dotfiles.nix/blob/main/ai/skills/team-discussion/SKILL.md
 name: team-discussion
-description: "Use when a decision needs several perspectives, such as a roundtable or panel. Runs independent lenses on the same question, surfaces disagreements, and returns one evidenced recommendation."
+description: "Runs independent lenses on one question and returns one evidenced recommendation, surfacing where perspectives disagree. Use when one question needs several viewpoints, such as a roundtable or panel. Trigger on roundtable, panel, get perspectives, or what do others think. Not for splitting work into slices."
 ---
 
 # Team Discussion
@@ -16,9 +15,11 @@ edit the repository.
 Use this skill for a decision or investigation that benefits from disagreement.
 
 - Use **delegate** when workers can complete independent slices without discussion.
-- Use `arena` when the output is several competing artifacts that need scoring.
-- Use `interrogate` when an existing change needs adversarial review.
-- Use `how` or `why` when one explanation or evidence search is enough.
+- Use **arena** when the output is several competing artifacts that need scoring.
+- Use **adversarial-review** when an existing change needs adversarial findings.
+- Use **how** or **why** when one explanation or evidence search is enough.
+
+If the question has product or UX tradeoffs, weigh them per **principle-experience-first**.
 
 ## Discussion Protocol
 
@@ -32,12 +33,11 @@ claims the participants must investigate.
 
 Choose three to five distinct roles based on the question. Useful lenses include
 user impact, implementation design, operations, security, testing, maintenance,
-and deliberate dissent. Give every participant the same grounding and a
-specific responsibility. Do not assign roles by model name.
+and deliberate dissent. Brief each participant per **delegate** as a read-only `judgment` worker, on the session model unless the caller asks for diverse models.
 
 ### 3. First Round
 
-Run the participants independently before showing them other responses. Each
+Run the participants independently before showing them other responses. When the host cannot delegate, write each lens's position to its own section before drafting the next, never revise an earlier one, and state in the output that independence was simulated. Each
 returns:
 
 - Position and confidence.
@@ -46,8 +46,7 @@ returns:
 - Risks and counterexamples.
 - The condition that would change the position.
 
-Use the host's delegation capability when available. Keep participants
-read-only unless the discussion explicitly requires a separate prototype.
+Done when every lens has returned all five items.
 
 ### 4. Synthesize
 
@@ -57,7 +56,7 @@ evidence from agreement caused by identical assumptions.
 
 ### 5. Challenge
 
-Run a second round only on material disagreements or unsupported assumptions.
+Run at most one extra round, only on material disagreements or unsupported assumptions, unless the coordinator names a new material gap.
 Give each participant the opposing claims and ask for a rebuttal, an update to
 confidence, or an explicit concession. Do not restart the whole discussion.
 
@@ -79,6 +78,6 @@ Return:
 - The recommendation and confidence.
 - The next action or the reason no decision is ready.
 
-Inspect the actual participant outputs. Treat their reports as evidence to
-check, not as proof. If delegation is unavailable, run the lenses sequentially
-and keep the same output contract.
+Verify participant outputs per **principle-prove-it-works**.
+
+**Test:** the coordinator re-read or re-ran every cited path and number, and the output has every contract item.

@@ -32,7 +32,7 @@ STE bans hedges ("may have impacted") — the report states what is known and sa
 
 ## Commit messages and PR descriptions
 
-Mode: descriptive body, imperative subject. Convention already matches STE: imperative subject line, plain past facts in the body. Apply the substitution table and the 25-word limit to the body. Delete "this PR aims to".
+Mode: descriptive body, imperative subject. Convention already matches STE: imperative subject line, plain past facts in the body. Apply **unslop** and the 25-word limit to the body. Delete "this PR aims to".
 
 ## API changelogs and release notes
 

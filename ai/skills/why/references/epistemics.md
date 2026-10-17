@@ -6,7 +6,7 @@ Code doesn't carry its own motivation. You can read what code does; you can't re
 
 ## Confidence Tiers
 
-Every claim in the final output must sit in one of these tiers. The tier determines which output section the claim goes in and how it's phrased.
+Every claim in the final output must sit in one of these tiers. The tier determines how it's phrased and whether it needs a citation.
 
 ### 1. Direct
 
@@ -50,7 +50,7 @@ Examples:
 - "This might be a workaround for a browser bug that's since been fixed, but we found no contemporary evidence of that."
 - "It's possible this threshold was chosen to match an SLA commitment, but no SLA doc references it."
 
-Phrasing: explicitly speculative. "One possibility is X, but we have no direct evidence." Usually lives in the "Competing Hypotheses" section alongside other possibilities.
+Phrasing: explicitly speculative. "One possibility is X, but we have no direct evidence." Present it beside the other competing possibilities.
 
 ### 5. Unknown
 
@@ -84,7 +84,7 @@ If you're using these, you should have a citation immediately adjacent.
 - "may have been"
 - "the evidence points toward"
 
-These signal that you're interpreting, not reporting. Use them liberally in the "What We Can Reasonably Infer" section.
+These signal that you're interpreting, not reporting. Use them for every Inferred claim.
 
 ### Words to avoid
 
@@ -136,9 +136,9 @@ When you hit a gap, name it concretely:
 
 ## Calibration Check Before Finalizing
 
-Before delivering the output, the synthesizer should review every claim in "What We Found" and "What We Can Reasonably Infer" and ask:
+Before delivering the output, review every claim and ask:
 
-1. Does this claim have a citation? If not, either add one or move it to "Inferred" / "Hypotheses".
+1. Does this claim have a citation? If not, either add one or move it to Inferred or Speculative.
 2. Is the phrasing calibrated to the tier? (A Direct claim can use "because"; an Inferred claim cannot.)
 3. Am I treating the code itself as evidence for its own intent? If so, that's not evidence. Remove or reclassify.
-4. Does the output include a "What We Don't Know" section? If no gaps are mentioned, that's suspicious. Either the evidence was unusually complete or something is being swept under the rug.
+4. Does the output name its gaps? If no gaps are mentioned, that's suspicious. Either the evidence was unusually complete or something is being swept under the rug.

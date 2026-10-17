@@ -1,8 +1,8 @@
 # GitHub API Reference
 
 Two calling conventions: `gh` CLI commands (preferred) and `gh api` REST
-calls (for operations the CLI doesn't wrap). No GraphQL — every operation
-this skill needs has a REST equivalent.
+calls (for operations the CLI doesn't wrap). GraphQL is needed only to update
+single-select field options (section 4).
 
 All `gh api` calls need the version header:
 `-H "X-GitHub-Api-Version: 2026-03-10"`

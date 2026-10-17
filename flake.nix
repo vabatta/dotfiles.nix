@@ -51,7 +51,7 @@
             nativeBuildInputs = [ pkgs.bash ];
           }
           ''
-            bash ${./scripts/check-skills.sh} ${./ai/skills}
+            bash ${./scripts/check-skills.sh} ${./ai/skills} ${./ai/AGENTS.md} ${./ai/skills-guide.html}
             touch $out
           '';
 

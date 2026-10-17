@@ -1,31 +1,18 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/technical-writing/SKILL.md
 name: technical-writing
-description: A layered technical-writing standard covering Diátaxis structure, Google developer style sentences, STE instruction rules, and Global English syntax. Use when writing or reviewing docs, RFCs, readmes, PR descriptions, or commit messages.
+description: "Applies a four-layer technical-writing standard covering Diátaxis structure, Google developer style sentences, STE instruction rules, and Global English syntax. Use when creating or structuring a doc, readme, RFC, PR description, or commit message."
 ---
 
 # Technical writing
 
 The goal is writing a tired engineer understands on the first read. Four layers get you there, one question each: what kind of document is this, how do sentences address the reader, how much does each sentence carry, and can any sentence be read two ways. Apply all four.
 
-Three rules sit above the layers:
+Two rules sit above the layers:
 
-- **Cut every word that does no work.** If the sentence survives without a word, the word goes. "In order to" is "to". "It is important to note that" is nothing.
-- **Use the short, everyday word.** "Use", not "utilize". "Help", not "facilitate". "Do", not "perform". A long word has to buy its length with precision.
 - **When a rule makes a sentence worse, fix the sentence another way or leave it alone.** The rules serve the reader. A sentence that follows every rule and sounds like a machine wrote it has failed.
+- **The codebase is the word list.** Write the real symbol, file, flag, or command name, not a synonym or a description of it.
 
-The codebase is the word list. Write the real symbol, file, flag, or command name, not a synonym or a description of it.
-
-Don't invent jargon. Use the words a developer would say out loud: "move", "delete", "a budget that only decreases", not "evacuate", "ratchet", or "endgame". A named pattern is fine when the doc says what it means the first time. Add new offenders to `unslop`'s abstract-metaphor rule with their replacement.
-
-## Vary the rhythm
-
-The layers decide what a document says and how much each sentence carries. A doc can obey all of them and still read machine-written: every sentence clipped short, no view anywhere, nothing specific.
-
-- Mix sentence lengths on purpose. Short sentences land a point. Longer ones that take their time carry a fact with its condition or consequence.
-- One thought per sentence does not mean one length per sentence. Split the sentence that carries two thoughts. Keep the long sentence that carries one.
-- Have a view where the mode allows it. Explanation weighs trade-offs, so say what you make of them instead of listing pros and cons. Reference stays dry.
-- Be specific over sterile. Not "schema changes can cause issues" but "a column rename fails the build".
+Word choice, filler, invented jargon, active voice, rhythm, and specificity belong to **unslop**. Simplified Technical English belongs to **simple-english**.
 
 ## Pick the mode first (Diátaxis)
 
@@ -46,14 +33,13 @@ Use the compass on a whole document or on one sentence. Reach for it whenever yo
 
 **Explanation: understanding and why.** One bounded topic, readable away from the product. Each title should tolerate an implicit "About..." in front. Anchor on a real why question. Give context: design decisions, history, constraints, alternatives. Opinion is allowed here and nowhere else.
 
-Don't mix modes: no reference tables inside a tutorial, no tutorial hand-holding inside reference, no arguing inside a how-to. Split and link instead.
+Don't mix modes: no reference tables inside a tutorial, no tutorial hand-holding inside reference, no arguing inside a how-to. Split and link instead. A README is one file, so give each mode its own heading section (a how-to quick start, then a short explanation) and link out to separate files for anything longer.
 
 Source: diataxis.fr, fetched 2026-07-18.
 
 ## Write sentences to the reader (Google developer style)
 
 - Talk to the reader as "you", in the present tense. "Will" only for things that genuinely happen later.
-- Say who does what: "the compiler checks", not "is checked". Passive is fine only when the actor is unknown or beside the point.
 - Write instructions as commands: "Click Submit." State facts plainly. Never "should be done".
 - Put the condition before the instruction: "To delete the document, click Delete." The reader skips what does not apply.
 - Put the common case first. Exceptions after.
@@ -69,16 +55,14 @@ Source: developers.google.com/style, fetched 2026-07-18.
 
 ## Make statements load one at a time (STE rules)
 
-- One instruction per sentence. One thought per sentence everywhere else.
-- Split instructions longer than about 20 words and other sentences longer than about 25.
-- Put the warning or condition before the step it guards: "If hot oil touches your skin, injuries can occur."
-- Keep "the" and "a": "Remove backup file" reads two ways. "Remove the backup file" reads one.
-- Give each word one meaning and one job, then keep it. If "check" means inspect, don't also use it for restrain.
-- Pick one word per action and stick to it: "start", not "start" here and "initiate" there.
-- Write procedures as direct commands, never as narration and never in the passive: "Install the component", not "the component must be installed".
-- Avoid "-ing" words where you can. They take too many grammatical jobs and breed misreadings.
+Apply these to instructions. **simple-english** adds the full 53-rule pass, word limits, and approved vocabulary beyond them.
 
-Source: asd-ste100.org (Issue 9, 2025), fetched 2026-07-18. The numbered rules and dictionary live in the spec PDF. The principles above are the transferable core.
+- One instruction per sentence, in the imperative, 20 words at most. Descriptive sentences take 25.
+- Put the condition before the command: "If the build fails, read the log."
+- Use active voice, simple tenses, and no "-ing" verbs, "has been", or "should".
+- Write two sentences instead of a semicolon.
+- Keep articles and "that". Use no contractions.
+- Use one word per concept across the document.
 
 ## Leave no sentence open to two readings (Global English)
 
@@ -89,20 +73,19 @@ Source: asd-ste100.org (Issue 9, 2025), fetched 2026-07-18. The numbered rules a
 - Keep the small words that show structure. "Ensure that the switch is off" keeps "that" because it makes the sentence parse one way. Never trade clarity for word count.
 - Repeat the article in a series when it prevents a misread: "the client and the host", not "the client and host", when they are two things.
 - Say which parts "and" or "or" joins when a sentence can group two ways. "Both...and", "either...or", and "if...then" are free disambiguators.
-- Use periods, not semicolons. Replace an em dash with a new sentence.
-- Make text in parentheses a full grammatical unit or its own sentence. Never form plurals with "(s)".
+- Punctuation follows **simple-english** for semicolons and **unslop** for em dashes.
+- Avoid parenthetical asides, per **unslop**. A parenthesis that stays holds a full grammatical unit. Never form plurals with "(s)".
 - No slashes: write "a, b, or both" instead of "a/b" or "and/or".
-- Call each thing by one name, everywhere. A doc that says "the gate", "the ratchet", and "the budget check" for one thing teaches three things. Rewording an unchanged sentence between edits costs the same way: don't churn what didn't change.
+- Name each thing once, per **simple-english**. A doc that says "the gate", "the ratchet", and "the budget check" for one thing teaches three things. Do not reword an unchanged sentence between edits.
 - Skip idioms, colloquialisms, Latin abbreviations, and metaphors. A non-native reader, a translator, and an agent all parse plain constructions best.
 
 Source: Kohl, The Global English Style Guide (SAS Press). Guideline text fetched from the Internet Archive and the SAS sample chapter, 2026-07-18.
 
 ## Voice and repo specifics
 
-- Apply the **unslop** skill to every doc this skill touches. That skill owns the slop-pattern catalog: AI vocabulary, filler, hedging, formatting tells.
-- PR descriptions and commit messages are writing too. Every layer except Diátaxis applies to them.
-- Product UI strings are not documentation. Use your product's copy guidelines for those.
-- Indent code snippets with tabs. Write real paths and real symbols. Make every count or tree claim true at the commit that lands it, and include the command that regenerates it.
+- Apply **unslop** to every doc this skill touches, as the last pass after the other layers. It owns the slop-pattern catalog and the voice rules. Keep opinion to explanation docs.
+- PR descriptions and commit messages are writing too. Every layer except Diátaxis applies to them. For a PR description with a verification write-up, use the PR-body shape owned by **blast-radius**.
+- Write real paths and real symbols. Make every count or tree claim true at the commit that lands it, and include the command that regenerates it.
 
 ## Worked example
 
@@ -114,17 +97,17 @@ After:
 
 > `budget.mjs` reads the committed budget from `budget.json` and counts the files that import protos. If the count exceeds the budget, CI fails. Run `budget.mjs --write` only to lower the budget.
 
-The fixes, by layer: "configuration is performed" becomes "`budget.mjs` reads", so someone does something (Google). "Ratchet" goes away. The script's real filename does the naming (jargon rule). The five-noun string breaks up into plain clauses (Global English). The hedge "note that it's important to remember" is deleted (cut every word that does no work). The failure condition moves ahead of the step it explains (STE). The buried "should only be done when lowering" becomes a command with "only" next to its verb (STE). "If exceeded" gets a subject: the count (Global English).
+The fixes, by layer: "configuration is performed" becomes "`budget.mjs` reads", so someone does something (**unslop**). "Ratchet" goes away. The script's real filename does the naming (**unslop**). The five-noun string breaks up into plain clauses (Global English). The hedge "note that it's important to remember" is deleted (**unslop**). The failure condition moves ahead of the step it explains (STE). The buried "should only be done when lowering" becomes a command with "only" next to its verb (STE). "If exceeded" gets a subject: the count (Global English).
 
 ## Review checklist
 
-Apply to any prose this skill covers. Item 1 applies only to document sets:
+Apply to any prose this skill covers. Done when every item passes. Item 1 applies to document sets and READMEs:
 
-1. Is each file one Diátaxis mode, with links where modes meet?
+1. Is each file, or each README section, one Diátaxis mode, with links where modes meet?
 2. Is every instruction written as a command, with its condition in front?
 3. Does any sentence carry two instructions or two thoughts? Split it.
-4. Can any word be cut without losing meaning? Cut it.
+4. Does **unslop** find anything to cut or replace?
 5. Is "only" next to the word it changes? Does every "it" point at one thing? Does every clause keep its verb?
 6. Does each thing have exactly one name across the docs?
-7. Would a developer say these words out loud? Replace invented metaphors and fancy synonyms with the plain word or the real symbol name.
+7. Does every name match the real symbol, file, flag, or command?
 8. Are all symbols, paths, and counts real at this commit, with the commands that regenerate the counts?

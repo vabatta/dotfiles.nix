@@ -1,34 +1,21 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-boundary-discipline/SKILL.md
 name: principle-boundary-discipline
-description: Apply when wiring validation, error handling, or framework adapters. Concentrate guards at system boundaries (CLI, config, network, external APIs). Trust internal types and keep business logic in pure functions.
+description: "Apply when external data enters the system, such as the CLI, config, network, or an external API. Validate and handle errors there, and trust internal types so business logic stays pure."
 ---
 
 # Boundary Discipline
 
-Place validation, type narrowing, and error handling at system boundaries. Trust internal code unconditionally. Business logic lives in pure functions; the shell is thin and mechanical.
+Place validation, type narrowing, and error handling at system boundaries. Trust internal code. Keep business logic in pure functions and the shell thin and mechanical.
 
-**Why:** Scattered validation is noisy, redundant, and gives a false sense of safety. Validate data once at the boundary. Keep logic out of framework wiring so it can be tested without the framework.
+**Why:** Scattered validation is noisy, redundant, and gives a false sense of safety. Validate once at the boundary. Keeping logic out of framework wiring lets it be tested without the framework.
 
-**The pattern:**
-- **At boundaries** (CLI args, config files, external APIs, network protocols): validate, return errors, handle defensively.
-- **Inside the system:** typed data, error propagation, no re-validation. Trust the types.
-- **Across the boundary.** Expose domain concepts, not the boundary's private representation. Keep general-purpose mechanism inside and special-purpose policy at the edge.
+**Pattern:**
+- **At boundaries** (CLI args, config files, external APIs, network protocols): validate, parse raw data into domain types, return one error type with messages written for the caller, not exception reprs, handle defensively.
+- **Inside the system:** typed data and error propagation. Trust the types.
+- **Across the boundary:** expose domain concepts and keep transport, storage, framework, and wire types behind it. Put a rule every entry point shares, such as a 0..100 range, in the domain type, and a rule one entry point needs, such as a CLI default, at that edge.
+- **Logic:** put it in pure functions with no framework dependencies, and have the shell call them.
+- **Interior callers:** migrate callers a new domain type breaks, per **principle-migrate-callers-then-delete-legacy-apis**.
 
-**Applications:**
+**Test:** Grep the interior modules for `isinstance`, `except`, `raise`, and range or `None` checks on raw input. Every hit sits in a parse function or the shell, and a hit on an already-parsed value is deleted. Each piece of logic is a pure function the shell calls.
 
-Validation and error handling:
-- Validate config at parse time (the boundary), not inside business logic
-- Parse raw data into domain types at the boundary
-- Do not re-export transport, storage, framework, or wire types through the public surface
-- No redundant nil checks deep in call chains if the boundary already validated
-
-Code organization:
-- Business logic in pure functions with no framework dependencies
-- Parse functions: pure transforms from raw bytes to typed state
-- Prompt construction: structured state in, string out
-- Scoring and assessment: pure transforms from state to results
-
-**The tests:**
-- "Is this data crossing a system boundary right now?" If not, validation is redundant.
-- "Can this be a pure function that the shell just calls?" If yes, extract it.
+For the typed-language mechanics that express the boundary, see **principle-type-system-discipline**.

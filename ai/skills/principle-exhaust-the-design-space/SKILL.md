@@ -1,25 +1,20 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-exhaust-the-design-space/SKILL.md
 name: principle-exhaust-the-design-space
-description: "Apply when facing a novel UI interaction or architectural decision with no precedent in the codebase. Build 2-3 competing prototypes and compare side by side before committing."
+description: "Apply when a novel interaction or subsystem has no precedent in the codebase. Prototype two or three alternatives and compare before committing."
 ---
 
 # Exhaust the Design Space
 
-When a novel interaction or architectural decision has no established precedent, explore several concrete alternatives before implementation. Building the wrong thing costs more than exploring three options.
+Explore several concrete alternatives before implementing a decision that has no established precedent.
 
-**Why:** Building the wrong thing costs more than exploring three options; a decision made without comparison locks in the first idea that came to mind.
+**Why:** Building the wrong thing costs more than exploring three options, and a decision made without comparison locks in the first idea that came to mind.
 
-**The rule.** When the right answer is not obvious, build 2-3 competing prototypes or sketches. Compare them side by side. Only then commit. Design it twice is this rule by another name. A second flavor of the first shape does not count.
+**Pattern:**
+- Build 2-3 competing prototypes or sketches when the right answer is not obvious, and compare them side by side before committing.
+- Make the alternatives genuinely different shapes. A second flavor of the first shape does not count.
+- Apply to novel UI interactions, architectural choices with several viable approaches, and product decisions where the experience depends on feel.
+- Skip where the pattern is established, the target state is clear, or constraints allow a single approach.
 
-**When it applies:**
-- Novel UI interactions (no prior art in the codebase)
-- Architectural choices with multiple viable approaches
-- Product design decisions where user experience depends on feel, not logic
+**Test:** At least two alternatives that differ in data model, control flow, or interface were each sketched (types or signatures plus one usage) or built, and a written comparison names the deciding criterion. One alternative, or three variants of one idea, fails.
 
-**When it doesn't:**
-- Mechanical implementation where the pattern is established
-- Bug fixes or refactors with a clear target state
-- Changes where constraints dictate a single viable approach
-
-**Test:** Did you build and compare at least two genuinely different shapes? One prototype, or three variants of one idea, fails.
+For runnable throwaway evidence, use **prototype**.

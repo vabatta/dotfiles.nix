@@ -1,9 +1,46 @@
 #!/usr/bin/env bash
 # Validate a skill bundle: frontmatter, relative links, stray metadata,
-# and cross-references to other skills.
+# cross-references to other skills, and the tier-1 rules file.
 set -u
 
+# Emit the generated data block the guide embeds: each skill's full description
+# and the skills it names in bold. The guide's drawer reads it.
+gen_guide_data() {
+  local dir="$1" name desc refs r
+  echo '/* BEGIN GENERATED: skill data. Refresh with: bash scripts/check-skills.sh --write-guide ai/skills ai/skills-guide.html */'
+  echo 'const FULL = {'
+  while IFS= read -r name; do
+    desc="$(sed -n 's/^description:[[:space:]]*//p' "$dir/$name/SKILL.md" | head -n 1 | sed -e 's/^"//' -e 's/"$//')"
+    printf '  "%s": "%s",\n' "$name" "$desc"
+  done < <(find "$dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | LC_ALL=C sort)
+  echo '};'
+  echo 'const REFS = {'
+  while IFS= read -r name; do
+    refs=""
+    while IFS= read -r r; do
+      [ "$r" != "$name" ] && [ -d "$dir/$r" ] && refs="$refs${refs:+, }\"$r\""
+    done < <(find "$dir/$name" -name '*.md' -exec cat {} + | grep -oE '\*\*[a-z][a-z0-9-]*\*\*' | tr -d '*' | LC_ALL=C sort -u)
+    printf '  "%s": [%s],\n' "$name" "$refs"
+  done < <(find "$dir" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; | LC_ALL=C sort)
+  echo '};'
+  echo '/* END GENERATED */'
+}
+
+if [ "${1:-}" = "--write-guide" ]; then
+  dir="${2:?skills dir}"
+  guide="${3:?guide file}"
+  tmp="$(mktemp)"
+  awk -v blockfile=<(gen_guide_data "$dir") '
+    /BEGIN GENERATED/ { while ((getline line < blockfile) > 0) print line; skip = 1 }
+    !skip { print }
+    /END GENERATED/ { skip = 0 }
+  ' "$guide" > "$tmp" && mv "$tmp" "$guide"
+  exit 0
+fi
+
 skills_dir="${1:-ai/skills}"
+rules_file="${2:-ai/AGENTS.md}"
+guide_file="${3:-}"
 
 if [ ! -d "$skills_dir" ]; then
   printf 'error: skills directory not found: %s\n' "$skills_dir" >&2
@@ -84,6 +121,24 @@ for skill_md in "$skills_dir"/*/SKILL.md; do
     esac
   fi
 
+  while IFS= read -r key; do
+    case "$key" in
+      name | description | license | compatibility | metadata) ;;
+      *) fail "$skill_md: unsupported frontmatter key '$key'" ;;
+    esac
+  done < <(printf '%s\n' "$frontmatter" | sed -n 's/^\([A-Za-z_-][A-Za-z0-9_-]*\):.*/\1/p')
+
+  if [ "$(wc -l < "$skill_md")" -gt 500 ]; then
+    fail "$skill_md: over 500 lines"
+  fi
+
+  while IFS= read -r link; do
+    [ -n "$link" ] || continue
+    if [ ! -e "$(dirname "$skill_md")/$link" ]; then
+      fail "$skill_md: broken link '$link'"
+    fi
+  done < <(grep -oE '\]\((references|scripts|assets)/[^)#]+' "$skill_md" | sed 's/^](//')
+
   if grep -qF '](../' "$skill_md"; then
     fail "$skill_md: relative link '](../'"
   fi
@@ -91,6 +146,15 @@ for skill_md in "$skills_dir"/*/SKILL.md; do
   grep -oE '`[a-z][a-z0-9-]*`' "$skill_md" | sed -e 's/^`//' -e 's/`$//' >> "$tokens_file"
   grep -oE '\*\*[a-z][a-z0-9-]*\*\*' "$skill_md" | sed -e 's/^\*\*//' -e 's/\*\*$//' >> "$tokens_file"
 done
+
+while IFS= read -r md; do
+  case "$md" in */SKILL.md) continue ;; esac
+  if grep -qF '](../' "$md"; then
+    fail "$md: relative link '](../'"
+  fi
+  grep -oE '`[a-z][a-z0-9-]*`' "$md" | sed -e 's/^`//' -e 's/`$//' >> "$tokens_file"
+  grep -oE '\*\*[a-z][a-z0-9-]*\*\*' "$md" | sed -e 's/^\*\*//' -e 's/\*\*$//' >> "$tokens_file"
+done < <(find "$skills_dir" -type f -name '*.md')
 
 if [ -e "$skills_dir/.DS_Store" ]; then
   fail "$skills_dir/.DS_Store: unexpected macOS metadata file"
@@ -105,6 +169,56 @@ while IFS= read -r token; do
     fi
   fi
 done < "$tokens_file"
+
+if [ -f "$rules_file" ]; then
+  checked=$((checked + 1))
+  while IFS= read -r ref; do
+    [ -n "$ref" ] || continue
+    if [ ! -d "$skills_dir/$ref" ]; then
+      fail "$rules_file: tier-1 references missing skill: $ref"
+    fi
+  done < <(grep -oE 'principle-[a-z0-9-]+' "$rules_file" | sort -u)
+else
+  fail "tier-1 rules file not found: $rules_file"
+fi
+
+if [ -n "$guide_file" ]; then
+  if [ ! -f "$guide_file" ]; then
+    fail "guide not found: $guide_file"
+  else
+    for dir in "$skills_dir"/*/; do
+      name="$(basename "$dir")"
+      grep -qF "\"$name\"" "$guide_file" || fail "$guide_file: skill not listed: $name"
+    done
+    while IFS= read -r name; do
+      [ -d "$skills_dir/$name" ] || fail "$guide_file: journey lists unknown skill: $name"
+    done < <(sed -n '/^const JOURNEYS/,/^];/p' "$guide_file" \
+      | grep -oE '\[("[a-z0-9-]+"(, )?)+\]' | grep -oE '"[a-z0-9-]+"' | tr -d '"' | sort -u)
+    if [ "$(gen_guide_data "$skills_dir")" != "$(sed -n '/BEGIN GENERATED/,/END GENERATED/p' "$guide_file")" ]; then
+      fail "$guide_file: generated skill data is stale, run: bash scripts/check-skills.sh --write-guide ai/skills ai/skills-guide.html"
+    fi
+    parts="$(grep '^const PARTS' "$guide_file" | grep -oE '"[a-z0-9-]+"' | tr -d '"')"
+    while IFS= read -r name; do
+      [ -n "$name" ] || continue
+      [ -d "$skills_dir/$name" ] || fail "$guide_file: building block lists unknown skill: $name"
+    done <<< "$parts"
+    while IFS= read -r name; do
+      [ -n "$name" ] || continue
+      case "$name" in
+        principle-*) fail "$guide_file: journey step lists a principle, use applies: $name" ;;
+        *) ! printf '%s\n' "$parts" | grep -qxF "$name" || fail "$guide_file: journey step lists a building block: $name" ;;
+      esac
+    done < <(sed -n '/^const JOURNEYS/,/^];/p' "$guide_file" | grep -E '^     \[\[' | sed -E 's/^     \[\[([^]]*)\].*/\1/' | grep -oE '"[a-z0-9-]+"' | tr -d '"')
+    families="$(grep '^const FAMILIES' "$guide_file" | grep -oE '"[^"]+"' | tr -d '"')"
+    while IFS= read -r fam; do
+      [ -n "$fam" ] || continue
+      printf '%s\n' "$families" | grep -qxF "$fam" || fail "$guide_file: journey family not declared: $fam"
+    done < <(sed -n '/^const JOURNEYS/,/^];/p' "$guide_file" | grep -E '^   ".*"\],?$' | sed -E 's/.*, "([^"]+)"\],?$/\1/' | sort -u)
+    guide_rules="$(sed -n '/^const RULES/,/^];/p' "$guide_file" | grep -oE 'principle-[a-z0-9-]+' | sort -u)"
+    agents_rules="$(grep -oE 'principle-[a-z0-9-]+' "$rules_file" | sort -u)"
+    [ "$guide_rules" = "$agents_rules" ] || fail "$guide_file: RULES do not match $rules_file"
+  fi
+fi
 
 printf '\n'
 printf 'skills checked: %s\n' "$checked"

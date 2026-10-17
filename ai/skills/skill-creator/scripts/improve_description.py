@@ -6,6 +6,8 @@ by calling `claude -p` as a subprocess (same auth pattern as run_eval.py —
 uses the session's Claude Code auth, no separate ANTHROPIC_API_KEY needed).
 """
 
+from __future__ import annotations
+
 import argparse
 import json
 import os
@@ -124,22 +126,22 @@ Skill content (for context on what the skill does):
 {skill_content}
 </skill_content>
 
-Based on the failures, write a new and improved description that is more likely to trigger correctly. When I say "based on the failures", it's a bit of a tricky line to walk because we don't want to overfit to the specific cases you're seeing. So what I DON'T want you to do is produce an ever-expanding list of specific queries that this skill should or shouldn't trigger for. Instead, try to generalize from the failures to broader categories of user intent and situations where this skill would be useful or not useful. The reason for this is twofold:
+Based on the failures, write a new and improved description that is more likely to trigger correctly. Basing the rewrite on the failures is a tricky line to walk because the description must not overfit to the specific cases seen. Do not produce an ever-expanding list of specific queries that this skill should or shouldn't trigger for. Instead, generalize from the failures to broader categories of user intent and situations where this skill would be useful or not useful. The reason for this is twofold:
 
 1. Avoid overfitting
-2. The list might get loooong and it's injected into ALL queries and there might be a lot of skills, so we don't want to blow too much space on any given description.
+2. The list might get loooong and it's injected into ALL queries and there might be a lot of skills, so no single description should take too much space.
 
-Concretely, your description should not be more than about 100-200 words, even if that comes at the cost of accuracy. There is a hard limit of 1024 characters — descriptions over that will be truncated, so stay comfortably under it.
+Concretely, the description should not be more than about 100-200 words, even if that comes at the cost of accuracy. There is a hard limit of 1024 characters — descriptions over that will be truncated, so stay comfortably under it.
 
-Here are some tips that we've found to work well in writing these descriptions:
+These tips work well in writing these descriptions:
 - The skill should be phrased in the imperative -- "Use this skill for" rather than "this skill does"
 - The skill description should focus on the user's intent, what they are trying to achieve, vs. the implementation details of how the skill works.
 - The description competes with other skills for Claude's attention — make it distinctive and immediately recognizable.
-- If you're getting lots of failures after repeated attempts, change things up. Try different sentence structures or wordings.
+- After repeated attempts with many failures, change things up. Try different sentence structures or wordings.
 
-I'd encourage you to be creative and mix up the style in different iterations since you'll have multiple opportunities to try different approaches and we'll just grab the highest-scoring one at the end.
+Be creative and mix up the style across iterations. Multiple opportunities exist to try different approaches, and the highest-scoring one is kept at the end.
 
-Please respond with only the new description text in <new_description> tags, nothing else."""
+Respond with only the new description text in <new_description> tags, nothing else."""
 
     text = _call_claude(prompt, model)
 
@@ -158,8 +160,8 @@ Please respond with only the new description text in <new_description> tags, not
     # Safety net: the prompt already states the 1024-char hard limit, but if
     # the model blew past it anyway, make one fresh single-turn call that
     # quotes the too-long version and asks for a shorter rewrite. (The old
-    # SDK path did this as a true multi-turn; `claude -p` is one-shot, so we
-    # inline the prior output into the new prompt instead.)
+    # SDK path did this as a true multi-turn; `claude -p` is one-shot, so the
+    # prior output is inlined into the new prompt instead.)
     if len(description) > 1024:
         shorten_prompt = (
             f"{prompt}\n\n"

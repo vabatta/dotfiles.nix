@@ -1,23 +1,19 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-experience-first/SKILL.md
 name: principle-experience-first
-description: Apply when product, UX, or feature-scope tradeoffs come up. Choose user delight over implementation convenience. Ship fewer polished features over more rough ones.
+description: "Apply when product, UX, or feature-scope tradeoffs come up. Choose user delight over implementation convenience, and ship fewer polished features over more rough ones."
 ---
 
 # Experience First
 
-The product is the experience. Every technical decision either helps or hurts it. When implementation convenience conflicts with user delight, choose delight.
+The product is the experience. When implementation convenience conflicts with user delight, choose delight.
 
-**Why:** Features are easy to add and hard to remove, and polish is what survives contact with users. Implementation convenience is a local optimization; the experience is the product.
+**Why:** Features are easy to add and hard to remove, and polish is what survives contact with users. Implementation convenience is a local optimization.
 
-- Say no to 1,000 things (every feature, control, and option must earn its place)
-- Ship less, ship better (polished experience with three features beats rough one with ten)
-- Prototype before committing (design decisions are cheaper in throwaway HTML than production code)
-- Sweat the details (transitions, alignment, spacing, feedback, error states)
-- Tighten the core loop (every feature should serve the central workflow or get out of the way)
+**Pattern:**
+- Make every feature, control, and option earn its place, and say no by default.
+- Ship a polished experience with three features over a rough one with ten.
+- Sweat the details: transitions, alignment, spacing, feedback, error states.
+- Serve the central workflow with every feature, or get it out of the way.
+- Treat whoever consumes the work as the user. For a UI that is the end user, for a library or internal API the colleague who imports it, and the next maintainer is a user too. Explain impact from their seat.
 
-The user is whoever consumes the work. For a UI that is the end user. For a library or an internal API it is the colleague who imports it. The engineer who maintains the code next is a user too. Weigh their experience the same way, and explain impact from their seat.
-
-Foundations should serve the experience, not the other way around. **principle-foundational-thinking** governs the *sequence* of work; this principle governs the *target*.
-
-**Test:** Would the person who consumes this work notice and prefer the result? If the improvement is visible only to the implementer, it isn't experience-first.
+**Test:** Run the central workflow once from the consumer's entry point (the agent's own run counts when no human is present), then write one sentence naming the improvement that consumer sees. An improvement visible only to the implementer fails.

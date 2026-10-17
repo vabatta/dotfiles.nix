@@ -1,24 +1,19 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-subtract-before-you-add/SKILL.md
 name: principle-subtract-before-you-add
-description: "Apply when sequencing an addition, refactor, or rewrite. Remove dead weight, redundant validators, and stub references first, then build on the simpler base."
+description: "Apply when about to make a large addition or refactor. Delete dead code, redundant validators, and stubs first, then build on the smaller base."
 ---
 
 # Subtract Before You Add
 
-When evolving a system, remove complexity first, then build. Deletion gives you a simpler base, which makes the next addition smaller and less brittle.
+Remove complexity first, then build.
 
-**Why:** Adding to a complex system compounds complexity. Removing first cuts the surface area, reveals the essential structure, and usually makes the next design obvious. Default to subtraction.
+**Why:** Adding to a complex system compounds complexity. Removing first cuts the surface area, reveals the essential structure, and usually makes the next design obvious.
 
-Make simplification a continual investment. Leave the design slightly simpler and more capable behind the same or smaller surface than you found it.
+**Pattern:**
+- Sequence removal before construction, and leave the design slightly simpler behind the same or a smaller surface. Remove legacy duplicates and one-caller wrappers along with dead code.
+- Reach the minimum before investing in polish.
+- Build for observed usage, with validators, parsers, and guards only as far as the spec demands. Out-of-spec features such as persistence, retry-on-startup, and schema migration each drag guards behind them.
+- Remove redundant instructions and excessive templates from prompts.
+- Delete a reference with no novel content instead of leaving a stub.
 
-**The pattern:**
-- Sequence removal before construction
-- Cut before you polish (get to the minimum before investing in quality)
-- Design for observed usage, not speculative edge cases
-- No speculative validators, parsers, or guards beyond what the spec demands
-- Out-of-spec features drag validators behind them. Persistence, retry-on-startup, and schema migration each need guards to defend their inputs.
-- Simplify prompts (remove redundant instructions, excessive templates)
-- When a reference has no novel content, delete it rather than leaving a stub
-
-**Test:** The diff has removals before additions, and the new code is smaller than what it replaces. If nothing was cut, subtraction was skipped.
+**Test:** The first unit (commit, or step within one commit) only deletes or simplifies, and the additions come in a later unit. Net added lines for the whole change are at or below the lines removed. A pure addition names the dead code, wrapper, or stub the first unit removed, or states that none exists.

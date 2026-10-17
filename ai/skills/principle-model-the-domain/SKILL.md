@@ -1,28 +1,28 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-model-the-domain/SKILL.md
 name: principle-model-the-domain
-description: "Apply when writing stateful logic, or when code branches a lot or repeats a shape assumption across files. Encode the domain in a structure instead of scattered conditionals."
+description: "Apply when conditionals or booleans encode domain rules. Replace the branch ladder with a datatype that models the domain."
 ---
 
 # Model the Domain
 
 Encode the real domain in a data structure instead of scattering it across conditionals.
 
-**Why:** Scattered booleans, repeated shape assumptions, and branching spread across files are accidental complexity. A structure that matches the domain makes invalid states unrepresentable and deletes branches. Choosing it at write time is cheap; recovering it later reads as a refactor and gets deferred.
+**Why:** Scattered booleans, repeated shape assumptions, and branching spread across files are accidental complexity. A structure that matches the domain makes invalid states unrepresentable and deletes branches. This skill owns the encode-the-domain call, including when to make invalid states unrepresentable. Choosing it at write time is cheap, while recovering it later reads as a refactor and gets deferred.
 
-This skill owns the encode-the-domain call, including when to make invalid states unrepresentable. **principle-type-system-discipline** covers the typed-language mechanics that express it (branded primitives, exhaustive matching, parsing at boundaries).
-
-**Reach for structures like these:**
-
-- A state machine instead of scattered booleans, phases, or lifecycle checks.
-- A typed object/model instead of loose parameters or repeated shape assumptions.
-- A map, registry, lookup table, or discriminated union instead of branching spread across files.
-- A reducer or command/event model instead of ad hoc state mutations.
-- A module organized around one body of domain knowledge instead of a sequence such as load, validate, transform, and save. Execution order is not ownership.
+**Pattern:** Reach for the structure that fits.
+- A state machine for scattered booleans, phases, or lifecycle checks.
+- A typed object or model for loose parameters or repeated shape assumptions.
+- A map, registry, lookup table, or discriminated union for branching spread across files.
+- A reducer or command/event model for ad hoc state mutations.
+- A module organized around one body of domain knowledge, not a sequence such as load, validate, transform, and save. Execution order is not ownership.
 - A small module boundary that gathers repeated behavior, ownership, or invariants.
-- A queue, cache, index, graph/tree, or normalized collection where the data access pattern calls for it.
-- Any other structure that fits. The list above covers the common cases only. When none fits, work out what the code must never allow and how the data gets read, then find the structure that encodes exactly that.
+- A queue, cache, index, graph or tree, or normalized collection where the access pattern calls for it.
+- Otherwise, work out what the code must never allow and how the data gets read, then find the structure that encodes exactly that.
 
-Do not force an abstraction. Prefer boring code if the current shape is already clear, local, and unlikely to grow. Be skeptical of an abstraction that adds indirection without removing branches, duplicated rules, invalid states, or lifecycle risk.
+In a dynamic language, a closed table plus a raising lookup counts as unrepresentable. For a new module with no branching yet, choose the structure per **principle-foundational-thinking**.
 
-**Test:** A new feature grows an existing if/else chain by one more branch, or adds a second boolean that must stay in sync with the first. Temporal decomposition is another tell: phase-named modules repeat the same domain rules across steps. If any of these appear, the domain should be a structure.
+Keep boring code when the current shape is clear, local, and unlikely to grow. An abstraction earns its place by removing branches, duplicated rules, invalid states, or lifecycle risk.
+
+**Test:** No chain of two or more branches on one discriminator (grep `elif` and `else if`) and no boolean pair with illegal combinations encodes the domain rule, and phase-named modules do not repeat the same rule across steps.
+
+For the typed-language mechanics that express it, see **principle-type-system-discipline**.

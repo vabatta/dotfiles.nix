@@ -1,33 +1,22 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-encode-lessons-in-structure/SKILL.md
 name: principle-encode-lessons-in-structure
-description: "Apply when you catch yourself writing the same instruction a second time, or notice a recurring correction. Encode the rule as a lint, metadata flag, runtime check, or script instead of more text."
+description: "Apply when the same instruction is about to be written a second time, or a correction keeps recurring. Encode the rule as a lint, metadata flag, runtime check, or script instead of more text."
 ---
 
 # Encode Lessons in Structure
 
-Encode recurring fixes in mechanisms (tools, code, metadata, automation) instead of textual instructions. Every error, human correction, and unexpected outcome is a learning signal. Capture it, route it, and close the loop.
+Encode recurring fixes in mechanisms (tools, code, metadata, automation) instead of textual instructions.
 
-**Why:** Textual instructions are easy to miss. They require the reader to notice, remember, and comply. Structural mechanisms (lint rules, metadata flags, runtime checks, automation scripts) enforce the rule without cooperation.
+**Why:** Textual instructions require the reader to notice, remember, and comply. Structural mechanisms enforce the rule without cooperation, and the instruction itself is the symptom of a missing one.
 
 **Pattern:**
-When you catch yourself writing the same instruction a second time:
-1. Ask: can this be a lint rule, a metadata flag, a runtime check, or a script?
-2. If yes, encode it. Delete the instruction
-3. If no (genuinely requires judgment), make the instruction more prominent and add an example of the failure mode
+1. Grep docs and agent files for an existing version of the rule, then ask whether it can be a lint rule, a metadata flag, a runtime check, or a script.
+2. If yes, encode it, run it against a known violation and watch it fail, wire it into something that already runs (CI, test suite, or hook, else name the cheapest host), then delete the instruction.
+3. If it genuinely requires judgment, make the instruction more prominent and add an example of the failure mode.
+4. Pick the strongest rung when several mechanisms work: an unrepresentable state that cannot compile, then a lint or banned API that fails CI, then a canonical helper, then a runtime check. Agents copy whatever the surrounding code does, so a weaker guard becomes the next template.
+5. Apply the structural fix alone when one exists, and leave the symptom patch out.
+6. When a human corrects you, decide one-off versus recurring. If recurring, encode it as a check or script now or file it, because a promise to remember does not persist.
 
-**Pick the strongest rung.** When more than one mechanism would work, choose the strongest the situation allows (an unrepresentable state that cannot compile, then a lint or banned API that fails CI, then a canonical helper, then a runtime check), because agents copy whatever the surrounding code already does and a weaker guard becomes the next template.
+**Test:** A lint, flag, check, or script ran red on a known violation and runs in CI, the test suite, or a hook. Grep finds no standalone prose statement of the rule in docs, agent files, or comments. The mechanism's own failure message may name it.
 
-**Corollary:** Don't paper over symptoms. If the fix is structural, ONLY use the structural fix. The instruction IS the symptom.
-
-**Feedback loop:**
-- **Capture every correction.** When the human intervenes or tests fail, decide if it's a one-off or a pattern.
-- **Route to the right layer.** One-off -> brain note. Recurring fix -> skill or lint rule. Systemic issue -> principle.
-- **Close the loop.** Don't just record. Apply now or create a concrete todo.
-
-**Anti-patterns:**
-- Acknowledging without recording ("I'll keep that in mind" does not persist)
-- Recording without routing (a brain note about a lint rule that should exist is wasted unless the lint rule gets implemented)
-- Fixing without generalizing (fixing one instance while leaving the recurring pattern intact)
-
-**Test:** The same instruction no longer needs to be written twice; a lint, flag, check, or script now fails when the rule is violated. An instruction repeated in a second place means the structure was skipped.
+For routing the lessons of a finished session, use **reflect**.

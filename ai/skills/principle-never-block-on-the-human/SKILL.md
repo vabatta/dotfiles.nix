@@ -1,25 +1,20 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-never-block-on-the-human/SKILL.md
 name: principle-never-block-on-the-human
-description: Apply when tempted to ask 'should I do X?' on reversible work. Proceed, present the result, and let the human course-correct after the fact. Reserve confirmation for irreversible actions.
+description: "Apply when tempted to ask whether to do something on reversible execution work. Proceed, present the result, and let the human course-correct after the fact. Reserve questions for one-way doors, product direction, and decisions that shape the work."
 ---
 
 # Never Block on the Human
 
-The human supervises asynchronously. Agents must stay unblocked: make reasonable decisions, proceed, and let the human course-correct after the fact. Code is cheap. Waiting is expensive.
+The human supervises asynchronously. Make reasonable decisions, proceed, and let the human course-correct after the fact.
 
-**Why:** Every permission pause stalls the pipeline and makes the human the bottleneck. Since code changes are reversible and reviewable, a wrong decision usually costs less than blocking.
+**Why:** Every permission pause stalls the pipeline and makes the human the bottleneck. Code changes are reversible and reviewable, so a wrong decision usually costs less than blocking.
 
 **Pattern:**
-- **Proceed, then present.** Do the work, show the result. Don't ask "should I do X?" Do X, explain why.
-- **Reserve questions for genuine ambiguity.** Ask only when you truly cannot infer intent from context.
-- **Make the system self-healing.** When you notice a problem, log it and fix it in the next round.
-- **Supervision is async.** The human reviews plans, diffs, and changes on their own schedule. Design workflows for review-after-the-fact.
-- **Code is cheap, attention is scarce.** A wrong implementation costs minutes to fix. A blocked agent costs the human's attention to unblock.
+- **Proceed, then present.** Do the work, show the result, and explain why instead of asking whether to.
+- **Ask only at one-way doors.** Irreversible actions (force-push, delete production data, send external messages) need confirmation first.
+- **Leave direction to the human.** Product direction and decisions that shape the work are the human's. Settle them with **grill**, then proceed unblocked on the execution.
+- **Ask when intent cannot be inferred.** Genuine ambiguity that context cannot resolve is a question that shapes the work.
+- **No human present.** When no one can answer, write your recommended answer down as an assumption, continue, and list the assumptions in the result. At a one-way door, stop and report instead.
+- **Rule of thumb.** A door is one-way when undoing it needs more than a revert or a rerun.
 
-**Boundaries:**
-- **Irreversible actions** (force-push, delete production data, send external messages) still require confirmation.
-- **Reversible actions** (write code, edit notes, split tasks) should proceed without blocking.
-- **Product direction** comes from the human; *execution* should not block.
-
-**Test:** Did any reversible action wait on a human answer? If yes, it should have proceeded. If you blocked, the action had to be irreversible.
+**Test:** No reversible action waited on a human answer, and every question asked was at a one-way door or a decision that shapes the work.

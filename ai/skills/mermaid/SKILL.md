@@ -1,26 +1,25 @@
 ---
-source: https://github.com/vabatta/dotfiles.nix/blob/1f400cc1f081e7270e0e75e329ce187aa8ef87cd/skills/mermaid/SKILL.md
 name: mermaid
-description: Write production-quality Mermaid diagrams following modern best practices. Use whenever the user asks to write, review, fix, or generate Mermaid diagrams, flowcharts, sequence diagrams, class diagrams, state diagrams, ER diagrams, Gantt charts, or any Mermaid-supported diagram type. Also trigger on mermaid, diagram as code, flowchart, sequence diagram, class diagram, state diagram, ER diagram, Gantt chart, pie chart, mindmap, timeline, gitgraph, C4 diagram, sankey, block diagram, kanban, or architecture diagram, or when asked to visualize or diagram anything in text-based syntax.
+description: "Writes production-quality Mermaid diagrams. Use when asked to write, review, fix, or generate a Mermaid diagram or any diagram as text, including flowchart, sequence, class, state, ER, Gantt, pie, mindmap, timeline, gitgraph, C4, sankey, block, kanban, and architecture diagrams."
 ---
 
 # Mermaid Diagram Authoring
 
-You write Mermaid diagrams — text-based specifications that render into SVG graphics. Your output must read as **clear documentation** — diagrams that any team member (developer, architect, product owner, stakeholder) can understand without deciphering cryptic node IDs or tangled arrows.
+Write Mermaid diagrams — text-based specifications that render into SVG graphics. The output must read as **clear documentation** — diagrams that any team member (developer, architect, product owner, stakeholder) can understand without deciphering cryptic node IDs or tangled arrows.
 
-## Before You Write Anything
+## Before Writing Anything
 
-1. Read `references/mermaid-syntax.md` for the **complete diagram type reference, keyword catalogue, and structural rules**.
-2. Read `references/best-practices.md` for **style rules, anti-patterns, and the CLEAR principles**.
-3. Apply every rule below on top of those references.
+1. Small diagram (a flowchart, sequence, or state diagram under about 10 nodes in a type you know): skip the references and go to the rules below. Otherwise read `references/mermaid-syntax.md` for the keyword catalogue and structural rules, before writing any diagram.
+2. For anything bigger or an unfamiliar type, read `references/best-practices.md` for style rules, anti-patterns, and the CLEAR principles, before choosing a layout.
+3. Apply every rule below. Done when the Output Checklist passes.
 
 ## Core Principles (Non-Negotiable)
 
-### 0. Mandatory: Validate Every Diagram Before You Deliver It
+### 0. Mandatory: Validate Every Diagram Before Delivery
 
-A diagram that does not parse is worse than no diagram — it renders as a broken-syntax error box. **Every Mermaid diagram you produce or edit MUST be passed through the `validate-mermaid` validator before you present it.** This is not optional and applies every time, including small edits.
+A diagram that does not parse is worse than no diagram — it renders as a broken-syntax error box. **Every Mermaid diagram produced or edited MUST be passed through the `validate-mermaid` validator before it is presented.** This is not optional and applies every time, including small edits.
 
-`validate-mermaid` is a command on your `PATH`. It runs the **real Mermaid parser** (`mermaid.parse()` — the exact grammar the renderer uses, run headless), so it catches every syntax error Mermaid itself would reject, with line numbers, across all diagram types. It reads a diagram on **stdin** (raw Mermaid or Markdown containing ```mermaid fences) and:
+`validate-mermaid` is a command on `PATH`, built from `scripts/validate_mermaid.mjs`. It runs the **real Mermaid parser** (`mermaid.parse()` — the exact grammar the renderer uses, run headless), so it catches every syntax error Mermaid itself would reject, with line numbers, across all diagram types. It reads a diagram on **stdin** (raw Mermaid or Markdown containing ```mermaid fences) and:
 
 - exits `0` with **empty output** when the diagram parses, or
 - exits `1` and prints the parser's error (line number + what it expected) to **stderr**.
@@ -35,7 +34,7 @@ flowchart LR
 MMD
 ```
 
-You can also pass file paths instead of stdin: `validate-mermaid diagram.mmd README.md` (each ```mermaid block in a Markdown file is validated separately).
+Pass file paths instead of stdin: `validate-mermaid diagram.mmd README.md` (each ```mermaid block in a Markdown file is validated separately).
 
 **Workflow:**
 1. Write the diagram.
@@ -45,11 +44,11 @@ You can also pass file paths instead of stdin: `validate-mermaid diagram.mmd REA
 
 This is the genuine Mermaid grammar — if it passes, the diagram renders. Still apply every authoring rule below: the parser guarantees the diagram is *valid*, the rules make it *good*.
 
-> If `validate-mermaid` is not found on `PATH`, ask the user what to do. Do not skip validation without user consent.
+> If `validate-mermaid` is not found on `PATH`, run the script bundled with this skill: `npm ci --prefix <skill>/scripts`, then `node <skill>/scripts/validate_mermaid.mjs`, using `nix shell nixpkgs#nodejs -c ...` when `node` is absent. If neither runs, deliver the diagram labelled "unvalidated" with the reason.
 
 ### 1. Readable Node Labels — Zero Cryptic IDs
 
-Diagrams are **communication tools**, not code artefacts. Every visible label must use plain, meaningful language.
+Diagrams are **communication tools**, not code artefacts. Every visible label must use plain, meaningful language. Node IDs are free (`req`, `svcA`), and only the rendered label is constrained.
 
 **Forbidden as visible labels:**
 - Single-letter IDs: `A`, `B`, `C`
@@ -149,7 +148,7 @@ flowchart LR
   route --> validate
 ```
 
-Avoid nesting subgraphs deeper than **two levels**. If you need three levels, the diagram is trying to say too much — split it.
+Avoid nesting subgraphs deeper than **two levels**. If three levels are needed, the diagram is trying to say too much — split it.
 
 ### 7. Sequence Diagram Discipline
 

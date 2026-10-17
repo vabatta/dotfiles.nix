@@ -1,24 +1,18 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-migrate-callers-then-delete-legacy-apis/SKILL.md
 name: principle-migrate-callers-then-delete-legacy-apis
-description: "Apply when introducing a new internal API while old callers still exist. Migrate callers and delete the old API in the same wave instead of preserving compatibility layers."
+description: "Apply when replacing an existing internal API that still has callers. Migrate every caller and delete the old API in the same change."
 ---
 
 # Migrate Callers Then Delete Legacy APIs
 
-When we decide a new API is the right design, migrate callers and remove the old API in the same refactor wave instead of preserving compatibility layers.
+Once a new API is the right design, migrate its callers and remove the old API in the same change.
 
-**Why:** Keeping both old and new APIs creates dual-path complexity, slows cleanup, and makes the codebase feel append-only. Compatibility layers meant to be temporary become permanent architecture.
+**Why:** Keeping both APIs creates dual-path complexity and makes the codebase append-only. Compatibility layers meant to be temporary become permanent architecture.
 
-**Rule:**
-- Do not keep legacy API paths alive only because internal callers still exist
-- Inventory callers, migrate them, and delete the old API immediately
-- Treat temporary adapters as exceptional and time-boxed, not default architecture
-- Update tests to assert the new contract, and delete tests that only protect pre-refactor implementation details
+**Pattern:**
+- Apply when no external users depend on backward compatibility and the project can absorb coordinated breaking changes.
+- Inventory the callers, migrate them, and delete the old API immediately.
+- Keep a temporary adapter only as an exception, time-boxed and named for removal.
+- Update tests to assert the new contract, and delete tests that only protect pre-refactor implementation details.
 
-**When this applies:**
-- No external users depend on backward compatibility
-- The project can absorb coordinated breaking changes
-- The new API is part of a simplification or refactor initiative
-
-**Test:** After the wave, grep finds zero references to the old API and the old symbol no longer exists. A surviving adapter or "deprecated" shim means the wave is incomplete.
+**Test:** `git grep` for the old symbol and its string name across code, tests, docs, and config in the working tree finds zero references, and the old symbol no longer exists. A surviving adapter or deprecated shim means the change is incomplete.

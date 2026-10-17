@@ -1,23 +1,24 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-minimize-reader-load/SKILL.md
 name: principle-minimize-reader-load
-description: Apply when reviewing or shaping code that is hard to trace. Count layers between question and answer, and hidden state in the reader's head. Collapse one-caller wrappers and shrink mutable scope.
+description: "Apply when shaping or reviewing code with many indirections or hidden state, or when a task bans indirection or wrapping code. Collapse one-caller wrappers and shrink mutable scope."
 ---
 
 # Minimize Reader Load
 
-Maintainability is the work a reader must do to understand code. Track two axes:
-1. **Layers to trace.** How many indirections sit between the question and the answer.
-2. **State to hold.** How much hidden or mutable context the reader must keep in their head.
+Minimize the work a reader must do to understand code, along two independent axes: layers to trace between a question and its answer, and hidden or mutable state to hold in mind.
 
-**Why:** Code is read far more than it is written. LOC, cyclomatic complexity, and "clean architecture" are proxies. Reader load is the thing that matters. The two axes are independent. A flat file with 50 globals can be as hard to reason about as a 6-layer adapter stack. Guard both. This is the human analog of **principle-guard-the-context-window**: working memory is finite for readers too.
+**Why:** Code is read far more than it is written. LOC and cyclomatic complexity are proxies, and reader load is the thing that matters. A flat file with 50 globals can be as hard to reason about as a 6-layer adapter stack. This is the human analog of **principle-guard-agent-context**.
 
-**The pattern:**
-- **Collapse layers** that do not earn their keep: wrappers with one caller, adapters with no second implementation, indirection introduced for a future that never came. Inline them.
-- **Make adjacent layers change the abstraction.** A layer that repeats the same methods and arguments adds reader load without compression. Collapse pass-through layers.
-- **Demand interface compression.** A broad interface that hides little complexity makes readers learn both the surface and the implementation. Prefer boundaries that hide meaningful decisions.
-- **Shrink state scope:** prefer pure functions (returns over mutations), locals over fields, fields over module state, and module state over globals. Derive instead of sync.
-- **Name the invariant at the boundary,** not in every consumer, so the reader learns it once.
-- Before adding a layer or a piece of state, ask: does this reduce reader load somewhere else by at least as much?
+**Pattern:**
+- **Collapse layers** that do not earn their keep, such as wrappers with one caller, adapters with no second implementation, and indirection for a future that never came. Inline them in code the change already touches, and name the rest in the final report. A wrapper is a function, class, or module whose body only forwards its arguments to one call.
+- **Make adjacent layers change the abstraction.** Collapse a layer that repeats the same methods and arguments.
+- **Compress interfaces.** Prefer boundaries that hide meaningful decisions over a broad interface that hides little.
+- **Shrink state scope:** pure functions over mutations, locals over fields, fields over module state, module state over globals. Derive instead of sync.
+- **Name the invariant at the boundary** so the reader learns it once.
+- Before adding a layer or a piece of state, confirm it reduces reader load elsewhere by at least as much.
 
-**The test:** Can a new reader answer "where does X come from?" and "what can change X?" in under 30 seconds? If not, cut layers or cut state.
+## Shape limits
+
+A shape limit from the task, such as no indirection or no wrapping code, or from `Constraints` in the repo's `AGENTS.md`, is binding. Hold the change to it and report a breach, do not reword the limit.
+
+**Test:** Count the callers of every new function, class, and module with grep. Each has two or more callers or sits at a named boundary (I/O, an external API, or a seam that needs translation, ownership, or policy). A new symbol with one caller and no boundary is inlined. Then grep for the definition and every assignment of each touched piece of state, and expect at most 3 hops from question to answer.

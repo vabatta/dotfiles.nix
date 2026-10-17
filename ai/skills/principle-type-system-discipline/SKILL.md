@@ -1,32 +1,22 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-type-system-discipline/SKILL.md
 name: principle-type-system-discipline
-description: "Apply when designing types, reviewing a function signature, or writing code in any statically-typed language. Make illegal states unrepresentable, brand semantic primitives, parse external data at boundaries, refuse to lie to the compiler, exhaust variants, derive from authoritative schemas."
+description: "Apply when declaring types or signatures in statically typed code. Brand primitives, derive shapes from their schema, and exhaust every variant."
 ---
 
 # Type System Discipline
 
-The type checker is a proof assistant. Use it to eliminate impossible states, mismatched primitives, and unhandled variants at compile time. A case the types let you ignore becomes a runtime failure the compiler could have stopped. Prefer defining errors and special cases out of existence over proliferating handlers; unrepresentable states, total functions, and interface redesign (the patterns below) are the tools.
+Use the type checker as a proof assistant to eliminate mismatched primitives and unhandled variants at compile time.
 
-**Why:** Types are the cheapest enforcement. A case they let you ignore becomes a runtime failure the compiler could have stopped, and every handler they force you to write is a chance to forget one.
+**Why:** Types are the cheapest enforcement. A case they let through becomes a runtime failure the compiler could have stopped, and every handler they force is a chance to forget one. Prefer defining errors and special cases out of existence over proliferating handlers.
 
-Applies to any typed language. Skills like **typescript-best-practices** ground it in specific syntax.
+**Pattern:**
+- Make illegal states unrepresentable per **principle-model-the-domain**, using the mechanics below.
+- **Build types as constructions.** Build the type up from the values wanted instead of carving them out of a looser type with checks. A non-empty list is a head plus a rest, and a valid time range is a start plus a duration. Choose the shape that cannot build the illegal value and expose the interface callers need on top.
+- **Brand semantic primitives.** `UserId` and `OrderId` are strings underneath but not interchangeable. Use newtypes in Rust, opaque types in Swift, value classes in Kotlin, phantom types in Haskell, branded intersections in TypeScript. Validate once at creation and trust the type downstream.
+- Parse external data into the typed model per **principle-boundary-discipline**.
+- **Prove facts to the compiler.** When it cannot establish a fact, validate, narrow, or refine the model instead of casting or asserting.
+- **Exhaust matches on sum types.** Use the idiom the language provides so adding a variant fails compilation: a `never`-typed binding in TypeScript, an unannotated `match` in Rust, `-Wincomplete-patterns` in Haskell, sealed-class exhaustiveness in Kotlin, `assert_never` under a Python type checker. In untyped code, key a table by the enum and test that its keys equal the members.
+- **Derive types from authoritative schemas** such as protocol buffers, OpenAPI, GraphQL, database migrations, or design-token files, instead of hand-rolling a parallel type. To make drift fail a check, see **principle-encode-lessons-in-structure**.
+- **Strengthen a type only where partiality appears.** A runtime assertion, null check, or "this should never happen" throw marks a type that is too weak, so push that check into the type and stop. Prefer total functions: `sum` takes the plain list because an empty list gives 0, while `head` demands the non-empty one. Extra precision beyond that costs reuse and buys no safety.
 
-**The patterns:**
-
-- **Make illegal states unrepresentable.** Model contradictory states out of existence; **principle-model-the-domain** owns the full treatment. This skill covers the typed-language mechanics that express it.
-- **Types are constructions, not restrictions.** Build the type up from the values you want instead of carving them out of a looser type with checks. The invariant that seems to need a refinement type is usually a construction away. A non-empty list is a head plus a rest, not a list with a length check. A valid time range is a start plus a duration, not two timestamps you must keep ordered. No representation is privileged. A list of pairs is an even-length list if you interpret it that way, so choose the shape that cannot build the illegal value and expose the interface callers need on top.
-- **Brand semantic primitives.** `UserId` and `OrderId` are strings underneath but should not be interchangeable. Newtypes in Rust, opaque types in Swift, value classes in Kotlin, phantom types in Haskell, branded intersections in TypeScript. Validate once at creation, trust the type downstream.
-- **External data is untyped until parsed.** RPC payloads, JSON, IPC messages, CLI args, config files, environment variables, database rows. Have a parse function at every boundary that turns unstructured input into the typed model. See the **boundary-discipline** principle skill for where to put validation.
-- **Don't lie to the type system.** Casts, unsafe coercions, and assertion functions that bypass the compiler are runtime crashes waiting to happen. If the compiler can't prove a fact, prove it (validate, narrow, refine the model) or accept that the cast is a hazard. The cast you bury today is the postmortem you write next week.
-- **Exhaustive matching is the compiler's job.** When you match on a sum type, the compiler must fail compilation if a new variant is added without handling. Use the idiom your language provides: `never`-typed binding in TypeScript, unannotated `match` in Rust, `-Wincomplete-patterns` in Haskell, sealed-class match exhaustiveness in Kotlin.
-- **Derive types from authoritative schemas.** When a protocol buffer, OpenAPI spec, GraphQL schema, database migration, or design-system token file defines a shape, derive from it instead of hand-rolling a parallel type. Manual duplication drifts. See the **encode-lessons-in-structure** principle skill.
-- **Strengthen a type only where partiality appears.** A runtime assertion, null check, or "this should never happen" throw marks the place a type is too weak. Push that check up into the type. Then stop. The type system's job is to track the cases each use site must handle, not to describe the data as precisely as possible. Prefer total functions. `sum` of an empty list is 0, so it takes the plain list. `head` of an empty list has no answer, so it demands the non-empty one. Extra precision costs reuse and ceremony and buys no safety.
-
-**The tests:**
-
-- "Do two of my function arguments share a primitive type but mean different things?" Brand them.
-- "Where did this `any`, this `as`, this `assertNotNull` come from?" Trace it to the boundary and validate there instead.
-- "If a new variant is added next month, will the compiler tell the next agent where to add a case?" If no, the match isn't exhaustive.
-- "Is this type duplicating a shape another file owns?" Derive instead.
-- "Am I strengthening this type to keep an operation total, or just to be more precise?" If nothing would otherwise panic, keep the plain type.
+**Test:** Run the project's type checker and read its exit code, or state the Test unverified. In the signatures this change adds or edits, no two arguments share a primitive type while meaning different things, no `any` or `as` survives without a validating boundary, adding a variant makes the checker flag every site needing a case, and no type duplicates a shape another file owns.

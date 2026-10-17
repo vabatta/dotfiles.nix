@@ -1,22 +1,21 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-foundational-thinking/SKILL.md
 name: principle-foundational-thinking
-description: Apply before writing logic, when choosing core types and data structures, sequencing scaffold-versus-feature work, or deciding what concurrent actors share. Get the data structures right so downstream code becomes obvious.
+description: "Apply when choosing the core data structures of a new module. Get the data shape right first so downstream code becomes obvious."
 ---
 
 # Foundational Thinking
 
-Get the core data structures right before writing logic, and sequence work for option value.
+Get the core data structures right before writing logic.
 
-**Why:** **Structural decisions** protect option value; **code-level decisions** protect simplicity. Over-engineering is often a premature decision that closes doors. The right foundational data structure keeps doors open.
+**Why:** A structural decision protects option value and a code-level decision protects simplicity. A data-structure change late is a rewrite, and early it is often a one-line diff.
 
 **Pattern:**
+- Define the core types first.
+- Trace every access pattern through them and list each as one line (path to type and field) in the commit message or PR.
+- Choose structures that match the dominant paths, meaning the ones the feature runs most often.
+- **Scaffold first.** Land what every later phase benefits from before features: CI, linting, test infrastructure, and shared types. Scaffold only what the next feature needs checked, and one runnable check is enough.
+- **DRY the structure, not every line.** Types and data models should converge, and three similar statements beat a premature abstraction.
 
-- **Data structures first.** Get the data shape right before writing logic. The right shape makes downstream code obvious. Define core types early, trace every access pattern, and choose structures that match the dominant paths. A data-structure change late is a rewrite; early, it is often a one-line diff.
-- DRY the structure, not every line. Types and data models should converge. Three similar statements still beat a premature abstraction. Prefer explicit over clever. Test behavior and edge cases, not line counts.
-- **Concurrency corollary:** if two actors might touch the same mutable state, eliminate the sharing first. See **principle-separate-before-serializing-shared-state**.
-- **Scaffold first.** If something helps every later phase, do it first. Ask "does every subsequent phase benefit from this existing?" CI, linting, test infrastructure, and shared types are scaffold. Sequence for option value: setup before features, tests before fixes. Keep commits small and single-purpose.
-- Each increment should land a coherent abstraction or deepen one that exists. Do not spread a new capability across callers as special-case coordination.
-- Subtraction comes before scaffolding: remove dead weight first, then lay foundations. See **principle-subtract-before-you-add**.
+**Test:** The core types and scaffold exist and pass a check before any feature code, the access-path list is in the commit message or PR, and the feature commit changes no lines of the type definitions.
 
-**Test:** Can a new engineer trace each dominant access path through the named core types without a rewrite? If the data shape is still being discovered mid-feature, the foundation was skipped.
+For choosing a structure that encodes domain rules, see **principle-model-the-domain**. For a module interface, use **architect**.

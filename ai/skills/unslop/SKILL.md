@@ -1,7 +1,6 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/unslop/SKILL.md
 name: unslop
-description: Cut AI tells from any writing. Must always apply.
+description: "Edits text to remove AI writing tells and restore a human voice. Use as the last pass on prose before delivery, after any other writing skill, or when asked to humanize text, de-slop it, or remove AI tells."
 ---
 
 # Unslop
@@ -11,9 +10,11 @@ Edit text to remove AI patterns and add human voice.
 ## Process
 
 1. Scan for the patterns below.
-2. Rewrite. Preserve meaning, match intended tone.
-3. Add soul (see next section).
-4. Self-audit: "What makes this obviously AI generated?" Fix remaining tells.
+2. Rewrite. Preserve meaning, match intended tone. When a fix needs a fact (mechanism, number, source), look it up in the code or sources. If it cannot be found, cut the sentence instead of inventing a fact.
+3. Add soul (see next section), only to narrative prose. For reference docs, READMEs, logs, and specs, remove patterns and apply rule 27 only.
+4. Self-audit: "What makes this obviously AI generated?" Fix remaining tells. Done when a fresh read finds no pattern from the list.
+
+Leave code, identifiers, paths, numeric ranges, and verbatim quotes untouched. Patterns apply to the prose around them.
 
 ## Adding soul
 
@@ -39,7 +40,7 @@ Removing patterns is half the job. Sterile, voiceless writing is just as obvious
 
 ### Language
 
-7. **AI vocabulary.** Additionally, crucial, delve, enduring, enhance, fostering, garner, interplay, intricate, landscape (abstract), pivotal, showcase, tapestry (abstract), testament, underscore, vibrant. Replace with plain words.
+7. **AI vocabulary.** Additionally, crucial, delve, enduring, enhance, garner, interplay, intricate, landscape (abstract), pivotal, showcase, tapestry (abstract), testament, underscore, vibrant. Replace with plain words.
 8. **Fancy ways to say "is".** "serves as", "stands as", "boasts", "features". Just say "is" or "has".
 9. **"Not just X, but Y."** State the point directly instead.
 10. **Rule of three.** Forcing ideas into groups of three. Use the natural number.
@@ -48,7 +49,7 @@ Removing patterns is half the job. Sterile, voiceless writing is just as obvious
 
 ### Style
 
-13. **Em dash overuse.** Avoid em dashes entirely. Use periods or commas only (no parentheses, no en dashes, no hyphen-as-dash substitutes). Em dashes are an AI tell, and reaching for parentheses instead just trades one tell for another. If a thought needs separation, end the sentence or use a comma.
+13. **Em dash overuse.** Avoid em dashes entirely. Use periods or commas only (no parenthetical asides, no en dashes, no hyphen-as-dash substitutes; function-call syntax and numeric ranges stay). Em dashes are an AI tell, and reaching for parentheses instead just trades one tell for another. If a thought needs separation, end the sentence or use a comma.
 14. **Colon overuse.** Colons are fine before a list or example. Not as mid-sentence connectors. "If you're coming from traditional automation: instead of registering event handlers, you describe conditions" adds nothing with the colon. Rewrite to let the point stand on its own without comparison framing. "Describing when the scheduler should fire works best as plain English." Same meaning, no crutch punctuation.
 15. **Boldface overuse.** Don't bold every proper noun or acronym.
 16. **Inline-header lists.** The tell is a bold label and colon that restates the line: "**Performance:** Performance improved...". Convert those to prose. A bold lead-in that ends in a period, names the item, and is followed by genuinely new detail ("**Schema in TypeScript.** Tables live in one file.") is fine, not a tell.
@@ -79,3 +80,31 @@ Removing patterns is half the job. Sterile, voiceless writing is just as obvious
 29. **Active voice.** Prefer it. Catch "is/are/was/were + past participle" and name the actor: "queries are validated" becomes "the compiler validates queries", "the file is parsed by the loader" becomes "the loader parses the file". Passive is fine only when the actor is unknown or genuinely doesn't matter.
 30. **Cut adverbs, or use a stronger verb.** "runs quickly" becomes "is fast" or the number. "significantly improves" becomes the measured delta. An adverb propping up a weak verb means the verb is wrong.
 31. **Prefer the plain word.** "utilize" becomes "use", "leverage" becomes "use", "facilitate" becomes "help", "numerous" becomes "many", "in the event that" becomes "if". The fancier synonym is rarely clearer.
+
+### Slop-to-simple substitutions
+
+Delete the word when it carries no fact. Otherwise replace it. Rows already covered above (utilize, leverage, facilitate, numerous, in the event that, in order to, due to the fact that) are not repeated.
+
+| Slop | Write instead |
+|---|---|
+| prior to | before |
+| crucially, it is worth noting that | (delete, state the fact) |
+| simply, just, easily, seamlessly, effortlessly | (delete) |
+| robust, powerful, comprehensive, performant | (delete, or give the measurable property) |
+| functionality | function, feature |
+| enables you to, allows you to | you can |
+| is designed to, aims to | (delete, say what it does) |
+| dive into, delve into | read, examine |
+| when it comes to | for |
+| as needed, as necessary | (state the condition) |
+| and/or | pick one, or write "X, Y, or both" |
+| e.g. / i.e. / etc. | for example / that is / (name the items) |
+| gracefully handles | (say what it does: "retries three times, then stops") |
+| out of the box | by default |
+| under the hood | internally |
+| blazingly fast, state-of-the-art | fast (give the number) or delete |
+| streamline | make simpler, make faster |
+| plethora, myriad | many |
+| addresses the issue, tackles | corrects the fault, removes the error |
+
+For the controlled-language standard, see **simple-english**.

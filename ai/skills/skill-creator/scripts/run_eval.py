@@ -5,6 +5,8 @@ Tests whether a skill's description causes Claude to trigger (read the skill)
 for a set of queries. Outputs results as JSON.
 """
 
+from __future__ import annotations
+
 import argparse
 import json
 import os
@@ -23,7 +25,7 @@ def find_project_root() -> Path:
     """Find the project root by walking up from cwd looking for .claude/.
 
     Mimics how Claude Code discovers its project root, so the command file
-    we create ends up where claude -p will look for it.
+    created here ends up where claude -p will look for it.
     """
     current = Path.cwd()
     for parent in [current, *current.parents]:

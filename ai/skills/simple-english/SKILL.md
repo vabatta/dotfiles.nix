@@ -1,7 +1,6 @@
 ---
-source: https://github.com/vabatta/dotfiles.nix/blob/b519e7a441346c653a01e79442c00ecea5509e0e/skills/simple-english/SKILL.md
 name: simple-english
-description: Write or rewrite technical text with the rules of ASD-STE100 Simplified Technical English so it is clear, unambiguous, and free of AI slop. Use for documentation, READMEs, runbooks, procedures, error messages, release notes, incident reports, and API guides. Also use on STE, Simplified Technical English, ASD-STE100, de-slop, make this readable, or write for non-native readers, or for docs that translate well. Enforces the standard's 53 rules, including 20/25-word sentence limits, one word one meaning, simple tenses, active voice, and condition before command.
+description: "Writes or rewrites technical text to the rules of ASD-STE100 Simplified Technical English so it is clear and unambiguous for a non-native reader. Use when rewriting existing text for plain, unambiguous English or STE compliance, on runbooks, procedures, error messages, release notes, incident reports, and API guides. Also use on STE, Simplified Technical English, or ASD-STE100, or for docs that translate well. Not for general tone or document structure."
 ---
 
 # Simple English: Write Like an Aerospace Manual
@@ -10,22 +9,22 @@ Write technical text with the rules of ASD-STE100 Simplified Technical English. 
 
 Write for that tired reader. Each sentence must survive one read.
 
-## Your Task
+## Procedure
 
 When asked to write or rewrite technical text:
 
 1. **Select the mode** (pragmatic or strict, below).
 2. **Classify each passage** as procedural or descriptive. Every other rule depends on this.
-3. **Correct your vocabulary before drafting.** In strict mode, use `make sure that` for the check/verify/confirm/ensure concept — the dictionary rejects all four as verbs. In pragmatic mode, pick one and keep it. Pick ONE noun for config/settings (all are valid technical nouns — pick one and keep it). Use no other word for these concepts in the whole document.
+3. **Fix the vocabulary before drafting.** In strict mode, use `make sure that` for the check/verify/confirm/ensure concept — the dictionary rejects all four as verbs. In pragmatic mode, pick one and keep it. Pick ONE noun for config/settings (all are valid technical nouns — pick one and keep it). Use no other word for these concepts in the whole document.
 4. **Apply the rules** from the catalog below.
-5. **Do the self-check** before you deliver. This step is not optional.
-6. **Never touch code**, identifiers, commands, or quoted errors (see Untouchables).
+5. **Do the self-check** before delivery. This step is not optional.
+6. **Keep code, identifiers, commands, and quoted errors exact** (see Untouchables).
 
 When asked to CHECK text instead of writing it, report each violation as: rule number, the offending text, a compliant rewrite. Cite only rule numbers that exist in this file. Do not cite rule numbers from memory: the numbering is unintuitive and models invent it (tested — an agent without this file cited "Rule 3.1: short sentences"; the real Rule 3.1 is about verb forms).
 
 ## Two Modes
 
-| Mode | When | What you apply |
+| Mode | When | Rules applied |
 |---|---|---|
 | **Pragmatic** (default) | Docs, READMEs, error messages — the user wants clear text | All structural rules. Domain words stay ("idempotent", "webhook"). |
 | **Strict** | The user names STE, ASD-STE100, or compliance | Structural rules + the vocabulary guidance in this file. |
@@ -64,7 +63,7 @@ Do not mix the two in one passage. A "Getting started" section is procedural. An
 | 1.13 | Do not use technical verbs as nouns. |
 | 1.14 | Use American English spelling. |
 
-In pragmatic mode, rules 1.5, 1.8, and 1.12 do the heavy lifting: your domain vocabulary is legal. The ones agents break are 1.7, 1.11, and 1.13.
+In pragmatic mode, rules 1.5, 1.8, and 1.12 do the heavy lifting: domain vocabulary is legal. The ones agents break are 1.7, 1.11, and 1.13.
 
 **Before:** You can webhook the event, then do a deploy.
 **After:** Send the event to the webhook. Then deploy the service.
@@ -171,7 +170,7 @@ Never bury the instruction after the explanation. The pattern transfers directly
 | 8.6 | Count as one word each: numbers, numbers with units, abbreviations, alphanumeric identifiers, quoted text, titles, labels, proper nouns. |
 | 8.7 | A hyphenated word counts as one word. |
 
-Rule 8.6 matters for software text: `sqlpipe run --config sqlpipe.yaml` in backticks is quoted text and counts as one word. Long identifiers do not blow your sentence budget.
+Rule 8.6 matters for software text: `dbsync run --config dbsync.yaml` in backticks is quoted text and counts as one word. Long identifiers do not blow the sentence budget.
 
 ### Section 9 — Writing practices (Rules 9.1-9.4, GR-1 to GR-8)
 
@@ -203,7 +202,7 @@ Known part-of-speech rulings, useful as patterns:
 
 ### The modal ladder
 
-| You wrote | STE writes |
+| Source | STE writes |
 |---|---|
 | should (requirement) | must |
 | should (recommendation) | Delete it, or state it as fact: "X is better because Y." |
@@ -211,38 +210,7 @@ Known part-of-speech rulings, useful as patterns:
 | may (permission) | can |
 | would (hypothetical) | Restructure: "If X occurs, Y occurs." |
 
-### Slop-to-simple substitutions
-
-This table is ours, not the ASD dictionary. It maps the words AI-generated docs overuse to plain replacements. If the word carries no fact, delete it instead of replacing it.
-
-| Slop | Write instead |
-|---|---|
-| leverage, utilize | use |
-| in order to | to |
-| prior to | before |
-| ensure | make sure that |
-| it is worth noting that | (delete) |
-| it's important to, crucially | (delete — state the fact) |
-| simply, just, easily, seamlessly, effortlessly | (delete) |
-| robust, powerful, comprehensive, performant | (delete, or give the measurable property) |
-| functionality | function, feature |
-| enables you to, allows you to | you can |
-| is designed to, aims to | (delete — say what it does) |
-| facilitate | help, make possible |
-| dive into, delve into | read, examine |
-| when it comes to | for |
-| in the event that | if |
-| due to the fact that | because |
-| as needed, as necessary | (state the condition) |
-| and/or | Pick one, or write "X, or Y, or both" |
-| e.g. / i.e. / etc. | for example / that is / (name the items) |
-| gracefully handles | (say what it does: "retries three times, then stops") |
-| out of the box | by default |
-| under the hood | internally |
-| blazingly fast, state-of-the-art | fast (give the number) / (delete) |
-| streamline | make simpler, make faster |
-| plethora, myriad | many |
-| addresses the issue, tackles | corrects the fault, removes the error |
+The AI-vocabulary and filler substitutions ("leverage" to "use", "in order to" to "to") belong to **unslop**. Load **unslop** for them and apply them in both modes.
 
 ### Consistency pass
 
@@ -254,7 +222,7 @@ Collapse synonym rotations to one term each (Rules 1.11, 9.4). The two lists bel
 
 **Dictionary rulings — the standard has already chosen. Use the approved word (strict mode); pick one and keep it consistent (pragmatic mode):**
 
-| You wrote | Dictionary status | Use instead |
+| Source | Dictionary status | Use instead |
 |---|---|---|
 | check (verb) / verify / confirm / ensure | All rejected as verbs | `make sure that` (strict); pick one (pragmatic) |
 | validate | Not in dictionary | Use as technical verb (Rule 1.12), or replace with `make sure that` |
@@ -287,32 +255,32 @@ Same rules, different targets. Full adaptations in `references/use-cases.md`:
 - **Runbooks**: STE's home turf. Imperative steps, conditions first, warnings before the step.
 - **Incident reports**: simple past only. "We have identified an issue that may have impacted" becomes "Between 14:02 and 14:31 UTC, 12% of requests failed."
 - **Release notes**: breaking changes follow the warning pattern — command first, risk second.
-- **Agent instructions (prompts, AGENTS.md)**: a system prompt is a procedure for a reader that cannot ask questions. One instruction per sentence, no "should", condition first.
+- **Agent instructions (prompts, AGENTS.md)**: a system prompt is a procedure for a reader that cannot ask questions. One instruction per sentence, no "should", condition first. Document structure belongs to **writing-for-agents**.
 - **Translation prep**: STE's original job. One meaning per word plus complete grammar removes most translation ambiguity.
 
-## Self-Check Before You Deliver
+## Self-Check Before Delivery
 
-This step is not optional. Run these four checks on your draft:
+This step is not optional. Run these four checks on the draft:
 
-1. Count words in your three longest sentences. Over the 20/25 limit → split them.
-2. Search your draft for: `'ll`, `'re`, `'s` (contraction), `has been`, `have been`, `should`, `-ing` verbs after a comma, semicolons.
-3. Search for every `if` and `when`. Each one stands at the START of its sentence, before the command. "Increase the timeout if the network is slow" → "If the network is slow, increase the timeout."
-4. Search for the verbs you did NOT pick in Your Task step 3 (the check/verify/confirm set). Replace every hit with your chosen verb.
+1. Count words in the three longest sentences. Over the 20/25 limit → split them.
+2. Search the draft for: `'ll`, `'re`, `'s` as a contraction (it's, that's; leave possessives to GR-8), `has been`, `have been`, `should`, `-ing` verbs after a comma, semicolons.
+3. In procedural text, search for every `if` and `when`. Each one stands at the START of its sentence, before the command. Descriptive sentences may keep `when` after the verb. "Increase the timeout if the network is slow" → "If the network is slow, increase the timeout."
+4. Search for the verbs not picked in Procedure step 3 (the check/verify/confirm set). Replace every hit with the chosen verb.
 
-Fix what you find, then deliver. For a full audit, run `references/checklist.md`.
+Fix each hit, then deliver. Done when the four checks return no hits. In strict mode, also run `references/checklist.md`.
 
 ## Full Example
 
 **Before (real unedited AI output):**
 
-> **Connection timeouts.** If sqlpipe hangs or fails with `dial tcp: i/o timeout`, check that the host running sqlpipe can reach the Postgres port (usually 5432) — this is often a security group or firewall rule blocking the connection. If you're connecting to a managed database (RDS, Cloud SQL, etc.), confirm the instance allows connections from sqlpipe's IP. You can also try increasing `source.connect_timeout_seconds` in your config, since a slow network path can trip the default timeout even when the connection eventually succeeds.
+> **Connection timeouts.** If dbsync hangs or fails with `dial tcp: i/o timeout`, check that the host running dbsync can reach the Postgres port (usually 5432) — this is often a security group or firewall rule blocking the connection. If you're connecting to a managed database (RDS, Cloud SQL, etc.), confirm the instance allows connections from dbsync's IP. You can also try increasing `source.connect_timeout_seconds` in your config, since a slow network path can trip the default timeout even when the connection eventually succeeds.
 
 **After (classified procedural, verb = "make sure", conditions first, one instruction per sentence):**
 
-> **Connection timeouts.** sqlpipe stops with `dial tcp: i/o timeout` when it cannot reach the Postgres port (5432 by default).
+> **Connection timeouts.** dbsync cannot reach the Postgres port (5432 by default). Then it stops with `dial tcp: i/o timeout`.
 >
-> 1. Make sure that the host that runs sqlpipe can reach the Postgres port. A firewall or security group usually blocks it.
-> 2. If the database is managed (RDS, Cloud SQL), make sure that the instance accepts connections from the IP of sqlpipe.
+> 1. Make sure that the host that runs dbsync can reach the Postgres port. A firewall or security group usually blocks it.
+> 2. If the database is managed (RDS, Cloud SQL), make sure that the instance accepts connections from the IP of dbsync.
 > 3. If the network is slow, increase `source.connect_timeout_seconds` in the configuration.
 
 What changed: 40-word sentences split under 20; "you're" expanded; "check/confirm" collapsed to "make sure that"; every condition moved before its command; "etc." removed; code and error strings untouched.
@@ -321,3 +289,5 @@ What changed: 40-word sentences split under 20; "you're" expanded; "check/confir
 
 - `references/checklist.md` — full verification pass with searchable patterns, for check mode and final audits
 - `references/use-cases.md` — long-form adaptations: error messages, runbooks, incident reports, commits, UI copy, i18n
+
+For the general AI-tell pass, see **unslop**.

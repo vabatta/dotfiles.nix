@@ -21,6 +21,6 @@ in
     skills = bundle "ai-skills" ../ai/skills;
     agents = bundle "ai-agents" ../ai/agents;
     plugins = bundle "ai-plugins" ../ai/plugins;
-    rules = ../ai/rules/engineering.md;
+    rules = ../ai/AGENTS.md;
   };
 }

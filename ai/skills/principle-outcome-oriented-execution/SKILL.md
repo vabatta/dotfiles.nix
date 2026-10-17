@@ -1,24 +1,20 @@
 ---
-source: https://github.com/cursor/plugins/blob/51a96e0dd838404da19ba83dc70aa21eef71f868/pstack/skills/principle-outcome-oriented-execution/SKILL.md
 name: principle-outcome-oriented-execution
-description: Apply during planned rewrites and migrations with explicit phase boundaries. Converge on the target architecture. Do not preserve smooth intermediate states with throwaway compatibility code.
+description: "Apply when executing a planned rewrite or restructure with phase boundaries. Converge on the verified target architecture and accept planned, reversible breakage inside a phase."
 ---
 
 # Outcome-Oriented Execution
 
-Optimize for the intended, verifiable end state rather than preserving smooth intermediate states.
+Optimize for the intended, verifiable end state over smooth intermediate states.
 
-**Why:** Keeping every intermediate step fully stable often creates temporary compatibility code that becomes long-lived debt. Converge on the target architecture and prove correctness at explicit verification boundaries.
+**Why:** Keeping every intermediate step fully stable creates temporary compatibility code that becomes long-lived debt.
 
-**Core rule:**
-- Prioritize end-state integrity over transitional stability
-- Intermediate breakage is acceptable when it is planned, scoped, and reversible
-- Always run final verification before declaring done
+**Pattern:**
+- Prioritize end-state integrity over transitional stability.
+- Declare where breakage is acceptable. A phase is a run of commits that opens its breakage at the first and closes it at the last, planned, scoped, and reversible. Every phase boundary is a green commit per **principle-sequence-verifiable-units**.
+- Require the plan to list one smoke command per phase. If it lists none, add them before phase 1 starts.
+- Keep high-signal checks on actively touched areas while migrating.
+- Verify the target architecture at plan completion per **principle-prove-it-works**.
+- Delete the old paths in the phase that replaces them, per **principle-migrate-callers-then-delete-legacy-apis**.
 
-**Guardrails:**
-- Use this for planned rewrites and migrations with explicit phase boundaries
-- Declare where temporary breakage is acceptable
-- Keep high-signal checks for actively touched areas while migrating
-- Require full static and runtime verification at plan completion
-
-**Test:** The final verification runs at plan completion against the target architecture. If an intermediate compatibility shim ships as permanent, execution drifted from the outcome.
+**Test:** Every phase's smoke command exited 0 at its boundary commit, the final verification ran against the target architecture, and no intermediate shim shipped as permanent.

@@ -10,12 +10,12 @@
   homebrew.casks = [
     "docker-desktop"
     "local/container/container"
-    "local/davit/davit"
+    "wouterdebie/tap/davit"
   ];
 
   homebrew.taps = [
     "local/container"
-    "local/davit"
+    "wouterdebie/tap"
   ];
 
   home-manager.users.${hostUsername} = {

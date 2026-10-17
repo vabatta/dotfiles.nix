@@ -29,6 +29,12 @@
     # claude code CLI
     claude-code.url = "github:sadjow/claude-code-nix";
 
+    # official davit homebrew tap (cask only, not a flake)
+    homebrew-wouterdebie = {
+      url = "github:wouterdebie/homebrew-tap";
+      flake = false;
+    };
+
     # opencode >= 1.18.25 shows a blank TUI when a legacy opencode.db exists; pinned to 1.18.18
     nixpkgs-opencode.url = "github:nixos/nixpkgs/174eb786fb68e3a13e4e535a3deea479a0c07a6a";
   };

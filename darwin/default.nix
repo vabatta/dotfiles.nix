@@ -42,10 +42,7 @@
         path = ../taps/container;
         name = "homebrew-container";
       };
-      "local/homebrew-davit" = builtins.path {
-        path = ../taps/davit;
-        name = "homebrew-davit";
-      };
+      "wouterdebie/homebrew-tap" = inputs.homebrew-wouterdebie;
     };
     mutableTaps = false;
   };

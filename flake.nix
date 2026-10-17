@@ -29,6 +29,8 @@
     # claude code CLI
     claude-code.url = "github:sadjow/claude-code-nix";
 
+    # opencode >= 1.18.25 shows a blank TUI when a legacy opencode.db exists; pinned to 1.18.18
+    nixpkgs-opencode.url = "github:nixos/nixpkgs/174eb786fb68e3a13e4e535a3deea479a0c07a6a";
   };
 
   outputs =

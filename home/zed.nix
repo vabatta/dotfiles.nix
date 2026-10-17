@@ -3,6 +3,8 @@
   programs.zed-editor = {
     enable = true;
 
+    enableMcpIntegration = true;
+
     package = null; # Use the Cask version
 
     extensions = [ "catppuccin" ];
@@ -29,5 +31,4 @@
   };
 
   home.file.".agents/skills".source = ai.skills;
-  home.file.".config/zed/AGENTS.md".source = ai.rules;
 }

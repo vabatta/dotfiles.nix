@@ -18,6 +18,10 @@
     "wouterdebie/tap"
   ];
 
+  homebrew.masApps = {
+    "Tailscale" = 1475387142;
+  };
+
   home-manager.users.${hostUsername} = {
     xdg.enable = true;
     home.preferXdgDirectories = true;

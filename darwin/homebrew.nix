@@ -15,7 +15,7 @@
     # nixpkgs is best for CLI tools
     casks = [
       # OS enhancements
-      "jordanbaird-ice"
+      "thaw"
       "keepingyouawake"
       "betterdisplay"
 

@@ -4,7 +4,7 @@
     enable = true;
     enableMcpIntegration = true;
 
-    package = inputs.claude-code.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
+    package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;
     skills = ai.skills;
     agentsDir = ai.agents;
   };

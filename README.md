@@ -1,6 +1,6 @@
 # Nix macOS Dotfiles
 
-My personal macOS dotfiles managed declaratively with Nix flakes through nix-darwin backed by home-manager.
+My personal dotfiles managed declaratively with Nix flakes: macOS through nix-darwin, the Linux devbox through NixOS, both backed by home-manager.
 
 ## Folder Structure
 
@@ -11,7 +11,9 @@ nix/
 │   ├── default.nix
 │   ├── settings.nix
 │   └── homebrew.nix
-├── home/                    # Home Manager config
+├── nixos/                   # NixOS system settings (devbox)
+│   └── default.nix
+├── home/                    # Home Manager config (shared by macOS and NixOS)
 │   ├── default.nix          # contains non-explicitly configured packages as well
 │   └── <program>.nix
 ├── scripts/                 # custom shell scripts
@@ -34,6 +36,20 @@ nix/
     ```bash
     sudo nix run nix-darwin --extra-experimental-features nix-command --extra-experimental-features flakes -- switch --flake ~/.config/nix
     ```
+
+### NixOS devbox
+
+1. Install NixOS, clone this repo to `~/.config/nix`.
+2. Replace the placeholder with the real hardware config:
+    ```bash
+    nixos-generate-config --show-hardware-config > hosts/devbox/hardware-configuration.nix
+    ```
+3. Run `sudo nixos-rebuild switch --flake .#devbox`.
+4. Create keys on the box, never copy private keys from a laptop: `ssh-keygen -t ed25519 -C devbox`.
+5. Add `~/.ssh/id_ed25519.pub` to GitHub twice, as an authentication key and as a signing key.
+6. Allow your laptop to log in: run `ssh-copy-id <user>@devbox` from the laptop.
+
+The box has no 1Password. Export `OPENROUTER_API_KEY` in the environment that starts `opencode`; the wrapper in `home/opencode.nix` uses `op` only when it is unset.
 
 ## Customization
 

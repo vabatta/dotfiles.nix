@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, ... }:
 {
   programs.git = {
     enable = true;
@@ -199,6 +199,9 @@
 
   home.shellAliases.g = "git";
 
-  home.file."${config.xdg.configHome}/git/allowed_signers".text =
-    "${config.programs.git.settings.user.email} ${config.programs.git.signing.key}\n";
+  home.file."${config.xdg.configHome}/git/allowed_signers" =
+    lib.mkIf (config.programs.git.signing.key != null)
+      {
+        text = "${config.programs.git.settings.user.email} ${config.programs.git.signing.key}\n";
+      };
 }

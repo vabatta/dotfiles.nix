@@ -17,6 +17,14 @@ in
 {
   home.packages = [ validate-mermaid ];
 
+  programs.mcp = {
+    enable = true;
+    servers.obscura = {
+      command = "${pkgs.obscura}/bin/obscura";
+      args = [ "mcp" ];
+    };
+  };
+
   _module.args.ai = {
     skills = bundle "ai-skills" ../ai/skills;
     agents = bundle "ai-agents" ../ai/agents;

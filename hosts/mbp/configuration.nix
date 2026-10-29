@@ -25,6 +25,7 @@
   home-manager.users.${hostUsername} = {
     xdg.enable = true;
     home.preferXdgDirectories = true;
+    opencode.opVault = "Macbook Personal";
 
     home.packages = with pkgs; [
       # claude-code-acp

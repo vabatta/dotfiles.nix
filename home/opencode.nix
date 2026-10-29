@@ -1,17 +1,25 @@
-{ ai, pkgs, inputs, ... }:
+{ ai, pkgs, lib, config, inputs, ... }:
 let
-  opencode = inputs.nixpkgs-opencode.legacyPackages.${pkgs.stdenv.hostPlatform.system}.opencode;
+  vault = config.opencode.opVault;
+  opencode = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.opencode;
 
-  # 1Password stays outside the Nix store while OpenCode receives the key at launch.
+  # The key stays outside the Nix store and reaches OpenCode at launch: an already-set variable wins
+  # (hosts without 1Password export it), otherwise the host's 1Password vault supplies it.
+  # A host with no vault set never calls op.
   # The wrapper avoids a bin/opencode collision and the Home Manager null-package bug.
   opencodeWrapped = pkgs.writeShellScriptBin "opencode" ''
-    export OPENROUTER_API_KEY="$(${pkgs._1password-cli}/bin/op read 'op://Development/OpenRouter API Key - opencode/credential' --no-newline)"
-    export ISOQUANT_API_KEY="$(${pkgs._1password-cli}/bin/op read 'op://Development/Isoquant API Key/credential' --no-newline)"
+    ${lib.optionalString (vault != null) ''export OPENROUTER_API_KEY="''${OPENROUTER_API_KEY:-$(${pkgs._1password-cli}/bin/op read 'op://${vault}/OpenRouter - opencode/credential' --no-newline)}"''}
     exec ${opencode}/bin/opencode "$@"
   '';
 
 in
 {
+  options.opencode.opVault = lib.mkOption {
+    type = lib.types.nullOr lib.types.str;
+    default = null;
+    description = "1Password vault that holds this host's OpenRouter key.";
+  };
+
   config = {
     programs.opencode = {
       enable = true;
@@ -22,32 +30,6 @@ in
         # Updates are managed by Nix, not OpenCode's self-updater.
         autoupdate = false;
         permission = "allow";
-
-        model = "isoquant/glm-5.3-flash";
-        provider.isoquant = {
-          npm = "@ai-sdk/openai-compatible";
-          name = "Isoquant";
-          options = {
-            baseURL = "https://api.isoquant.ai/v1";
-            apiKey = "{env:ISOQUANT_API_KEY}";
-            headers."Isoquant-ZDR" = "required";
-          };
-          models."glm-5.3-flash" = {
-            name = "GLM-5.3-Flash";
-            tool_call = true;
-            reasoning = true;
-            interleaved.field = "reasoning_content";
-            cost = {
-              input = 0.07;
-              output = 0.20;
-              cache_read = 0.014;
-            };
-            limit = {
-              context = 1048576;
-              output = 1048576;
-            };
-          };
-        };
       };
 
       tui = {

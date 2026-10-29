@@ -3,6 +3,7 @@
   imports = [
     ./bat.nix
     ./opencode.nix
+    ./pi.nix
     ./bottom.nix
     ./claude-code.nix
     ./ai.nix
@@ -48,7 +49,7 @@
       "la" = "ls -lah";
       "ll" = "ls -lh";
       "nd" = "nix develop";
-      "nix-switch" = "sudo darwin-rebuild switch --flake ~/.config/nix";
+      "nix-switch" = "sudo ${if pkgs.stdenv.hostPlatform.isDarwin then "darwin" else "nixos"}-rebuild switch --flake ~/.config/nix";
       "ns" = "nix-shell";
       "nsz" = "nix-shell --run 'exec zsh'";
       "nnz" = "nix shell nixpkgs#nodejs_24 nixpkgs#corepack_24 --command zsh";

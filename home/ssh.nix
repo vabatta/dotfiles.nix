@@ -4,6 +4,9 @@
     enable = true;
     enableDefaultConfig = false;
 
+    # The devbox signs and authenticates with its own keys, so never lend it this machine's agent.
+    settings."devbox".ForwardAgent = false;
+
     settings."*" = {
       ForwardAgent = true;
       AddKeysToAgent = "no";

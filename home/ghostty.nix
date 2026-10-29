@@ -4,6 +4,7 @@
     enable = true;
 
     package = null; # Use the Cask version for now
+    systemd.enable = false; # no package to run as a unit (Linux default is true)
 
     settings = {
       theme = "light:Catppuccin Latte,dark:Catppuccin Mocha";

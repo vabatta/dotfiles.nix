@@ -1,6 +1,6 @@
 ---
 name: unslop
-description: "Edits text to remove AI writing tells and restore a human voice. Use as the last pass on prose before delivery, after any other writing skill, or when asked to humanize text, de-slop it, or remove AI tells."
+description: "Edits text to remove AI writing tells and restore a human voice. Use when asked to humanize text, de-slop it, or remove AI tells, or as the last pass on narrative prose for human readers."
 ---
 
 # Unslop
@@ -18,13 +18,11 @@ Leave code, identifiers, paths, numeric ranges, and verbatim quotes untouched. P
 
 ## Adding soul
 
-Removing patterns is half the job. Sterile, voiceless writing is just as obvious.
+Removing patterns is half the job.
 
 - **Have opinions.** React to facts instead of neutrally listing pros and cons.
-- **Vary rhythm.** Short sentences. Then longer ones that take their time. Mix it up.
 - **Acknowledge complexity.** "Impressive but also kind of unsettling" beats "impressive."
 - **Use "I" when it fits.** First person isn't unprofessional.
-- **Let some mess in.** Perfect structure looks machine-made.
 - **Be specific.** Not "this is concerning" but "there's something unsettling about agents churning away at 3am."
 
 ## Patterns to detect and fix
@@ -49,7 +47,7 @@ Removing patterns is half the job. Sterile, voiceless writing is just as obvious
 
 ### Style
 
-13. **Em dash overuse.** Avoid em dashes entirely. Use periods or commas only (no parenthetical asides, no en dashes, no hyphen-as-dash substitutes; function-call syntax and numeric ranges stay). Em dashes are an AI tell, and reaching for parentheses instead just trades one tell for another. If a thought needs separation, end the sentence or use a comma.
+13. **Em dash overuse.** Avoid em dashes entirely. Use periods or commas only (no en dashes, no hyphen-as-dash substitutes; function-call syntax and numeric ranges stay). Avoid parenthetical asides, and keep a parenthesis only when it holds a full grammatical unit. Em dashes are an AI tell, and reaching for parentheses instead just trades one tell for another. If a thought needs separation, end the sentence or use a comma.
 14. **Colon overuse.** Colons are fine before a list or example. Not as mid-sentence connectors. "If you're coming from traditional automation: instead of registering event handlers, you describe conditions" adds nothing with the colon. Rewrite to let the point stand on its own without comparison framing. "Describing when the scheduler should fire works best as plain English." Same meaning, no crutch punctuation.
 15. **Boldface overuse.** Don't bold every proper noun or acronym.
 16. **Inline-header lists.** The tell is a bold label and colon that restates the line: "**Performance:** Performance improved...". Convert those to prose. A bold lead-in that ends in a period, names the item, and is followed by genuinely new detail ("**Schema in TypeScript.** Tables live in one file.") is fine, not a tell.

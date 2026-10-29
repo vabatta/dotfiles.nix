@@ -2,8 +2,8 @@
 """Resolve the effective AI model policy for the current session.
 
 Lookup order:
-1. `.ai/model-policy.json` in the project root, found by walking up from the
-   current directory to the git worktree boundary. The file is committed repo
+1. `.ai/model-policy.json` in the project root, found with
+   `git rev-parse --show-toplevel`. The file is committed repo
    state, shared with the team.
 2. The runtime policy at `$XDG_CONFIG_HOME/ai/model-policy.json`, or
    `~/.config/ai/model-policy.json` when `XDG_CONFIG_HOME` is unset. Personal

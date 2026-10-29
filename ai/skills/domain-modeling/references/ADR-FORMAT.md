@@ -22,4 +22,4 @@ Only include these when they add genuine value. Most ADRs will not need them.
 
 ## When to write an ADR
 
-The three tests in SKILL.md must all hold before writing one. Qualifying decisions include architectural shape, integration patterns between contexts, technology choices that carry lock-in, boundary and scope decisions, deliberate deviations from the obvious path, constraints not visible in the code, and non-obvious rejected alternatives.
+Qualifying decisions include architectural shape, integration patterns between contexts, technology choices that carry lock-in, boundary and scope decisions, deliberate deviations from the obvious path, constraints not visible in the code, and non-obvious rejected alternatives.

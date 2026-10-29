@@ -9,19 +9,15 @@ Make intended behaviour executable before changing production code, so the test 
 
 TDD is a tool, not a rule. When the user wants code without tests, a spike, or a throwaway, write the code and say tests were skipped. Reach for this skill for bug fixes, regressions, and behaviour changes you want to lock down, especially when a cheap local test path exists.
 
-Core principle: a test never seen failing proves nothing about the behaviour. See **principle-prove-it-works**.
-
 ## Workflow
 
 1. **Understand the behaviour.** State the intended behaviour as a sentence a user would recognise, the current behaviour, the affected path, and the smallest observable reproduction. Reproduce the reported case first. If it does not fail, find the real failing input before writing the test.
-2. **Choose the narrowest executable check.** Inspect the closest existing test harness for that codepath before building anything (**principle-use-before-build**). Pick the test type by the seam, not by habit. State the seam in one line: the public entry point the test calls, or the spec's seam when one exists. With no harness, use the language's standard-library runner in a new `tests/` file and say so. If no practical path is obvious, say why and stop rather than inventing a brittle one.
+2. **Choose the narrowest executable check.** Inspect the closest existing test harness for that codepath before building anything (**principle-use-before-build**). State the seam in one line: the public entry point the test calls, or the spec's seam when one exists. With no harness, use the language's standard-library runner in a new `tests/` file and say so. If no seam is obvious, follow the impractical-test section below.
 3. **Write the failing test first.** Encode intended behaviour, not the current implementation. Name it after the behaviour.
 4. **Run the new test before changing production code.** Confirm it fails for the intended reason. If it passes, you are pinning existing behaviour, so switch to that section. If it fails for an unrelated reason, fix the test or reproduction first.
 5. **Make the smallest production change that passes.** Preserve nearby contracts. Do not refactor beyond the behaviour under test (**principle-laziness-protocol**).
 6. **Rerun the new test, then the suite.** Confirm the new test passes, then run the project's test command — the whole suite, not just your file. Name any failure you see, even one you did not cause. Done when the new test was seen red then green and the whole suite is green.
 7. **Report the evidence.** The failing-before run and its failure, the passing-after run, and any nearby validation.
-
-Work one behaviour at a time and do not advance past a red suite — each cycle ends at a checkable green state (**principle-sequence-verifiable-units**).
 
 When the test target for a hard bug is unclear, use **diagnosing-bugs** to build a red-capable loop first.
 
@@ -50,7 +46,6 @@ Prefer no new test over a bad test. A bad test mostly tests mocks, encodes curre
 ## Guardrails
 
 - Change or weaken an existing assertion only when the expected behaviour genuinely changed, and say why.
-- Keep the test focused on one behaviour. Avoid fixture churn and unrelated coverage.
 - If the bug is flaky, make the test deterministic and document the signal being locked down.
 - A regression test is the encoded guard for the bug, so it belongs in the repo, not in a scratch file (**principle-encode-lessons-in-structure**). Fix the cause the test pins, not the symptom it exposed; a test that passes only because the symptom is hidden is a bug in the test (**principle-fix-root-causes**).
 

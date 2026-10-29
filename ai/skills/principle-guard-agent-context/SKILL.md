@@ -12,10 +12,8 @@ Make every token that enters the context window earn its place.
 **Pattern:**
 - Treat any output, file, or document over about 200 lines or 10 KB as bulk, and never print it in full.
 - Reduce bulk in place first with a script, grep, or jq that prints only what matters. Route it to a subagent only when the reduction needs judgment, and keep the summary in the main thread.
-- Read selectively, only what the current task needs.
-- Keep frequently used content inline, since a separate file costs a read each time.
-- Size phases and cap scope by limiting files per phase and setting turn budgets.
+- Inline content every run needs, since a separate file costs a read each time.
 
-**Test:** No tool output over 200 lines was printed in full, and each bulk payload appears only as a summary plus an artifact path in the session scratchpad.
+**Test:** No tool output over 200 lines was printed in full, and each bulk payload appears only as a reduced excerpt or a summary, with an artifact path when it was saved.
 
-For one big payload, use a script or a single worker. For several independent slices, use **delegate**.
+For several independent slices, use **delegate**.

@@ -11,9 +11,8 @@ The human supervises asynchronously. Make reasonable decisions, proceed, and let
 
 **Pattern:**
 - **Proceed, then present.** Do the work, show the result, and explain why instead of asking whether to.
-- **Ask only at one-way doors.** Irreversible actions (force-push, delete production data, send external messages) need confirmation first.
-- **Leave direction to the human.** Product direction and decisions that shape the work are the human's. Settle them with **grill**, then proceed unblocked on the execution.
-- **Ask when intent cannot be inferred.** Genuine ambiguity that context cannot resolve is a question that shapes the work.
+- **One-way doors need confirmation.** Irreversible actions (force-push, delete production data, send external messages) need confirmation first.
+- **Leave direction to the human.** Product direction and decisions that shape the work are the human's. A decision shapes the work when it changes scope, a public interface, or what is delivered. Settle them with **grill**, then proceed unblocked on the execution.
 - **No human present.** When no one can answer, write your recommended answer down as an assumption, continue, and list the assumptions in the result. At a one-way door, stop and report instead.
 - **Rule of thumb.** A door is one-way when undoing it needs more than a revert or a rerun.
 

@@ -1,6 +1,6 @@
 ---
 name: why
-description: "Searches history, ADRs, and sources for the motive behind a design choice, threshold, or past decision, separating facts from inference. Use when asked why did we choose X, why is it built this way, or what was the reasoning."
+description: "Searches history, ADRs, and sources for the motive behind a design choice, threshold, or past decision, separating facts from inference. Use when asked why did we choose X or what the recorded reasoning was."
 ---
 
 # Why
@@ -22,10 +22,7 @@ or analytics only when the host provides those sources.
    implementation, add four lines: `Preserve:` what must stay true,
    `Change:` what the evidence allows to change, `Avoid:` what the history
    shows failed, `Risk:` what could break. Done when every intent claim
-   carries a citation or a tier label (Unknown counts).
-
-Never claim that an external source was searched when the host did not expose
-it.
+   carries a tier label, and a citation unless the tier is Unknown.
 
 Read [epistemics.md](references/epistemics.md) before writing the answer, for
 the confidence tiers and calibrated phrasing. Read

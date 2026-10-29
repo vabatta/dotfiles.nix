@@ -1,12 +1,9 @@
 ---
 name: adversarial-review
-description: "Runs independent reviewers against a design or change and classifies findings as act, consider, noted, or dismissed. Use when a change is contested, cross-cutting, or easy to get subtly wrong, and adversarial critique is wanted. It returns classified findings, never a merge verdict. Trigger on adversarial review, red team, poke holes, or find the flaws."
+description: "Runs independent reviewers against a design or change and classifies findings as act, consider, noted, or dismissed. Use when asked for adversarial critique of a design or change. It returns classified findings, never a merge verdict. Trigger on adversarial review, red team, poke holes, or find the flaws."
 ---
 
 # Adversarial review
-
-Use independent reviewers when the change is contested, cross-cutting, or easy
-to get subtly wrong.
 
 1. State the goal, constraints, and review rubric. Done when each is one line.
 2. Fan the reviewers out per **delegate**, one read-only reviewer per rubric axis, three at most. Done when each axis has a report.
@@ -16,6 +13,6 @@ to get subtly wrong.
    - Consider: plausible, evidence incomplete.
    - Noted: true but outside the goal.
    - Dismissed: disproved by a run or a quoted line.
-5. Present the classified list. Fix Act on items only in your own change. For a plan, amend the plan. Done when every finding carries a class and the list is presented.
+5. Present the classified list. Edit only an artifact you authored, and nothing when report-only. Done when every finding carries a class and the list is presented.
 
 For the interview that settles open decisions before a change exists, use **grill**.

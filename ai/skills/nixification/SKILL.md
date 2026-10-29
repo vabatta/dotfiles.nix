@@ -14,17 +14,10 @@ When a dependency is missing, don't just run an ad-hoc `nix shell` one-liner and
 ## Decision Flow
 
 1. **Check if a `flake.nix` already exists** in the project root (or the working directory).
-   - If yes → read it, add the missing package to `buildInputs` (or create a `devShells` output from the template when none exists), and enter the environment with `nix develop`.
-   - If no → decide whether to create one (see below).
+   - If yes → read it, add the missing package to `buildInputs` (or create a `devShells` output from the template when none exists), and run commands in it with `nix develop --command <cmd>`.
+   - If no → apply step 2.
 
-2. **Create a `flake.nix` when:**
-   - The task involves more than one dependency, or one tool that will be reused.
-   - The user is working inside a project directory that will persist.
-   - The user explicitly asks for a flake.
-
-3. **Use ephemeral `nix shell` when:**
-   - A single binary is needed once, for a one-off command (e.g., `nix shell nixpkgs#jq --command jq '.name' file.json`).
-   - The user explicitly asks for a quick/throwaway approach.
+2. **Apply the tie-break above.** A request for a flake means a flake. A request for a quick or throwaway approach means ephemeral.
 
 ## Finding Packages
 
@@ -95,10 +88,10 @@ The template needs only `nixpkgs`, so it adds no `flake-utils` input. After writ
 git add flake.nix      # only in a git repo
 nix flake lock
 git add flake.lock     # only in a git repo
-nix develop
+nix develop --command sh -c 'command -v <binary>'
 ```
 
-Done when the missing binary resolves inside `nix develop` (`command -v <binary>`).
+Done when that command prints the path of the missing binary.
 
 ## Extending an Existing flake.nix
 

@@ -7,19 +7,14 @@ description: "Runs independent lenses on one question and returns one evidenced 
 
 Use a team discussion when the value comes from distinct viewpoints examining
 the same question. The coordinator owns the question, the rounds, and the
-final synthesis. The participants provide evidence and judgment. They do not
-edit the repository.
+final synthesis. The participants provide evidence and judgment.
 
 ## Choose The Shape
-
-Use this skill for a decision or investigation that benefits from disagreement.
 
 - Use **delegate** when workers can complete independent slices without discussion.
 - Use **arena** when the output is several competing artifacts that need scoring.
 - Use **adversarial-review** when an existing change needs adversarial findings.
 - Use **how** or **why** when one explanation or evidence search is enough.
-
-If the question has product or UX tradeoffs, weigh them per **principle-experience-first**.
 
 ## Discussion Protocol
 
@@ -33,11 +28,11 @@ claims the participants must investigate.
 
 Choose three to five distinct roles based on the question. Useful lenses include
 user impact, implementation design, operations, security, testing, maintenance,
-and deliberate dissent. Brief each participant per **delegate** as a read-only `judgment` worker, on the session model unless the caller asks for diverse models.
+and deliberate dissent. Brief each participant per **delegate** as a read-only `judgment` worker.
 
 ### 3. First Round
 
-Run the participants independently before showing them other responses. When the host cannot delegate, write each lens's position to its own section before drafting the next, never revise an earlier one, and state in the output that independence was simulated. Each
+Run the participants independently before showing them other responses. When the host cannot delegate, use **delegate**'s sequential fallback and state in the output that independence was simulated. Each
 returns:
 
 - Position and confidence.
@@ -45,8 +40,6 @@ returns:
 - Important assumptions.
 - Risks and counterexamples.
 - The condition that would change the position.
-
-Done when every lens has returned all five items.
 
 ### 4. Synthesize
 
@@ -56,7 +49,7 @@ evidence from agreement caused by identical assumptions.
 
 ### 5. Challenge
 
-Run at most one extra round, only on material disagreements or unsupported assumptions, unless the coordinator names a new material gap.
+Run one challenge round, only on disagreements that would change the recommendation.
 Give each participant the opposing claims and ask for a rebuttal, an update to
 confidence, or an explicit concession. Do not restart the whole discussion.
 
@@ -77,7 +70,5 @@ Return:
 - Assumptions and unresolved evidence gaps.
 - The recommendation and confidence.
 - The next action or the reason no decision is ready.
-
-Verify participant outputs per **principle-prove-it-works**.
 
 **Test:** the coordinator re-read or re-ran every cited path and number, and the output has every contract item.

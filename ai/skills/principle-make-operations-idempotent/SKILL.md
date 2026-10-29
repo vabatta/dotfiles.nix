@@ -11,9 +11,9 @@ Design every state-mutating operation to converge to the correct state however m
 
 **Pattern:**
 - Start convergently: scan for existing state, clean stale artifacts, and resume live work.
-- Clean up by content equivalence, not creation order.
-- Where the operation uses locks, detect stale ones by checking whether the owner is still alive. Add no lock where atomic writes suffice.
-- Where it spawns workers, respawn failed work cleanly and regenerate fresh input after each cycle.
+- Compare artifacts by content, not mtime.
+- Where the operation uses locks, detect stale ones by checking whether the owner is still alive.
+- Where it spawns workers, respawn failed work cleanly.
 
 **Test:** Run the operation twice in a row. Then crash it after each durable write or external effect (raise at the Nth write for each N) and rerun. Each run converges to the same end state. Any dependence on leftover state needs a reconciliation step at the start of the operation.
 

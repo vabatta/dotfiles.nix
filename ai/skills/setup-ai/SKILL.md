@@ -40,8 +40,7 @@ in four forms:
   `order: ["z.ai"]` with `"allow_fallbacks": false` pins the upstream
   provider; `zdr` and `data_collection` pin on data policy. The object is
   host-specific: the pin is inert when the named block is not a router with
-  that vocabulary. It is still valid policy; the host just has nothing to
-  apply it to.
+  that vocabulary.
 
 A pinned object may appear anywhere a model string can, including inside a
 diversity pool. The provider and headers vocabulary is the host's contract,
@@ -54,11 +53,10 @@ enforces shape only, and the host rejects what it does not understand.
 
 1. `.ai/model-policy.json` at the project root, found via `git rev-parse
    --show-toplevel`. This file is committed repo state: it is shared with the
-   team, reviewed like the repo's `AGENTS.md`, and not managed by Nix. Use it
+   team, reviewed like the repo's `AGENTS.md`. Use it
    when a project needs a different model mix than the personal default.
 2. The runtime policy at `$XDG_CONFIG_HOME/ai/model-policy.json`, or
-   `~/.config/ai/model-policy.json` when `XDG_CONFIG_HOME` is unset. Personal
-   and runtime-owned, not managed by Nix.
+   `~/.config/ai/model-policy.json` when `XDG_CONFIG_HOME` is unset. Personal.
 3. This skill's `templates/model-policy.json` bootstrap, so resolution works on
    a fresh machine before the runtime policy exists.
 
@@ -67,10 +65,6 @@ on an invalid or missing file rather than degrading. `--role <name>` prints the
 role's first model id (the pinned object's `model`, or the first pool entry's),
 dropping `provider` and `headers`. `--source` prints the file the policy
 resolved from. `--policy <path>` resolves one file directly.
-
-The three modes are just values, not schema. Session mode is every role set to
-`inherit`. Catalog mode pins each role to the host's model slug. Auto mode sets a
-role to the host's own auto-routing alias.
 
 When changing a preference:
 
@@ -100,7 +94,5 @@ When changing a preference:
    different source means a higher-priority file overrides the edit; edit that
    file instead.
 
-The generator creates the parent directory and writes stable, sorted JSON. Do
-not copy model identifiers from a different client without checking that the
-active host accepts them. A harness that cannot spawn more than one model
-degrades to the session model for every role, per **delegate**.
+Do not copy model identifiers from a different client without checking that the
+active host accepts them.

@@ -23,7 +23,7 @@ Find where the user is in this process and help them progress through these stag
 
 For a small single-step behavior change to an existing skill, skip the eval loop: edit, run the bundle checker below, and show the diff. Send pure wording tightening to **writing-for-agents**. Start the loop when the edit changes behavior the user cannot judge by reading.
 
-After the skill is done, run the description optimization loop (`scripts/run_loop.py`) to tune its triggering.
+After the skill is done, offer the description optimization loop (`scripts/run_loop.py`) to tune its triggering.
 
 ## Communicating with the user
 
@@ -140,7 +140,7 @@ Try to explain to the model why things are important in lieu of heavy-handed mus
 
 After writing the skill draft, come up with 2-3 realistic test prompts — the kind of thing a real user would actually say. Share them with the user: [the exact language is flexible] "Here are a few test cases I'd like to try. Do these look right, or do you want to add more?" Then run them.
 
-Save test cases to `<skill>/evals/evals.json`, a working file that is removed before the skill ships. Don't write expectations yet — just the prompts. Draft expectations in the next step while the runs are in progress.
+Save test cases to `<workspace>/evals/evals.json`, as a working file. Don't write expectations yet — just the prompts. Draft expectations in the next step while the runs are in progress.
 
 ```json
 {
@@ -162,7 +162,7 @@ See `references/schemas.md` for the full schema (including the `expectations` fi
 
 This section is one continuous sequence. Run it to the end. Done when `benchmark.json` shows runs for both configurations and the viewer file or server exists. The scripts need Python 3.9 or newer.
 
-Put results in `.agent/runs/<skill-name>/`, meaning that path wherever `<workspace>` appears below. Within the workspace, organize results by iteration (`iteration-1/`, `iteration-2/`, etc.) and within that, each test case gets a directory (`eval-0/`, `eval-1/`, etc.). Don't create all of this upfront — just create directories as you go.
+Put results in `.agent/runs/skill-creator/<skill-name>/`, meaning that path wherever `<workspace>` appears below. Within the workspace, organize results by iteration (`iteration-1/`, `iteration-2/`, etc.) and within that, each test case gets a directory (`eval-0/`, `eval-1/`, etc.). Don't create all of this upfront — just create directories as you go.
 
 ### Step 1: Spawn all runs (with-skill AND baseline) in the same turn
 

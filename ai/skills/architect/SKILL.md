@@ -23,17 +23,13 @@ still show their position and do not silently skip phases.
 
 Build a real mental model of every system the new code touches. Run the **how** skill over the relevant subsystems.
 
-Before sketching new interfaces, apply **principle-use-before-build**. Inspect
-the standard library, installed dependencies, and existing project APIs that
-could already provide the capability.
-
 Naming a file isn't grounding. Produce the traced model **how** prescribes. If the design redefines ownership or layering, also run the **why** skill on the existing shape so the rationale becomes a constraint, not a guess.
 
 Skip Phase A only when the work is genuinely greenfield with no surrounding system to integrate.
 
 ## Phase B: Sketch
 
-Run the **arena** workflow with the design-sketch task and the Phase A grounding artifacts. Pass `references/runner-prompt.md` as each runner's brief, per **delegate**. Each candidate produces a design package shaped per `references/rationale-template.md`: the caller's usage written first, then the type sketch, function signatures, module map, and prose rationale derived from it.
+Run the **arena** workflow with the design-sketch task and the Phase A grounding artifacts. Pass `references/runner-prompt.md` as each runner's brief, per **delegate**. Ask **arena** for the selected artifact only, since Phase C implements it. Each candidate produces a design package shaped per `references/rationale-template.md`: the caller's usage written first, then the type sketch, function signatures, module map, and prose rationale derived from it.
 
 Design it twice, per **arena**. Whole-shape alternatives, not point fixes inside one shape.
 
@@ -41,7 +37,7 @@ Screen every candidate against [`references/design-red-flags.md`](references/des
 
 Hand arena this default rubric: interface depth, fit of the data structures, agreement with the caller's usage, and red-flag count. Add task-specific points up to six.
 
-Compare viable candidates on interface depth. Prefer the design that hides more complexity behind a smaller, simpler public surface. A rich interface can keep call chains short by concentrating capability instead of scattering it across layers.
+Prefer the design that hides more complexity behind a smaller, simpler public surface.
 
 The arena workflow returns one synthesized design package. The synthesis decision populates the rationale's "Synthesis decision" section. Copy the package to its home (see Outputs) before arena deletes its candidate directories.
 Done when one synthesized package exists at that home with a red-flag screen result.
@@ -68,7 +64,7 @@ Done when every sketch signature is implemented or removed, the usage examples r
 
 ## Phase E: Scrap when the architecture is wrong
 
-If implementation keeps producing friction the sketch can't absorb, throw the sketch out. Don't bolt fixes onto a wrong design, per **principle-redesign-from-first-principles** and **principle-fix-root-causes**.
+If implementation keeps producing friction the sketch can't absorb, throw the sketch out. Don't bolt fixes onto a wrong design.
 
 The signal is a *pattern*, not single instances. Tells:
 
@@ -79,8 +75,6 @@ The signal is a *pattern*, not single instances. Tells:
 - Callers having to know the abstraction's internal rules to use it.
 - Two or more independent Phase D deviations of the same shape across the implementation. Surfacing deviations is Phase D's job; a repeated pattern of them is Phase E's trigger.
 
-Use judgment. A few edge cases don't condemn an architecture. Some problems are legitimately complex; complexity in the data is not complexity in the design. The rewrite signal is repeated friction of the same shape, not single hard cases.
-
 When you scrap:
 
 1. Re-run the **how** skill over what's been built. The implementation lessons enter the new design as inputs, not vibes.
@@ -90,12 +84,10 @@ When you scrap:
 
 ## Outputs
 
-The caller's usage is written first and the type sketch derived from it. One file with new types and signatures for small changes; module map plus type definitions for larger work. The rationale ships alongside, shaped per `references/rationale-template.md`, including the usage sketch and the synthesis decision. Write both to `.agent/runs/architect/<slug>/`. When the design is hard to reverse, also record it as an ADR via **domain-modeling**, which owns the ADR location. With no checkpoint, list the open questions in the final report.
+The caller's usage is written first and the type sketch derived from it. One file of types and signatures, plus a module map when more than one module is involved. The rationale ships alongside, shaped per `references/rationale-template.md`, including the usage sketch and the synthesis decision. Write both to `.agent/runs/architect/<slug>/`. When the design is hard to reverse, also record it as an ADR via **domain-modeling**, which owns the ADR location.
 
 ## Vocabulary
 
-Use the shared vocabulary for module design, not the words component, service, API, or boundary. See [deep-modules.md](references/deep-modules.md) for Module, Interface, Depth, Seam, Adapter, Leverage, and Locality plus the deletion test, and [deepening.md](references/deepening.md) for how dependencies decide the seam and the test strategy. A module earns its keep when deleting it makes the complexity reappear across its callers.
+Use the shared vocabulary for module design, not the words component, service, API, or boundary. See [deep-modules.md](references/deep-modules.md) for Module, Interface, Depth, Seam, Adapter, Leverage, and Locality plus the deletion test, and [deepening.md](references/deepening.md) for how dependencies decide the seam and the test strategy.
 
-Concentrate validation at the system boundaries and keep business logic in pure functions, per **principle-boundary-discipline**.
-
-Encode the domain in the types and keep illegal states unrepresentable, per **principle-model-the-domain** and **principle-type-system-discipline**.
+Apply **principle-boundary-discipline**, **principle-model-the-domain**, and **principle-type-system-discipline** to the sketch.

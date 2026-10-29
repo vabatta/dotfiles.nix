@@ -5,8 +5,8 @@ Rules for authoring and editing the `SKILL.md` files here. Follow these;
 
 ## Frontmatter
 
-Required fields are `name` and `description`. Add no other key. Hosts also read
-`license`, `compatibility`, and `metadata`, and ignore the rest.
+Required fields are `name` and `description`. Add no key other than the optional
+`license`, `compatibility`, and `metadata`.
 
 - `name` is 1 to 64 characters, lowercase letters, digits, and single hyphens, matching
   the directory name. No leading or trailing hyphen and no double hyphen.
@@ -32,8 +32,6 @@ Then the local rules:
 - Never name another skill in the description. Each description stands alone. If two
   triggers collide, sharpen this skill's own trigger or fix the boundary between the
   skills, do not route in prose.
-- Front-load the leading term that triggers it. One trigger per branch, and do not repeat
-  identity the body already carries.
 - Stay under the 1024 limit, but do not pad. A vague description is worse than a short
   precise one.
 
@@ -45,14 +43,13 @@ Then the local rules:
 - Name files by content, use forward slashes, and give each reference a one-line pointer
   from `SKILL.md` saying what it is and when to read it.
 - Use third-person instructions in the imperative for the agent. Every step ends on a
-  completion criterion, so done and not-done are checkable.
+  completion criterion. A short sequential procedure can end on one instead, so done and not-done are checkable.
 - Route to other skills by their full name in bold, for example **delegate**. Do not
   restate another skill's contract; point at it.
 - A skill that fans out to workers or reviewers points at **delegate** for the
   sequential fallback and does not restate it. A step that would ask the human names a
   default to use when no one answers (see **principle-never-block-on-the-human**).
-- Prefer one strong leading word over a restatement, and prompt the positive rather than
-  listing prohibitions.
+- Wording doctrine is owned by **writing-for-agents**.
 
 ## Artifact layout
 
@@ -62,16 +59,18 @@ Skills that write files pick a home by audience, not by skill. Three homes exist
   `docs/glossary.md`, `docs/glossary-map.md` and `docs/glossary/<context>.md` when a
   repo has multiple contexts, `docs/adr/NNNN-<slug>.md`, `docs/specs/<slug>.md`,
   `docs/decisions/<slug>.tsv` when a trail is promoted.
-- The agents' own knowledge base and working state, under `.agent/`. Whether a repo
-  commits it is the repo's choice, so no skill depends on either:
+- The agents' own knowledge base and working state, under `.agent/`. It is always
+  committed and never gitignored, and **consolidate** keeps it from growing without bound:
   `.agent/decisions/<slug>.tsv`, `.agent/runs/<skill>/`, `.agent/handoffs/<slug>.md`,
   `.agent/questionnaires/<slug>.md`, `.agent/tickets/<slug>.md` (the fallback without `gh`), `.agent/teaching/`, `.agent/prototypes/<slug>/`,
-  `.agent/wizards/<slug>.sh`.
+  `.agent/wizards/<slug>.sh`, `.agent/INDEX.md`, and `.agent/.gitattributes` (both owned by **consolidate**).
+  Nothing under `.agent/` may hold a secret, token, or personal data, since it is committed.
 - Work tracking lives in the issue tracker.
 
+One task uses one slug in every artifact it writes, so its plan, ledger, report, and handoff match by name. Unrelated work starts a new slug.
+
 Promotion is one move. An artifact under `.agent/` that earns durability moves to
-`docs/`, for example `.agent/decisions/<slug>.tsv` to `docs/decisions/<slug>.tsv`.
-Do not invent a fourth location.
+`docs/`. Do not invent a fourth location. Committed configuration that a skill owns is not an artifact, for example `.ai/model-policy.json` owned by **setup-ai**.
 
 A skill's own `references/`, `scripts/`, and `assets/` ship with the skill. They are
 not project artifacts and never go under `docs/` or `.agent/`.

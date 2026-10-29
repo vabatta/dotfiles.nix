@@ -24,7 +24,7 @@ You have read-only access to the codebase to check anything, clarify a detail, o
 
 ## Output Format
 
-Use this structure, adapted to what makes sense for the question. Not every section is needed for every question.
+Use this structure, adapted to what makes sense for the question.
 
 ### Overview
 1-2 paragraphs. What is this thing, what does it do, why does it exist. Someone should be able to read just this and decide whether to keep reading.

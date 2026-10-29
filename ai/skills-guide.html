@@ -219,7 +219,7 @@
     <h2>The idea</h2>
     <p class="lead">Skills load on demand. The host reads the one-line description of each skill and loads the one that matches. The description alone decides the trigger. You call most skills as entry points. Other skills run the building blocks. The agent applies principles, and you never call them. There are five layers: the always-on rules, the journeys, and three kinds of skill.</p>
     <div class="layers">
-      <div class="layer"><span class="k">Rules</span><h4>Always on</h4><p>Four global rules load in every session in Claude Code and opencode. They apply to everything below and need no trigger. Each rule names a principle that the agent then loads.</p></div>
+      <div class="layer"><span class="k">Rules</span><h4>Always on</h4><p>Six global rules load in every session in Claude Code and opencode. They apply to everything below and need no trigger. Each rule names a skill that the agent then loads.</p></div>
       <div class="layer"><span class="k">Journeys</span><h4>Start here for a situation</h4><p>A named entry point for one real situation. It sets where you start.</p></div>
       <div class="layer"><span class="k">Process</span><h4>One workflow, several skills</h4><p>A named phase that puts other skills in order: design, plan, review, debug. Run it directly, or let a journey call it.</p></div>
       <div class="layer"><span class="k">One-shot</span><h4>One skill, one job</h4><p>A single invocation that produces one thing: a trace, a verdict, a diagram, or a fix.</p></div>
@@ -234,7 +234,7 @@
 
   <section id="layout">
     <h2>Where things live <span class="hint">one home for each artifact, chosen by audience</span></h2>
-    <p class="lead">Ask: does a reviewer need this after the run ends? If yes, commit it under <code>docs/</code>. If no, it is the agents' own knowledge base and working state under <code>.agent/</code>. To promote a file, move it. The issue tracker holds the work itself.</p>
+    <p class="lead">Ask: does a reviewer need this after the run ends? If yes, commit it under <code>docs/</code>. If no, it is the agents' own knowledge base and working state under <code>.agent/</code>. Both are committed, and <code>.agent/</code> is never gitignored. To promote a file, move it. Run consolidate now and then to keep <code>.agent/</code> from growing without bound. The issue tracker holds the work itself.</p>
     <div class="treewrap">
       <div class="tree">
         <span class="p">repo/</span><span class="n"></span>
@@ -245,7 +245,7 @@
         <span class="p">│   ├── <i class="d">adr/</i>0001-slug.md</span><span class="n">one decision and its reason</span>
         <span class="p">│   ├── <i class="d">specs/</i>slug.md</span><span class="n">contract for the requirements</span>
         <span class="p">│   └── <i class="d">decisions/</i>slug.tsv</span><span class="n">promoted from .agent/</span>
-        <span class="p">└── <i class="a">.agent/</i></span><span class="n">agent knowledge base, working state</span>
+        <span class="p">└── <i class="a">.agent/</i></span><span class="n">committed, agent knowledge base</span>
         <span class="p">    ├── <i class="a">decisions/</i>slug.tsv</span><span class="n"></span>
         <span class="p">    ├── <i class="a">runs/</i>skill/slug/</span><span class="n">plans, designs, briefs, evals</span>
         <span class="p">    ├── <i class="a">handoffs/</i>slug.md</span><span class="n">includes reflect-backlog.md</span>
@@ -257,7 +257,7 @@
       </div>
       <div class="legend">
         <span><i class="sw doc"></i><b>docs/</b> committed durable knowledge</span>
-        <span><i class="sw agent"></i><b>.agent/</b> agent knowledge base, working state</span>
+        <span><i class="sw agent"></i><b>.agent/</b> committed agent knowledge base, trimmed by consolidate</span>
         <span><i class="sw skill"></i><b>skill/</b> references, scripts, and assets are part of the skill</span>
         <span><i class="sw track"></i><b>tickets</b> owns the board: statuses, dependencies, and sub-issues</span>
       </div>
@@ -266,7 +266,7 @@
 
   <section id="journeys">
     <h2>Journeys <span class="hint">start from your situation. Each step names the skill to call.</span></h2>
-    <p class="lead">A journey is a preset entry point for one real situation. Journeys are grouped by family, and you can add more. A step lists only the skills that you call. Between the skills in one step, <b>then</b> means in order, <b>or</b> means pick one, and <b>+</b> means do both. A <b>uses</b> line shows the building blocks that the step runs for you. An <b>applies</b> line shows the principles that apply to the step. A branch line says when to do a step or skip it. The global rules above apply to every step: state the stack and the budget, verify the real artifact, and continue on reversible work. A done line says only what the steps produce. Nothing runs the journey for you.</p>
+    <p class="lead">A journey is a preset entry point for one real situation. Journeys are grouped by family, and you can add more. Open one to see when to use it and its steps. To start, call the first skill by name, for example /tdd. When it finishes, come back for the next step and call that skill. A step lists only the skills that you call. Between the skills in one step, <b>then</b> means in order, <b>or</b> means pick one, and <b>+</b> means do both. A <b>uses</b> line shows the building blocks that the step runs for you. An <b>applies</b> line shows the principles that apply to the step. A branch line says when to do a step or skip it. The global rules above apply to every step: state the stack and the budget, verify the real artifact, continue on reversible work, and keep the trail. A done line says only what the steps produce. Nothing runs the journey for you.</p>
     <div class="journeys" id="journeys-grid"></div>
   </section>
 
@@ -300,7 +300,9 @@ const RULES = [
   ["Before you write code, state the stack. Use the standard library, the dependencies, and the existing APIs before you write new code.", "principle-use-before-build"],
   ["Before you write code, state the budget in net added lines. Make the smallest change that solves the problem. Delete code when you can. Keep the change within the budget.", "principle-laziness-protocol"],
   ["Before you say that the work is done, verify the real artifact. Run it, read the value, and inspect the diff. Audit the diff against the budget, the shape, and the stack.", "principle-prove-it-works"],
-  ["On reversible execution work, decide and continue. Ask first about product direction, one-way doors, and questions that shape the work.", "principle-never-block-on-the-human"]
+  ["On reversible execution work, decide and continue. Ask first about product direction, one-way doors, and questions that shape the work.", "principle-never-block-on-the-human"],
+  ["Keep a decision trail for the run. Log each fork, finished unit, pivot, and blocker as it happens.", "show-me-your-work"],
+  ["After a context summary, or in a fresh session that continues earlier work, rebuild the state before you act.", "recall"]
 ];
 
 const FANOUT = "Give units to workers only if the units share no writes and do not depend on each other. If there is one unit or the units depend on each other, use tdd alone.";
@@ -309,7 +311,7 @@ const PRBODY = "Write the PR description and the commit messages. Then commit.";
 
 const JOURNEYS = [
   ["Make a small change",
-   "A fix or tweak with a known cause. It is one unit of under about 20 changed lines, and you can name the file. It needs no plan and no spec. If the work is already a board issue, use Work a ticket. If the cause is unknown, use Fix a hard bug. If the code has no tests, use Add tests to existing code.",
+   "A fix or tweak where you know the file and the cause. Under about 20 lines. Unknown cause: use Fix a hard bug.",
    [
      [["tdd"], "", "State the stack and the net-added budget. Write the failing test first. Then write the smallest change that passes it.", "If no cheap test target exists, skip this step.", ["principle-laziness-protocol", "principle-use-before-build"]],
      [[], "", "Run the real thing. Then run the diff audit against the budget.", "", ["principle-prove-it-works"]],
@@ -318,7 +320,7 @@ const JOURNEYS = [
    ],
    "the check passes, the diff audit is within the budget, and the commit message is written.", "just fix X / small tweak / quick change", "Build"],
   ["Build a clear-cut feature",
-   "The request is clear enough to plan without an interview. It is too big for one sitting of edits. If the requirements are still fuzzy, start with Start a feature from a rough idea.",
+   "You know what to build and can say it without an interview, but it needs a plan. Fuzzy requirements: use Start a feature from a rough idea.",
    [
      [["plan-work"], "", "Turn the request into ordered units. Each unit ends in a check. State the stack and the budget. Carry the budget, the shape rules, and the stack into the done condition. A phased plan lists one smoke command for each phase.", "If there is one unit, the plan is only the predicate, the baseline, and one check. If there are more than about 10 units or more than one session, use the large change journey.", ["principle-sequence-verifiable-units", "principle-outcome-oriented-execution"]],
      [["tdd", "delegate"], "with", "Build each unit test first. Give independent units to workers in parallel. Split the budget across the workers.", FANOUT, ["principle-laziness-protocol", "principle-separate-before-serializing-shared-state"]],
@@ -328,7 +330,7 @@ const JOURNEYS = [
    ],
    "every unit check is green, the diff is within the budget, the verdict is accept, and the commit and the PR body are written.", "add X / implement Y with clear requirements", "Build"],
   ["Work a ticket",
-   "The work already exists as an issue on the board.",
+   "The work is already an issue on the board. The ticket text is the spec.",
    [
      [["tickets"], "", "Read the ticket, its dependencies, and its sub-issues. Then move it to in progress.", "If gh is not available, tickets keeps the ticket as a file in .agent/tickets/.", []],
      [["plan-work"], "", "Turn the acceptance criteria into units. Each unit ends in a check.", "If there is one unit (one behavior and about 20 changed lines or fewer), keep only the predicate, the baseline, and one check. Then state the stack and the budget, and continue at tdd. If there are more than about 10 units or more than one session, use figure-it-out.", ["principle-sequence-verifiable-units"]],
@@ -339,10 +341,10 @@ const JOURNEYS = [
    ],
    "a reviewed commit that contains Refs #N exists, and the ticket is closed with a link to that commit and the output of the check.", "pick up #123 / work this ticket", "Build"],
   ["Start a feature from a rough idea",
-   "There is no handover file, no earlier work on this idea, and no spec. You know roughly what you want. If a handover file or earlier work on the idea exists, use Resume work.",
+   "You know roughly what you want, but there is no spec and no earlier work. Earlier work exists: use Resume work.",
    [
      [["grill"], "", "Sharpen the idea one question at a time until no branch is open. If no one can answer, grill records assumptions and continues.", "", []],
-     [["prototype"], "", "Prove that the risky part works or looks right before you commit. Put the verdict in .agent/prototypes/<slug>/VERDICT.md. Do not merge the prototype.", "If one piece is a real unknown that you can answer by feel or by one measurement, do this step.", []],
+     [["prototype"], "", "Prove that the risky part works or looks right before you commit. Put the verdict in .agent/prototypes/<slug>/VERDICT.md. Never fold the prototype into real code.", "If one piece is a real unknown that you can answer by feel or by one measurement, do this step.", []],
      [["to-spec"], "", "Write the settled conversation as a spec. Mark it ready with the line Status: ready under the title. to-spec does not interview you, so finish the grill first.", "", []],
      [["plan-work", "tickets"], "then", "Break the spec into ordered units with checks. Carry the budget, the shape rules, and the stack into the done condition. Then file the units as issues.", "If there is no issue tracker (no remote, .github, or .ghproject), skip tickets.", ["principle-sequence-verifiable-units"]],
      [["tdd", "delegate"], "with", "Build the units, test first. Give independent slices to workers.", FANOUT, ["principle-laziness-protocol"]],
@@ -352,14 +354,14 @@ const JOURNEYS = [
    ],
    "a reviewed commit that matches the written spec exists, and the PR body is written.", "build X from an idea / I want something like X", "Build"],
   ["Resume work",
-   "You stopped earlier, or a fresh session starts, and the state is not clear. Use this journey if a handover file, a branch, or earlier work exists. If none exists, start at Start a feature from a rough idea.",
+   "You stopped earlier, or a fresh session starts, and the state is unclear. A handover file, branch, or commits exist.",
    [
      [["recall"], "", "Point recall at the handover file, the branch, or the topic. It treats them as claims and checks them against the live commits and files. It returns what is true and one next move.", "", []],
      [[], "", "Follow the next move. It names the skill to call. Then continue in the matching journey. For example: tdd or plan-work in Build a clear-cut feature, diagnosing-bugs in Fix a hard bug, or figure-it-out in the large change journey.", "", []]
    ],
    "you work on a verified next move.", "where were we / continue / resume", "Build"],
   ["Resume and explore before building",
-   "You have a handover file and a rough idea. Some of the idea needs exploration before the design is safe to commit.",
+   "You have a handover file and an idea with a risky assumption. Check the assumption before you design.",
    [
      [["recall"], "", "Point recall at the handover file. It treats the file as claims and checks it against the live branches, commits, and files. It returns what is true and one next move.", "", []],
      [["assess"], "", "Get a verdict with evidence. The verdict says if the idea makes sense and how big it is. For a change of fewer than about 5 call sites, assess scales down. It reuses findings that you supply.", "If you already know that the idea is worth building, skip this step.", []],
@@ -375,7 +377,7 @@ const JOURNEYS = [
    ],
    "a reviewed commit with the PR body exists, or a new handover file names the next move.", "resume then spike first / explore then build", "Build"],
   ["Design something new",
-   "A new module, interface, or data shape inside an existing codebase. The right design is not obvious. For a new repo, use Start a new project.",
+   "A new module, interface, or data shape in an existing codebase, and the right design is not obvious. New repo: use Start a new project.",
    [
      [["architect"], "", "Trace the area that the design touches, unless the work is greenfield. Sketch the types and the boundaries. Run at least two candidates with different structures through arena. Then synthesize one design. architect stops at the design package in .agent/runs/architect/<slug>/. It records the rejected candidates. If the choice is hard to reverse, it writes an ADR.", "", ["principle-foundational-thinking", "principle-exhaust-the-design-space"]],
      [["plan-work", "tdd"], "or", "Implement against the chosen sketch. If the work splits into several units, use plan-work. For one unit, use tdd alone.", "", ["principle-laziness-protocol"]],
@@ -384,7 +386,7 @@ const JOURNEYS = [
    ],
    "a written design package with the rejected candidates exists, and the implementation has an accept verdict.", "design a module / shape this", "Build"],
   ["Start a new project",
-   "A new repo or service. The stack, the tooling, and the shape are still open. For a new module in an existing repo, use Design something new.",
+   "A new repo or service, and the stack and shape are still open. New module in an existing repo: use Design something new.",
    [
      [["grill"], "", "Settle the purpose, the constraints, and the stack choices one question at a time.", "If the stack is already decided, skip this step.", []],
      [["assess", "arena"], "or", "Use assess for a verdict on one contested stack choice. With no code yet, assess uses greenfield as the grounding and runs one dissent lens. Use arena to score two or more candidate scaffolds on a rubric.", "If the choice is hard to reverse (a language, a framework, or a datastore), do this step.", []],
@@ -397,14 +399,20 @@ const JOURNEYS = [
    ],
    "the project builds and passes its tests from a clean checkout, and the scaffold with the first slice is a reviewed commit.", "new project / new repo / bootstrap", "Build"],
   ["Plan and run a large, multi-session change",
-   "A cross-cutting migration or an ambitious change that you will review after you step away. It has more than about 10 units, takes more than one session, or has a one-way door.",
+   "A cross-cutting change of about 10 or more units, several sessions, or a one-way door. You plan it and watch it.",
    [
      [["figure-it-out"], "", "Frame a definition of done that can fail. Design the phases. Then run each unit as an experiment with a measured check. On a resumed run, figure-it-out rebuilds the state itself. It runs architect at one-way doors, gives work to workers through delegate, and keeps the decision trail. Its reply ends with the Attention section of show-me-your-work. The section reads reviewed by none (self only) if no reviewer ran.", "", ["principle-outcome-oriented-execution", "principle-sequence-verifiable-units"]],
      [["accept-change"], "", "Get a verdict on the whole change against the original definition of done.", "", []]
    ],
-   "a reply with the plan, the decision trail, and the verdict exists. The verdict is accept or reject against the definition of done. The reply also says what is verified and what is still open.", "big change / review it later", "Build"],
+   "a reply with the plan, the decision trail, and the verdict exists. The verdict is accept or reject against the definition of done. The reply also says what is verified and what is still open.", "big change / several sessions", "Build"],
+  ["Let the agent work on its own",
+   "You are away for hours or overnight and review at the end. You give a goal and a checkable done condition.",
+   [
+     [["autonomous"], "", "Write the contract first: goal, done predicate, scope, cap, workspace, authorized actions, and the start commit. Work where you say (a branch, worktree, or PR), else in a new worktree. Only the actions you authorize are taken, and any other one-way door is parked with its exact command. autonomous runs figure-it-out and delegate, logs the trail, and stops on the cap, a done predicate, when no unblocked unit is left, or when a check cannot run. Each passing unit is committed unsigned, so re-sign the commits before you push or merge. A unit that fails three times is reverted and parked as NEEDS MANUAL REVIEW. A unit that needs an approval nobody can give is parked, and the handoff is refreshed every three units. A script checks the whole record before it hands back. It ends with a handoff, a full report, a net-lines table, a verdict from accept-change, and an Attention section ranked least-confident first.", "If you will be at the keyboard, or the work has a one-way door that cannot be parked, use Plan and run a large, multi-session change instead.", ["principle-never-block-on-the-human", "principle-prove-it-works"]]
+   ],
+   "committed work, a handoff, and an accept or reject verdict exist. Every parked unit and every assumption is listed in the reply.", "autonomous / on your own / overnight / review at the end", "Build"],
   ["Run work in parallel",
-   "The work splits into independent slices that can run at the same time.",
+   "The work splits into independent slices that share no writes.",
    [
      [["delegate"], "", "Split the work. Give each worker an owned output and a proof requirement. Then read the real outputs. A single read-only research worker needs no split and no budget share. If delegation is not available, delegate runs the slices in order and writes briefs in .agent/runs/delegate/. To vary the models, see setup-ai.", "Give units to workers only if the units share no writes and do not depend on each other. If there is one unit, dependent units, or a few obvious edits, do the work directly or use tdd alone.", ["principle-separate-before-serializing-shared-state", "principle-guard-agent-context"]],
      [[], "", INTEGRATE, "", ["principle-prove-it-works"]],
@@ -412,39 +420,47 @@ const JOURNEYS = [
      [["technical-writing"], "", "Write the commit message. Then commit.", "", []]
    ],
    "every slice has evidence, the whole has one accept verdict, and the commit is written.", "use subagents / parallelize / fan out", "Build"],
-  ["Decide whether a change is worth doing",
-   "Someone proposes a migration, a rewrite, or a new dependency. The question is whether to do it, not how. If the question is whether it can work at all, use Prove an idea works.",
+  ["Find where we are weak",
+   "A broad question, such as can we improve reliability. No concrete change yet. One bug: use Fix a hard bug.",
    [
-     [["assess"], "", "Get a verdict of do, do not, or conditional. The load-bearing facts in the verdict are proven. assess traces the code, finds why the code is built that way, and runs independent lenses. Do not run those first. For a change of fewer than about 5 call sites, assess scales down. If no human is present, it states assumptions and continues.", "", []],
+     [["investigate"], "", "State the goal as a symptom you can observe. Collect evidence from real runs, logs, and the .agent record. Rank the findings, each marked PROVEN or CLAIM, and give a candidate fix for the top ones. Nothing is built. The findings go to .agent/runs/investigate/<slug>.md.", "", ["principle-encode-lessons-in-structure"]],
+     [["assess"], "", "Judge each candidate that is worth doing. Give each a verdict of do, do not, or conditional.", "If a candidate is not obvious, do this step.", []],
+     [["plan-work"], "", "Sequence the candidates that got a do. If there are more than about 10 units or more than one session, use figure-it-out.", "If a candidate got a do or is obviously right and small, do this step. A finding that is one bug goes to Fix a hard bug.", []]
+   ],
+   "a ranked findings file exists, with evidence for each finding and a next move for each.", "can we improve / where are we weak / why is this unreliable / audit this", "Explore and decide"],
+  ["Decide whether a change is worth doing",
+   "Someone proposes a migration, rewrite, or new dependency. The question is whether, not how.",
+   [
+     [["assess"], "", "Get a verdict of do, do not, or conditional. The load-bearing facts in the verdict are proven. assess traces the code, finds why the code is built that way, and runs independent lenses. Do not run those first. For a change of fewer than about 5 call sites, assess scales down. It writes the verdict to .agent/runs/assess/<slug>.md, so a later session does not redo it. If no human is present, it states assumptions and continues.", "", []],
      [["architect"], "", "Sketch the design for the chosen change.", "If the verdict is do and the change adds a new module, interface, or data shape, do this step.", []],
      [["plan-work"], "", "Plan the change. If there are more than about 10 units or more than one session, use figure-it-out.", "If the verdict is do or a conditional yes, do this step.", []]
    ],
-   "a verdict of do, do not, or conditional exists with evidence. For a do, a plan to carry it out also exists.", "does this make sense / is it worth it", "Explore and decide"],
+   "a verdict of do, do not, or conditional exists with evidence, in .agent/runs/assess/<slug>.md. For a do, a plan to carry it out also exists.", "does this make sense / is it worth it / estimate this / how big is this", "Explore and decide"],
   ["Prove an idea works",
-   "You are not sure that the idea can work at all. It can be a library, an API, an approach, or the feel of a UI.",
+   "You are not sure the idea can work at all. You get a yes or no, not finished code.",
    [
-     [["prototype", "arena"], "or", "Use prototype to answer one question by feel or by one measurement. Use arena to score two or more concrete candidate artifacts on a rubric. Put the verdict of the prototype in .agent/prototypes/<slug>/VERDICT.md. Keep the prototype on a throwaway branch. Never fold it into real code. A backend question with no human audience gets a headless script.", "", ["principle-exhaust-the-design-space"]],
+     [["prototype", "arena"], "or", "Use prototype to answer one question by feel or by one measurement. Use arena to score two or more concrete candidate artifacts on a rubric. Put the verdict of the prototype in .agent/prototypes/<slug>/VERDICT.md. Keep a UI prototype on a throwaway branch, and keep a logic or feasibility prototype in .agent/prototypes/<slug>/ until consolidate retires it. Never fold it into real code. A backend question with no human audience gets a headless script.", "", ["principle-exhaust-the-design-space"]],
      [["grill"], "", "If the prototype showed a fuzzy requirement, go back and settle only that branch. If it opened a new unknown, prototype again.", "If the answer opens a new question, do this step.", []]
    ],
    "VERDICT.md says yes, no, conditional, or pending human, and lists the constraints found. After a yes, start Design something new or Build a clear-cut feature. The prototype is evidence, not the implementation.", "can we even / POC / spike", "Explore and decide"],
   ["Pressure-test a plan or decision",
-   "You have a plan, a design, or a decision and you want to attack it before you build on it. To review a diff instead, use Review a change before merging.",
+   "You have a plan or decision with no diff yet and want to attack it. A diff: use Review a change before merging.",
    [
      [["grill", "grill-with-docs"], "or", "Answer one question at a time until every branch is settled. Use grill-with-docs if the glossary and the ADRs must be written as decisions settle. It ends with them written. If no human is present, it records assumptions and continues.", "", []],
-     [["team-discussion", "adversarial-review"], "or", "Use team-discussion for one recommendation from read-only lenses. It names the disagreements and allows at most one extra challenge round. Use adversarial-review for up to three reviewers, one for each rubric axis, who try to break the design. It gives no merge verdict.", "If the call has two or more credible options, is a one-way door, or has high stakes, do this step.", []],
+     [["team-discussion", "adversarial-review"], "or", "Use team-discussion for one recommendation from read-only lenses. It names the disagreements and allows at most one extra challenge round. Use adversarial-review for one reviewer for each rubric axis, who try to break the design. It gives no merge verdict.", "If the call has two or more credible options, is a one-way door, or has high stakes, do this step.", []],
      [["arena"], "", "Build competing candidates in isolation. Score them on a rubric.", "If the choice is between two or more concrete artifacts that you can build and score, do this step.", []]
    ],
-   "every branch is settled, or one recommendation with evidence names the dissent.", "grill me / roundtable / poke holes", "Explore and decide"],
+   "every branch is settled, or one recommendation with evidence names the dissent.", "grill me / roundtable / poke holes / define a term / write an ADR", "Explore and decide"],
   ["Research and compare options",
-   "You need facts before you choose a library, an API, a tool, or an approach.",
+   "You need an answer from outside the repo: search online for a library, SDK, API, or what the docs say.",
    [
-     [["delegate"], "", "Run one read-only research worker against primary sources: official docs, source code, and specs. It needs no split and no budget share. It follows every claim back to the source that owns it. It runs why for the claims that explain a design or a trade-off.", "", ["principle-guard-agent-context"]],
+     [["research"], "", "Look in the repo first. Then search online, narrowest source first: the official docs for the pinned version, the registry page and the source repo, then specs. Each claim gets a source, the date read, and a tier of SOURCED, SECONDARY, or UNVERIFIED. Registry commands run against the real package.", "", ["principle-use-before-build", "principle-guard-agent-context"]],
      [["prototype", "arena"], "or", "Use prototype to prove the top candidate against your real case. Use arena to score the finalists on a rubric.", "If the docs cannot settle the choice, do this step.", []],
      [["assess"], "", "Turn the findings into a verdict of do, do not, or conditional. It reuses the findings that you supply.", "If the choice changes a system that you already maintain (a dependency, an API, or a schema that others use), do this step.", []]
    ],
    "a recommendation with sources exists, and it names the fact that can change it.", "which library / compare A and B / research X", "Explore and decide"],
   ["Change existing code",
-   "A refactor, a migration, an upgrade, or a simplification. The behavior must stay the same, and the work fits in one session.",
+   "A refactor, migration, upgrade, or simplification with the same behavior, in one session.",
    [
      [[], "", "State the stack and the net-added budget. A simplification targets zero or fewer lines.", "", ["principle-laziness-protocol", "principle-use-before-build"]],
      [["delegate"], "", "Read the changelog and the breaking changes against primary sources.", "If the work is an upgrade or a move to a new API, do this step.", []],
@@ -457,70 +473,77 @@ const JOURNEYS = [
    ],
    "tests pin the behavior. Each test fails when the behavior breaks. The old shape is gone. Net lines are at or under the budget. The verdict is accept.", "refactor / migrate / upgrade / simplify", "Change and fix"],
   ["Fix a hard bug",
-   "Something is broken, flaky, throwing, or slow, and the cause is not obvious. If you can name the file and the cause, use the small change journey.",
+   "Something is broken, flaky, or slow, and the cause is not obvious. Known file and cause: use Make a small change.",
    [
-     [["diagnosing-bugs"], "", "First build a feedback loop that can fail on demand. diagnosing-bugs runs a one-commit why probe before it forms hypotheses. It forms hypotheses until it locates the cause. The Phase 1 test becomes the regression test.", "", []],
+     [["diagnosing-bugs"], "", "First build a feedback loop that can fail on demand. diagnosing-bugs runs a one-commit git log probe first, and uses why only if that commit explains the failure. It forms hypotheses until it locates the cause. The Phase 1 test becomes the regression test when it sits at the right seam.", "", []],
      [[], "", "Choose the fix. If a guard or workaround is possible, fix the root cause instead.", "", ["principle-fix-root-causes"]],
      [["blast-radius", "accept-change"], "or", "Make sure that the fix is safe. If the fix is under about 20 changed lines, run blast-radius. If it is larger, run accept-change.", "", ["principle-prove-it-works"]]
    ],
-   "the original repro no longer fails. The Phase 1 test stays as the regression test. The debug scaffolding is gone. The fix has a blast-radius result or an accept verdict.", "it is broken / flaky / slow", "Change and fix"],
+   "the original repro no longer fails. A regression test exists at the right seam, or the missing seam is documented. The debug scaffolding is gone. The fix has a blast-radius result or an accept verdict.", "it is broken / flaky / slow / CI fails", "Change and fix"],
   ["Add tests to existing code",
-   "Working code has no tests. You want to pin its behavior before anyone changes it.",
+   "Working code has no tests, and you want to pin its behavior before anyone changes it.",
    [
      [["tdd"], "", "Use the Pin existing behaviour mode of tdd. Pick the highest seam that exercises real behavior. Write tests that pin what the code does now. The tests pass at once. Break the behavior once to see each test fail. Then restore it.", "If no seam exists, record that as the finding.", ["principle-prove-it-works", "principle-laziness-protocol"]],
      [["accept-change"], "", "Get a verdict on the tests. They must pin behavior, not implementation.", "", []]
    ],
    "the tests pass, each test fails when the behavior breaks, no test depends on internals, and the verdict is accept.", "add tests / cover this / characterization tests", "Change and fix"],
   ["Review a change before merging",
-   "You have a diff or a PR and you must know if it is safe. To attack a plan or a design that has no diff yet, use Pressure-test a plan or decision.",
+   "You have a diff or PR and must know if it is safe to merge.",
    [
      [["accept-change"], "", "accept-change runs adversarial review, breakage analysis, and comment cleanup together. It reviews the working tree against the plan base or the merge-base. It takes the spec from the plan or the ticket first. It reuses an earlier blast-radius run if the diff is unchanged. It returns a binary verdict: reject on any Act on finding or failed rubric item, otherwise accept. It classes findings as act, consider, noted, or dismissed.", "", ["principle-prove-it-works"]],
      [["adversarial-review", "blast-radius"], "or", "Run one of them alone if the question is narrow. Use adversarial-review to find out if a contested design is right. It gives no merge verdict. Use blast-radius to find out what can break.", "If the question is narrow, do this step instead of step 1.", []]
    ],
-   "an accept or reject verdict exists, and it names the one thing most likely to bite.", "review this / is it safe to merge", "Review and understand"],
+   "an accept or reject verdict exists, and it names the one thing most likely to bite.", "review this / is it safe to merge / security review", "Review and understand"],
   ["Understand unfamiliar code or a past decision",
-   "You are new to a subsystem, or you must know why something is the way it is.",
+   "You are new to a subsystem, or must know why it is the way it is. You get an explanation, not a change.",
    [
      [["teach"], "", "Get a plain explanation that builds up one step at a time. teach traces the flow and finds the rationale itself. It draws a diagram per mermaid where a diagram helps. In a live conversation, it gives a short answer and stops. For a one-shot request, it gives the full account.", "", []],
-     [["why"], "", "Search the history and the sources for the motive. The result separates facts from inference. why labels claims with five confidence tiers. If no PR or remote exists, it uses only git log and git diff.", "If only the reason matters, do this step instead of step 1.", []]
+     [["why"], "", "Search the history and the sources for the motive. The result separates facts from inference. why labels claims with five confidence tiers. If no PR or remote exists, it uses only git log and git diff.", "If only the reason matters, do this step instead of step 1.", []],
+     [["bro"], "", "Restate the answer in plain language with no jargon.", "If the reader is not an engineer, do this step.", []]
    ],
    "you can state a mental model back, and you have sources for the claims about intent.", "how does X work / explain X / why is it like this", "Review and understand"],
   ["Write or improve documentation",
-   "A readme, an RFC, a runbook, a PR description, or a commit message.",
+   "A readme, RFC, runbook, PR description, or commit message.",
    [
      [["technical-writing"], "", "Pick the document type. Then structure the document and write the sentences. technical-writing already applies six STE rules inline.", "", []],
      [["simple-english"], "", "Do the deeper Simplified Technical English pass beyond the six inline rules.", "If the text is a runbook, a procedure, an error message, or is for readers who are not native speakers, do this step.", []],
      [["mermaid", "gherkin"], "or", "Add a diagram, or add acceptance criteria as scenarios. A small diagram or a spec of one or two scenarios needs no reference reads. An undefined limit goes back to the requester as an open question.", "If the document needs them, do this step.", []],
      [["unslop"], "", "Do a final pass to remove AI writing tells. It runs last.", "", []]
    ],
-   "a document that reads plainly and has no AI tells.", "write docs / rewrite this plainly", "Review and understand"],
+   "a document that reads plainly and has no AI tells.", "write docs / rewrite this plainly / release notes / postmortem / RFC", "Review and understand"],
   ["Get an answer or action only a person can give",
-   "The missing knowledge is with another human, or a step needs a human at a dashboard. To sharpen your own thinking, use Pressure-test a plan or decision.",
+   "The missing knowledge is with another person, or a step needs a human at a dashboard.",
    [
      [["to-questionnaire", "wizard"], "or", "Use to-questionnaire if the gap is a fact or a decision that someone else holds. It writes the file and reports the path. It does not send the file. Use wizard if the gap is a step that only a human can do, such as credentials, a dashboard, or a cutover. wizard checks the script with bash -n and shellcheck. It traces that no value is left unplaced. It does not run the script end to end.", "", []]
    ],
    "a questionnaire is ready to hand over, or a wizard script passes its checks and is ready for the human to run.", "ask the PM / walk me through the dashboard", "People and sessions"],
   ["Stop mid-way and hand off",
-   "It is the end of the day, or the next session is a fresh agent.",
+   "End of the day, or a fresh agent takes over next.",
    [
      [["recall"], "", "Ask for handoff mode. recall runs its checks first. Then it writes a portable document with fixed sections. The document names the skills that the next agent must call. It links to specs, issues, and commits and does not copy them. A long audited run keeps its decision trail, and the handoff links to it.", "", []]
    ],
    "a handover file exists that the next session can start from with recall.", "write a handoff / end of day", "People and sessions"],
+  ["Get a full report of the work so far",
+   "Work has landed and you want the whole story, not a one-line status.",
+   [
+     [["report"], "", "Build the report from the trail, the plan, and the diff, not from memory. Check each claim again on the real artifact. Then render one html file. It opens with summary cards and highlights, then shows up to three diagrams when they help, and lists the checks, the decisions, and the open items. Click a confidence badge to see why it has that level. Follow-up prompts come next, each with a copy button and the /skill to run. A walkthrough in reading order follows, with a collapsible diff for each file. The renderer reads every patch from git and rejects a step list that misses or repeats a changed file. It shows untracked files as new files.", "If you only need one next move, use Resume work.", ["principle-prove-it-works"]]
+   ],
+   "an html report exists. Every claim is marked VERIFIED, NOT VERIFIED, or INCONCLUSIVE, and the walkthrough covers every changed file.", "full report / morning report / walk me through the changes / detailed status", "People and sessions"],
   ["Improve the setup after a session",
-   "Something went wrong twice, or a session taught you something worth keeping. This journey is not for a new skill: use Create or edit a skill.",
+   "Something went wrong twice, or a session taught you something worth keeping. Editing a skill directly: use Create or edit a skill.",
    [
      [["reflect"], "", "Examine the finished session through independent lenses, with or without a transcript. Send each learning to a skill, a check, or structure. reflect builds the check itself, first red and then green. The structural backlog goes to .agent/handoffs/reflect-backlog.md.", "", ["principle-encode-lessons-in-structure"]],
      [["skill-creator"], "", "Apply the approved skill edit. Use writing-for-agents for the wording.", "If a learning becomes a skill edit, do this step.", []]
    ],
    "a durable check or skill edit exists that stops the repeat, and it is verified.", "retro this / improve the skills", "People and sessions"],
   ["Create or edit a skill",
-   "You want a new skill, a change to an existing skill, or a measured test of a skill.",
+   "A new skill, a change to a skill, or a measured test of one.",
    [
      [["skill-creator"], "", "Create, edit, or evaluate the skill. Run the checker with bash scripts/check-skills.sh ai/skills ai/AGENTS.md from the repo root. The eval loop works without subagents. It fails with a clear message if no run is graded.", "For a small edit of wording or of one step, skip the eval loop. Edit, run the checker, and show the diff. To tighten the wording of a finished skill, use writing-for-agents.", ["principle-prove-it-works"]]
    ],
    "the skill passes the checker, and the diff or the graded eval runs show the change.", "new skill / edit this skill / eval a skill", "People and sessions"],
   ["Change which model does what",
-   "You want a different model for exploration, implementation, judgment, or prose. Or you want to know how the choice is made.",
+   "A different model for exploration, implementation, judgment, or prose, or how the choice is made.",
    [
      [["setup-ai"], "", "Resolve, edit, generate, verify, and confirm the effective policy with resolve_policy.py --source and --role. A change for a project targets .ai/model-policy.json. verify_policy.py is the validator. If it cannot confirm a model id, the role stays at inherit.", "To ask which model a role uses, run resolve_policy.py --role. Do not edit.", []]
    ],
@@ -530,7 +553,13 @@ const JOURNEYS = [
    [
      [["nixification"], "", "If you use one tool once, use an ephemeral Nix shell. If you reuse a tool or use two or more tools, write or extend a flake of about 20 lines with nixpkgs only. In a git repo, run git add flake.nix, nix flake lock, git add flake.lock, and then nix develop. nixification does not ask the human when something fails.", "", ["principle-use-before-build"]]
    ],
-   "the tool runs, with no global install, from a one-shot nix shell or from nix develop.", "command not found / make a flake", "Setup"]
+   "the tool runs, with no global install, from a one-shot nix shell or from nix develop.", "command not found / make a flake", "Setup"],
+  ["Tidy the agent folder",
+   "The .agent folder is noisy, or it has been a few weeks. Everything is committed first, so git keeps what you remove.",
+   [
+     [["consolidate"], "", "Take an inventory and commit anything uncommitted. Then sort each aged item into keep, promote, or retire. Ledgers and live handoffs stay. A lasting conclusion, and each decision in an old ledger that changed what we do, gets one line in .agent/INDEX.md with the SHA that held it. plan-work, figure-it-out, and recall read that file. Nothing is deleted while a live file or an open issue points at it. The removal is one commit, so one revert undoes it.", "If you are unsure about an item, keep it.", []]
+   ],
+   "the removal is one commit, no live reference dangles, and the reply shows the size before and after.", "tidy .agent / consolidate / clean up the agent folder", "Setup"]
 ];
 
 const FAMILIES = ["Build", "Explore and decide", "Change and fix", "Review and understand", "People and sessions", "Setup"];
@@ -540,8 +569,10 @@ const PARTS = ["how", "no-comments", "domain-modeling", "show-me-your-work", "wr
 
 
 const PROCESS = [
-  ["assess", "Evaluates a proposed change before you commit to it. It returns a verdict of do, do not, or conditional. It proves the facts that the verdict depends on and uses independent lenses."],
+  ["investigate", "Examines a system against a broad quality goal, such as reliability or determinism. It returns ranked findings, each marked PROVEN or CLAIM, with a candidate fix for the top ones. Use it when no change is on the table yet. It builds nothing."],
+  ["assess", "Evaluates a proposed change before you commit to it. It returns a verdict of do, do not, or conditional. Use it when a specific change is on the table. It proves the facts that the verdict depends on and uses independent lenses."],
   ["figure-it-out", "Designs the workflow for large or unusual work: the phases, a hypothesis loop, and a decision trail that you can audit."],
+  ["autonomous", "Sets the contract for a long unattended run, overnight or until you review: a stated workspace, authorized actions, caps, parked one-way doors, and a report to read at the end. It runs figure-it-out inside that contract."],
   ["plan-work", "Turns a request into ordered units that can land on their own. Each unit has a check and a baseline."],
   ["to-spec", "Writes a settled discussion as a spec. It does not interview you."],
   ["architect", "Designs a module, an interface, or a data shape before you write code. Then it implements against the chosen sketch."],
@@ -558,6 +589,7 @@ const PROCESS = [
 
 const ONESHOTS = [
   ["Understand and explain", [
+    ["research", "Finds answers outside the repo from the web, the official docs, package registries, and library source. Each claim carries a source, the date read, and a tier of SOURCED, SECONDARY, or UNVERIFIED. It builds nothing."],
     ["how", "Traces the inputs, the state, the flow, and the outputs of a subsystem to build a real mental model. Use it to trace or map code, or to find where something lives. For a full explanation, use teach."],
     ["why", "Searches the history and the sources for the reason behind a design choice, a threshold, or a past decision. It separates fact from inference."],
     ["bro", "Restates the last message in plain language with no jargon. Use it to re-pitch something that did not land."],
@@ -576,7 +608,9 @@ const ONESHOTS = [
   ["Track and audit", [
     ["tickets", "Creates issues from a plan and manages GitHub Projects state: statuses, dependencies, sub-issues, milestones, and closing with evidence. Without gh, it keeps tickets as files."],
     ["recall", "Rebuilds the recent work and returns one next move. It can also write a handoff for a fresh session. Use it to resume, or when the state is not clear."],
-    ["show-me-your-work", "Keeps an append-only TSV decision trail. A reviewer can rebuild a long run from it after the run ends."]
+    ["show-me-your-work", "Keeps an append-only TSV decision trail. A reviewer can rebuild a long run from it after the run ends."],
+    ["consolidate", "Trims the .agent folder. It commits first, keeps ledgers and live work, records lasting conclusions, and retires finished working files."],
+    ["report", "Writes a full html report of finished work: a diff walkthrough in reading order, verified claims, decisions ranked least confident first, and what is open."]
   ]],
   ["Write", [
     ["technical-writing", "A standard with four layers (Diataxis, Google style, STE, Global English) to create docs, RFCs, readmes, PRs, and commits."],
@@ -621,25 +655,28 @@ const PRINCIPLES = [
 
 /* BEGIN GENERATED: skill data. Refresh with: bash scripts/check-skills.sh --write-guide ai/skills ai/skills-guide.html */
 const FULL = {
-  "accept-change": "Gives a merge verdict on a diff, PR, or change by running adversarial review, breakage analysis, and comment cleanup together and returning one prioritized accept or reject. Use when asked is it safe to merge, sign off, accept, ship it, or LGTM, or for a full pre-merge check. A verdict, not a bug hunt on its own.",
-  "adversarial-review": "Runs independent reviewers against a design or change and classifies findings as act, consider, noted, or dismissed. Use when a change is contested, cross-cutting, or easy to get subtly wrong, and adversarial critique is wanted. It returns classified findings, never a merge verdict. Trigger on adversarial review, red team, poke holes, or find the flaws.",
+  "accept-change": "Gives a merge verdict on a diff, PR, or change as one prioritized accept or reject. Use when asked is it safe to merge, sign off, accept, ship it, or LGTM, or for a full pre-merge check. A verdict, not a bug hunt on its own.",
+  "adversarial-review": "Runs independent reviewers against a design or change and classifies findings as act, consider, noted, or dismissed. Use when asked for adversarial critique of a design or change. It returns classified findings, never a merge verdict. Trigger on adversarial review, red team, poke holes, or find the flaws.",
   "architect": "Designs a new module, interface, or data shape before code, sketching types and boundaries, running competing candidates, then implementing against the chosen sketch. Use when designing something new before writing code, not for a mechanical edit to an existing shape. Trigger on design the interface, sketch the types, or design this module first.",
   "arena": "Builds competing candidate artifacts in isolation, scores them against a rubric, and synthesizes one result. Use when asked to implement or draft several versions and pick the best, not for one design to build or a feel test. Trigger on bake-off, score the options, or compare candidate implementations.",
   "assess": "Evaluates a proposed change before committing to it and returns a verdict with evidence, covering whether it makes sense, what it buys, how big it is, and whether it is feasible. Use when deciding whether to make a change, not how to make it or to prove it by building. Trigger on does this make sense, should we do this, is it worth it, how big a change, or is this feasible.",
+  "autonomous": "Sets the contract for work the agent does on its own with no one to answer, so it states where it works and what it may publish, stops on its own caps, and leaves work that is easy to review. Use when handing off hours of work to run on its own, overnight or while the user is away, and reviewing it at the end. Trigger on autonomous, on your own, unattended, overnight, while I sleep, you have the night, or I will review at the end.",
   "blast-radius": "Finds what a change could break elsewhere beyond the diff and proves the one safety fact by running real code. Use when asked what a change could break, for the blast radius of a change, or for a small diff not yet trusted. Trigger on blast radius or what could this break.",
-  "bro": "Restates the last message in plain, jargon-free human language. Use when the user asks to re-pitch or plain-language something that did not land.",
+  "bro": "Restates the last message in plain words. Use when the user says that did not land or asks for it simpler.",
+  "consolidate": "Trims and consolidates the .agent folder so it stays a useful knowledge base instead of growing without bound. Commits first, keeps ledgers and live work, records lasting conclusions, and retires finished working files. Use periodically, when .agent has grown noisy, or when asked to clean up, tidy, prune, or consolidate the agent folder.",
   "delegate": "Briefs independent workers with an owned output and a proof requirement, then verifies their artifacts. Use when work can be split into independent, non-competing slices and run in parallel. Trigger on subagents, parallelize, fan out, or run these independently. Not for debating a question or reviewing a change.",
   "diagnosing-bugs": "Runs a diagnosis loop for hard bugs and performance regressions that builds a red-capable feedback loop before hypothesising, then fixes at the root. Use when the user says diagnose or debug this, or reports something broken, throwing, failing, or slow, not for a failure whose cause is already known.",
-  "domain-modeling": "Builds and sharpens a project's domain model by challenging terms, probing concrete scenarios, and writing a glossary and ADRs as decisions settle. Use when naming or defining a term, or when writing an ADR for a settled decision. Merely reading a glossary for vocabulary is not this skill, and neither is interviewing the user.",
-  "figure-it-out": "Designs an auditable phase plan with a hypothesis loop and a decision trail for work too large or unusual for a routine plan. Use when a change is large, cross-cutting, or spans multiple sessions, or the user will review results after stepping away. Trigger on figure it out, long multi-session change, or review it later. Not for a short task that fits one session.",
+  "domain-modeling": "Builds and sharpens a project's domain model by challenging terms, probing concrete scenarios, and writing a glossary and ADRs as decisions settle. Use when naming or defining a term, or when writing an ADR for a settled decision. Merely reading a glossary for vocabulary is not this skill, and neither is a full question-by-question interview.",
+  "figure-it-out": "Designs an auditable phase plan with a hypothesis loop and a decision trail. Use when work spans multiple sessions or has a one-way door. Trigger on figure it out or long multi-session change. Not for a short task that fits one session.",
   "gherkin": "Writes production-quality Gherkin `.feature` files. Use when asked to write, review, fix, or generate Gherkin scenarios, Cucumber feature files, BDD specifications, or Given/When/Then acceptance criteria, or to convert requirements or user stories into Gherkin. Trigger on BDD, behaviour-driven, behavior-driven, scenario outline, or executable specification.",
-  "grill": "Interviews the user one question at a time to sharpen a plan, decision, or idea, working a design tree in rounds until every branch is settled. Use when asked to grill me, interview me, or quiz me on my own thinking before building.",
-  "grill-with-docs": "Grills the user to sharpen a design while writing the ADRs and glossary the conversation implies. Use when a design conversation should leave a written record as it goes. Trigger on grill with docs. Not for a plain interview that needs no written record.",
-  "how": "Traces a subsystem's call graph and data flow and returns a written trace, used as a step inside other skills or to answer where code lives. Use when explicitly asked to trace or map code. Trigger on trace this, map this, or where does this live. Not for teaching a learner.",
+  "grill": "Interviews the user one question at a time to sharpen a plan, decision, or idea, working a design tree in rounds until every branch is settled. Use when asked to grill me, interview me, or quiz me on my own thinking before building, with no written record wanted.",
+  "grill-with-docs": "Interviews the user on a design and writes glossary terms and ADRs as answers settle. Use when asked to grill with docs or when the interview must leave a written record.",
+  "how": "Traces a subsystem's call graph and data flow and returns a written trace. Use when asked to trace or map code or to answer where code lives. Trigger on trace this, map this, or where does this live. Not for teaching a learner.",
+  "investigate": "Examines the current state of a system against a broad quality goal and returns ranked, evidenced findings with candidate fixes, without building anything. Use when asked can we improve, where are we weak, why is this unreliable or flaky, or to audit a quality such as determinism, reliability, speed, or clarity. Trigger on investigate, audit, find weak spots, or can we improve. Not for judging one named change and not for one concrete bug.",
   "mermaid": "Writes production-quality Mermaid diagrams. Use when asked to write, review, fix, or generate a Mermaid diagram or any diagram as text, including flowchart, sequence, class, state, ER, Gantt, pie, mindmap, timeline, gitgraph, C4, sankey, block, kanban, and architecture diagrams.",
   "nixification": "Resolves a missing tool, binary, library, or dependency with Nix flakes or an ephemeral shell. Use on command not found, missing-package errors, or a request to create a flake.nix or reproducible environment. Not for NixOS system or home-manager configuration, nor for errors whose cause is not an absent tool.",
-  "no-comments": "Removes code comments, suppressions, and warning markers that restate code, keeps durable constraints, and encodes recurring ones as structure. Use when comments or suppressions need cleanup.",
-  "plan-work": "Turns a request into ordered, independently landable units, each with a check and a baseline to measure against. Use for a routine multi-step effort, or when asked to plan, break down, or sequence work into tasks or slices. Trigger on plan this, break it down, decompose, or sequence the work.",
+  "no-comments": "Removes code comments and suppressions that restate code, keeps durable constraints, and encodes recurring ones as structure. Use when comments or suppressions need cleanup.",
+  "plan-work": "Turns a request into ordered, independently landable units, each with a check and a baseline to measure against. Use when asked to plan, break down, decompose, or sequence work that fits one session. Trigger on plan this, break it down, decompose, or sequence the work.",
   "principle-boundary-discipline": "Apply when external data enters the system, such as the CLI, config, network, or an external API. Validate and handle errors there, and trust internal types so business logic stays pure.",
   "principle-build-the-lever": "Apply when the same mechanical edit repeats across five or more sites. Build a codemod, script, or generator instead of editing by hand, so a reviewer can rerun it.",
   "principle-encode-lessons-in-structure": "Apply when the same instruction is about to be written a second time, or a correction keeps recurring. Encode the rule as a lint, metadata flag, runtime check, or script instead of more text.",
@@ -665,43 +702,48 @@ const FULL = {
   "prototype": "Builds a throwaway prototype to answer one question, logic, UI, or feasibility, and captures the answer. Use to sanity-check whether a state model feels right, to explore what a UI should look like, or to prove a proof of concept or spike works, not for scoring finished candidates. Trigger on prototype, mock it up, proof of concept, POC, or spike.",
   "recall": "Reconstructs recent work from the conversation, repository state, and history and returns one next move. Use when resuming work or the current state is unclear, or when handing off to a fresh session. Trigger on where were we, recall, what is the current state, or write a handoff.",
   "reflect": "Examines a completed session through independent lenses and routes the learnings into skills, checks, or structure. Use after a session ends, on retro, what did we learn, or improve the setup. Not for starting a skill from scratch.",
+  "report": "Produces a full written report of work already done, with a diff walkthrough, evidence, decisions, and open items, as one HTML file. Use when asked for a full report, a walkthrough of the changes, a write-up of the work, or a morning report.",
+  "research": "Finds answers outside the repo by searching the web, official docs, package registries, and library source, and returns a sourced answer with a confidence tier for each claim. Use when asked to look something up online, find a library, package, SDK, or API, check what the docs say, or compare options from sources. Trigger on research, look this up, search online, find a package, or what does the documentation say. Not for code in this repo and not for a verdict on whether to make a change.",
   "setup-ai": "Explains and updates which model each role uses in the shared AI workflow. Use when changing the model policy or asking how model selection works.",
-  "show-me-your-work": "Appends each decision, reason, evidence, and result to a TSV trail while a run proceeds. Use when asked for a decision log, audit trail, or show your work, or to record choices alongside any run so a reviewer can reconstruct them.",
+  "show-me-your-work": "Appends each decision, reason, evidence, and result to a TSV trail while a run proceeds. Use on any run with forks, pivots, or blockers, or when asked for a decision log, audit trail, or show your work.",
   "simple-english": "Writes or rewrites technical text to the rules of ASD-STE100 Simplified Technical English so it is clear and unambiguous for a non-native reader. Use when rewriting existing text for plain, unambiguous English or STE compliance, on runbooks, procedures, error messages, release notes, incident reports, and API guides. Also use on STE, Simplified Technical English, or ASD-STE100, or for docs that translate well. Not for general tone or document structure.",
   "skill-creator": "Creates new skills, modifies and improves existing skills, and measures skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy. Not for tightening the wording of a finished skill.",
   "tdd": "Drives a test-first loop that makes intended behaviour executable before production code changes. Use when asked for TDD, a failing test, or a regression test, or when a behaviour change has a cheap test target and deserves to be locked down first. Trigger on TDD, test-first, write a failing test, or add a regression test.",
-  "teach": "Explains how something works so it is understood, not just stated, weaving a traced flow and its rationale into one plain account built up a step at a time. Use when asked to explain or help someone really understand a topic, or how a subsystem works. Trigger on explain this, how does X work, help me understand, or teach me. Not for a bare trace or a history lookup.",
+  "teach": "Explains how something works so it is understood, not just stated, weaving a traced flow and its rationale into one plain account built up a step at a time. Use when asked to explain something or help someone really understand it. Trigger on explain this, how does X work, help me understand, or teach me. Not for a bare trace or a history lookup.",
   "team-discussion": "Runs independent lenses on one question and returns one evidenced recommendation, surfacing where perspectives disagree. Use when one question needs several viewpoints, such as a roundtable or panel. Trigger on roundtable, panel, get perspectives, or what do others think. Not for splitting work into slices.",
-  "technical-writing": "Applies a four-layer technical-writing standard covering Diátaxis structure, Google developer style sentences, STE instruction rules, and Global English syntax. Use when creating or structuring a doc, readme, RFC, PR description, or commit message.",
+  "technical-writing": "Structures and words human-facing docs by document type, reader address, and sentence clarity. Use when creating or structuring a doc, readme, RFC, PR description, or commit message.",
   "tickets": "Manages GitHub Projects tickets and board state, including creating issues from a plan, statuses, dependencies, sub-issues, milestones, issue templates, and closing with evidence. Use when creating, moving, or closing tickets or working the board, backlog, or milestones. Trigger on file these as issues, move this ticket, update the board, what is blocked, milestone, or close this issue. Not for writing the requirements themselves.",
   "to-questionnaire": "Turns a decision the user cannot answer alone into a fillable questionnaire for the person who holds the knowledge. Use when the missing information lives with another human rather than in the code, history, or sources.",
   "to-spec": "Synthesises the current conversation into a written spec and publishes it, without interviewing. Use when a discussion is settled and a durable requirements artifact is needed before planning. Trigger on write the spec, capture the requirements, or turn this into a spec.",
-  "unslop": "Edits text to remove AI writing tells and restore a human voice. Use as the last pass on prose before delivery, after any other writing skill, or when asked to humanize text, de-slop it, or remove AI tells.",
-  "why": "Searches history, ADRs, and sources for the motive behind a design choice, threshold, or past decision, separating facts from inference. Use when asked why did we choose X, why is it built this way, or what was the reasoning.",
+  "unslop": "Edits text to remove AI writing tells and restore a human voice. Use when asked to humanize text, de-slop it, or remove AI tells, or as the last pass on narrative prose for human readers.",
+  "why": "Searches history, ADRs, and sources for the motive behind a design choice, threshold, or past decision, separating facts from inference. Use when asked why did we choose X or what the recorded reasoning was.",
   "wizard": "Generates an interactive bash wizard that walks a human through steps only they can perform. Use when provisioning infrastructure, setting up credentials or CI secrets, walking a third-party dashboard, or running a one-off migration or cutover. Do not use it for steps the agent can perform itself.",
-  "writing-for-agents": "Applies writing doctrine to the prose of agent-consumed documents such as skills, AGENTS.md, and referenced files, covering context pointers, information hierarchy, leading words, and no-op pruning. Use when tightening the wording of a skill or AGENTS.md. Not for creating or evaluating a skill.",
+  "writing-for-agents": "Tightens the prose of agent-consumed documents such as skills, AGENTS.md, and referenced files. Use when tightening the wording of a skill or AGENTS.md. Not for creating or evaluating a skill.",
 };
 const REFS = {
-  "accept-change": ["adversarial-review", "blast-radius", "delegate", "no-comments", "principle-laziness-protocol", "principle-minimize-reader-load", "principle-prove-it-works"],
+  "accept-change": ["adversarial-review", "blast-radius", "no-comments", "principle-laziness-protocol", "principle-prove-it-works", "to-spec"],
   "adversarial-review": ["delegate", "grill", "principle-prove-it-works"],
-  "architect": ["adversarial-review", "arena", "delegate", "domain-modeling", "how", "plan-work", "principle-boundary-discipline", "principle-encode-lessons-in-structure", "principle-fix-root-causes", "principle-foundational-thinking", "principle-laziness-protocol", "principle-make-operations-idempotent", "principle-minimize-reader-load", "principle-model-the-domain", "principle-outcome-oriented-execution", "principle-redesign-from-first-principles", "principle-separate-before-serializing-shared-state", "principle-subtract-before-you-add", "principle-type-system-discipline", "principle-use-before-build", "tdd", "why"],
-  "arena": ["delegate", "domain-modeling", "principle-separate-before-serializing-shared-state", "prototype"],
-  "assess": ["architect", "arena", "blast-radius", "delegate", "domain-modeling", "grill", "how", "plan-work", "prototype", "team-discussion", "to-questionnaire", "why"],
-  "blast-radius": ["delegate", "how", "principle-prove-it-works", "unslop", "why"],
+  "architect": ["adversarial-review", "arena", "delegate", "domain-modeling", "how", "plan-work", "principle-boundary-discipline", "principle-encode-lessons-in-structure", "principle-foundational-thinking", "principle-laziness-protocol", "principle-make-operations-idempotent", "principle-minimize-reader-load", "principle-model-the-domain", "principle-outcome-oriented-execution", "principle-redesign-from-first-principles", "principle-separate-before-serializing-shared-state", "principle-subtract-before-you-add", "principle-type-system-discipline", "tdd", "why"],
+  "arena": ["delegate", "domain-modeling", "principle-separate-before-serializing-shared-state"],
+  "assess": ["architect", "arena", "blast-radius", "domain-modeling", "grill", "how", "investigate", "plan-work", "prototype", "team-discussion", "to-questionnaire", "why"],
+  "autonomous": ["accept-change", "delegate", "figure-it-out", "plan-work", "principle-never-block-on-the-human", "recall", "report", "show-me-your-work"],
+  "blast-radius": ["delegate", "principle-prove-it-works", "unslop", "why"],
   "bro": ["domain-modeling", "simple-english"],
+  "consolidate": [],
   "delegate": ["architect", "principle-build-the-lever", "principle-guard-agent-context", "principle-prove-it-works", "principle-separate-before-serializing-shared-state", "setup-ai", "why"],
   "diagnosing-bugs": ["accept-change", "blast-radius", "domain-modeling", "principle-fix-root-causes", "tdd", "why"],
   "domain-modeling": ["to-spec"],
   "figure-it-out": ["architect", "arena", "delegate", "diagnosing-bugs", "plan-work", "principle-encode-lessons-in-structure", "principle-foundational-thinking", "principle-guard-agent-context", "principle-laziness-protocol", "principle-never-block-on-the-human", "principle-outcome-oriented-execution", "principle-prove-it-works", "principle-separate-before-serializing-shared-state", "principle-sequence-verifiable-units", "principle-use-before-build", "prototype", "recall", "show-me-your-work", "tdd"],
   "gherkin": ["how"],
-  "grill": ["delegate", "how", "principle-experience-first", "principle-never-block-on-the-human", "why"],
+  "grill": ["delegate", "how", "principle-never-block-on-the-human", "why"],
   "grill-with-docs": ["domain-modeling", "grill"],
-  "how": ["delegate"],
+  "how": ["delegate", "why"],
+  "investigate": ["assess", "delegate", "diagnosing-bugs", "how", "plan-work", "principle-encode-lessons-in-structure", "principle-guard-agent-context", "principle-never-block-on-the-human", "principle-subtract-before-you-add", "why"],
   "mermaid": ["why"],
   "nixification": ["principle-use-before-build"],
-  "no-comments": ["accept-change", "delegate", "principle-minimize-reader-load"],
-  "plan-work": ["accept-change", "architect", "delegate", "principle-foundational-thinking", "principle-laziness-protocol", "principle-make-operations-idempotent", "principle-prove-it-works", "principle-sequence-verifiable-units", "principle-subtract-before-you-add", "tickets", "to-spec", "wizard"],
-  "principle-boundary-discipline": ["principle-migrate-callers-then-delete-legacy-apis", "principle-type-system-discipline"],
+  "no-comments": ["principle-encode-lessons-in-structure"],
+  "plan-work": ["accept-change", "architect", "delegate", "grill", "principle-laziness-protocol", "principle-prove-it-works", "tickets", "to-spec", "wizard"],
+  "principle-boundary-discipline": ["principle-migrate-callers-then-delete-legacy-apis"],
   "principle-build-the-lever": ["delegate", "principle-laziness-protocol", "principle-prove-it-works", "principle-use-before-build"],
   "principle-encode-lessons-in-structure": ["reflect"],
   "principle-exhaust-the-design-space": ["prototype"],
@@ -712,34 +754,36 @@ const REFS = {
   "principle-laziness-protocol": ["principle-minimize-reader-load", "principle-subtract-before-you-add"],
   "principle-make-operations-idempotent": ["wizard"],
   "principle-migrate-callers-then-delete-legacy-apis": [],
-  "principle-minimize-reader-load": ["principle-guard-agent-context"],
-  "principle-model-the-domain": ["principle-foundational-thinking", "principle-type-system-discipline"],
+  "principle-minimize-reader-load": ["principle-laziness-protocol"],
+  "principle-model-the-domain": ["principle-foundational-thinking"],
   "principle-never-block-on-the-human": ["grill"],
   "principle-outcome-oriented-execution": ["principle-migrate-callers-then-delete-legacy-apis", "principle-prove-it-works", "principle-sequence-verifiable-units"],
-  "principle-prove-it-works": ["principle-laziness-protocol", "principle-minimize-reader-load", "principle-use-before-build", "show-me-your-work"],
-  "principle-redesign-from-first-principles": ["principle-sequence-verifiable-units"],
+  "principle-prove-it-works": ["principle-laziness-protocol", "principle-minimize-reader-load", "principle-use-before-build"],
+  "principle-redesign-from-first-principles": ["principle-laziness-protocol", "principle-sequence-verifiable-units"],
   "principle-separate-before-serializing-shared-state": [],
-  "principle-sequence-verifiable-units": ["principle-build-the-lever", "principle-prove-it-works"],
+  "principle-sequence-verifiable-units": [],
   "principle-subtract-before-you-add": [],
   "principle-type-system-discipline": ["principle-boundary-discipline", "principle-encode-lessons-in-structure", "principle-model-the-domain"],
-  "principle-use-before-build": ["principle-build-the-lever", "principle-laziness-protocol", "principle-minimize-reader-load"],
-  "prototype": ["arena", "principle-exhaust-the-design-space", "tdd"],
+  "principle-use-before-build": ["principle-guard-agent-context", "principle-minimize-reader-load", "research"],
+  "prototype": ["arena", "consolidate"],
   "recall": ["show-me-your-work"],
   "reflect": ["delegate", "principle-encode-lessons-in-structure", "skill-creator", "writing-for-agents"],
+  "report": ["accept-change", "mermaid", "principle-prove-it-works", "show-me-your-work", "simple-english", "technical-writing"],
+  "research": ["assess", "delegate", "plan-work", "principle-guard-agent-context", "principle-never-block-on-the-human", "principle-use-before-build", "prototype"],
   "setup-ai": ["delegate", "principle-never-block-on-the-human"],
-  "show-me-your-work": ["delegate", "principle-encode-lessons-in-structure", "unslop"],
+  "show-me-your-work": ["consolidate", "delegate", "principle-encode-lessons-in-structure", "unslop"],
   "simple-english": ["unslop", "writing-for-agents"],
   "skill-creator": ["why", "writing-for-agents"],
-  "tdd": ["architect", "diagnosing-bugs", "gherkin", "principle-encode-lessons-in-structure", "principle-fix-root-causes", "principle-laziness-protocol", "principle-prove-it-works", "principle-sequence-verifiable-units", "principle-use-before-build"],
+  "tdd": ["architect", "diagnosing-bugs", "gherkin", "principle-encode-lessons-in-structure", "principle-fix-root-causes", "principle-laziness-protocol", "principle-use-before-build"],
   "teach": ["delegate", "how", "mermaid", "unslop", "why"],
-  "team-discussion": ["adversarial-review", "arena", "delegate", "how", "principle-experience-first", "principle-prove-it-works", "why"],
+  "team-discussion": ["adversarial-review", "arena", "delegate", "how", "why"],
   "technical-writing": ["blast-radius", "simple-english", "unslop"],
-  "tickets": ["plan-work", "principle-migrate-callers-then-delete-legacy-apis", "to-spec"],
+  "tickets": ["plan-work", "to-spec"],
   "to-questionnaire": ["grill", "how", "why"],
   "to-spec": ["architect", "domain-modeling", "grill", "grill-with-docs", "plan-work", "tickets"],
   "unslop": ["simple-english"],
   "why": ["domain-modeling", "to-questionnaire"],
-  "wizard": ["plan-work"],
+  "wizard": ["consolidate"],
   "writing-for-agents": ["skill-creator"],
 };
 /* END GENERATED */

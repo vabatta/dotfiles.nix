@@ -17,4 +17,4 @@ Wire one switcher and a floating bottom-centre bar. Left and right arrows wrap, 
 
 ## Rules and capture
 
-No real mutations and no direct promotion to production. Hand over the URL, capture the winning variant, fold it in, and move the full variant set to a throwaway branch.
+No real mutations and no direct promotion to production. Hand over the URL, record the winning variant in VERDICT.md, and keep the full variant set on a throwaway branch.

@@ -1,6 +1,6 @@
 ---
 name: technical-writing
-description: "Applies a four-layer technical-writing standard covering Diátaxis structure, Google developer style sentences, STE instruction rules, and Global English syntax. Use when creating or structuring a doc, readme, RFC, PR description, or commit message."
+description: "Structures and words human-facing docs by document type, reader address, and sentence clarity. Use when creating or structuring a doc, readme, RFC, PR description, or commit message."
 ---
 
 # Technical writing
@@ -58,11 +58,8 @@ Source: developers.google.com/style, fetched 2026-07-18.
 Apply these to instructions. **simple-english** adds the full 53-rule pass, word limits, and approved vocabulary beyond them.
 
 - One instruction per sentence, in the imperative, 20 words at most. Descriptive sentences take 25.
-- Put the condition before the command: "If the build fails, read the log."
 - Use active voice, simple tenses, and no "-ing" verbs, "has been", or "should".
-- Write two sentences instead of a semicolon.
 - Keep articles and "that". Use no contractions.
-- Use one word per concept across the document.
 
 ## Leave no sentence open to two readings (Global English)
 
@@ -74,10 +71,9 @@ Apply these to instructions. **simple-english** adds the full 53-rule pass, word
 - Repeat the article in a series when it prevents a misread: "the client and the host", not "the client and host", when they are two things.
 - Say which parts "and" or "or" joins when a sentence can group two ways. "Both...and", "either...or", and "if...then" are free disambiguators.
 - Punctuation follows **simple-english** for semicolons and **unslop** for em dashes.
-- Avoid parenthetical asides, per **unslop**. A parenthesis that stays holds a full grammatical unit. Never form plurals with "(s)".
+- Handle parentheses per **unslop**. Never form plurals with "(s)".
 - No slashes: write "a, b, or both" instead of "a/b" or "and/or".
 - Name each thing once, per **simple-english**. A doc that says "the gate", "the ratchet", and "the budget check" for one thing teaches three things. Do not reword an unchanged sentence between edits.
-- Skip idioms, colloquialisms, Latin abbreviations, and metaphors. A non-native reader, a translator, and an agent all parse plain constructions best.
 
 Source: Kohl, The Global English Style Guide (SAS Press). Guideline text fetched from the Internet Archive and the SAS sample chapter, 2026-07-18.
 

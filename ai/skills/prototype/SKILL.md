@@ -13,7 +13,7 @@ A prototype is throwaway code that answers a question. The question decides the 
 - What should this look like? Build a **UI prototype**. See [UI.md](references/UI.md).
 - Can we even do this? Does this approach, library, API, or integration work at all? Build a **feasibility prototype**. See [FEASIBILITY.md](references/FEASIBILITY.md).
 
-The wrong branch wastes the whole prototype. If the branch is ambiguous and the user is unreachable, choose from the surrounding code: a backend means logic, a page or component means UI, a viability question means feasibility. State the assumption at the top.
+If the branch is ambiguous and the user is unreachable, choose from the surrounding code: a backend means logic, a page or component means UI, a viability question means feasibility. State the assumption at the top.
 
 ## Rules for all branches
 
@@ -24,8 +24,8 @@ The wrong branch wastes the whole prototype. If the branch is ambiguous and the 
 5. Surface the full relevant state after every action or variant switch.
 6. Capture when done. Done when all of these hold:
    - The verdict (yes, no, conditional, or pending human) and the constraints found are written in `.agent/prototypes/<slug>/VERDICT.md`.
-   - The prototype is kept on a throwaway branch off main.
+   - A UI prototype is kept on a throwaway branch off main. A logic or feasibility prototype stays in `.agent/prototypes/<slug>/`, committed with its verdict until **consolidate** retires it.
    - A context pointer is on the issue, only if one exists.
    - Nothing is folded into real code. The prototype is evidence, not the implementation.
 
-This is evidence you feel or measure, not scored candidates. For two to three architectural candidates compared against a rubric, use **arena**. For the principle behind exploring the design space, see **principle-exhaust-the-design-space**. It is not a test, so do not substitute it for **tdd**.
+This is evidence you feel or measure, not scored candidates. For two to three architectural candidates compared against a rubric, use **arena**.

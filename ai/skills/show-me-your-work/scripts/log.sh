@@ -29,7 +29,8 @@ ts="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
 # opens the file.
 clean() {
 	local v
-	v=$(printf '%s' "$1" | tr '\t\n\r' '   ')
+	v=$(printf '%s' "$1" | LC_ALL=C tr '\t\n\r' '   ')
+	v="${v#"${v%%[![:space:]]*}"}"
 	case "$v" in
 		=*|+*|-*|@*) printf "'%s" "$v" ;;
 		*) printf '%s' "$v" ;;

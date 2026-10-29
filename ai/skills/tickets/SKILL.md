@@ -59,7 +59,6 @@ If `.ghproject` is missing, build it:
 
 Write the file with inline comments describing each status. If the user hasn't
 described them, infer each meaning from its name and mark it `# inferred`.
-Creating fields or statuses on a shared board is a one-way door, so ask first.
 
 If any field or option lookup fails at runtime, silently re-fetch and update
 the file. Done when `.ghproject` parses with the awk line above.
@@ -83,24 +82,21 @@ board.
 Use when one issue cannot proceed until another is resolved. Create
 dependencies in the "blocked by" direction (this issue waits on another).
 The reverse "blocking" direction is derived automatically and is read-only.
-Up to 50 issues per relationship type.
-
-Before advancing a ticket to a new status, query its dependencies. If any
-blocker is still open, warn the user — this prevents wasted work.
 
 See `references/github-api.md` → "Dependencies" for the exact endpoints and
 `gh` commands.
 
 ### Sub-issues (parent / child)
 
-Use when a large feature needs to be broken into smaller tasks. Sub-issues
-form a hierarchy (up to 8 levels deep, 100 children per parent). Sub-issues
-automatically inherit the parent's Project and Milestone.
-
-Projects can enable "Parent issue" and "Sub-issue progress" fields to
-visualize hierarchy and track completion directly on the board.
+Use for parent/child breakdown. Sub-issues automatically inherit the parent's Project and Milestone.
 
 See `references/github-api.md` → "Sub-issues" for the exact endpoints.
+
+## Picking up a ticket
+
+1. Read the ticket, its `blocked by` edges, and its sub-issues. If a blocker is open, warn the user.
+2. Move the item to the status whose `.ghproject` comment means active work, per the steps below.
+3. Done when the item's Status is that active status and the acceptance criteria are quoted back.
 
 ## Moving tickets between statuses
 
@@ -115,7 +111,7 @@ When changing a ticket's status:
 
 ## Issue templates
 
-Two templates live in `.github/ISSUE_TEMPLATE/` — read `references/templates.md`
+The repo should hold two templates in `.github/ISSUE_TEMPLATE/` — read `references/templates.md`
 for the full field structure. The raw YAML files are in
 `assets/ISSUE_TEMPLATE/` and can be copied directly into a repo.
 
@@ -124,14 +120,12 @@ for the full field structure. The raw YAML files are in
 - **Feature**: issue body (Context / Approach / Edge cases / Technical
   notes). Use for scoped work ready to enter the pipeline.
 
-The full requirements artifact is owned by **to-spec**. An issue template only records what the tracker needs, so do not re-author the spec here. Fit a spec into the Feature template: summary under Context, the chosen design under Approach, open edge cases under Edge cases, and a link to the spec file in Technical notes.
+The full requirements artifact is owned by **to-spec**. An issue template only records what the tracker needs, so do not re-author the spec here. A ticket carries a summary under Context, the chosen design under Approach, open edge cases under Edge cases, and a link to the spec in Technical notes.
 
-If `.github/ISSUE_TEMPLATE/` is missing, copy `assets/ISSUE_TEMPLATE/*` into it and add a `config.yml` with `blank_issues_enabled: false`.
+If `.github/ISSUE_TEMPLATE/` is missing, copy `assets/ISSUE_TEMPLATE/*` into it. Add a `config.yml` with `blank_issues_enabled: false` only when the user agrees, since it changes the repo for every contributor.
 
 When an idea gets brainstormed into a real feature, rewrite its body from idea
 format to feature format — the structured fields make downstream work smoother.
-
-Blank issues are disabled, so always use one of these templates.
 
 ## Conventions
 
@@ -148,9 +142,10 @@ language descriptions of what the user gets. "Pause and resume individual
 activities" is clear to anyone; "Implement wf.pause_activity()" belongs in
 Technical notes.
 
-**Create missing labels** with `gh label create` and carry on. **Ask the user
-only** before creating fields or statuses on a shared board, or when the target
-issue is ambiguous.
+**Create missing labels** with `gh label create`. **Ask the user only**
+before creating fields or statuses on a shared board, or when the target issue
+is ambiguous. When no one answers, use existing statuses and the closest issue,
+and say so.
 
 ## API reference
 
@@ -162,7 +157,7 @@ with step-by-step examples and gotchas.
 ## Creating issues from a plan
 
 1. Create one parent issue for the plan, then one issue per unit, each added
-   as a sub-issue of the parent and to the project, in the Backlog status.
+   as a sub-issue of the parent, in the status that the `.ghproject` comments mark as scoped and waiting.
 2. Write each unit's body into the Feature template (Context, Approach).
 3. Add `blocked by` edges for the unit ordering, and put the whole plan in one
    milestone.
@@ -171,7 +166,11 @@ with step-by-step examples and gotchas.
 
 ## Slicing
 
-Decomposition and the slice ordering are owned by **plan-work**. Record its units as above. Each issue declares its blocking edges, and work starts on the frontier, where every blocker is done. For a wide refactor's expand-contract order, follow the sequence **plan-work** produces. For a legacy retirement the units are ordered issues that land in one change, so one PR closes them all, per **principle-migrate-callers-then-delete-legacy-apis**.
+Decomposition and the slice ordering are owned by **plan-work**. Record its units as above. Work starts on the frontier, where every blocker is done.
+
+## Filing a spec
+
+When **to-spec** publishes through this skill, file the spec as one issue titled by the spec, with its text as the body. Done when the issue number is reported.
 
 ## Closing
 

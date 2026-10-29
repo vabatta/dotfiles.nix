@@ -21,7 +21,7 @@ Skip a step whose answer the request already gives. When no human can answer, re
 
 ## Document structure
 
-Frame it as a discovery questionnaire. Put the most important questions first, since async recipients answer in one pass. Group under `##` theme headings once there is more than a handful.
+Put the most important questions first, since async recipients answer in one pass. Group under `##` theme headings once there are more than 5 questions.
 
 - Title, then Purpose, From, To, and how the answers will be used.
 - Context, one orienting paragraph.

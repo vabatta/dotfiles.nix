@@ -8,7 +8,7 @@ A spec is a behavior contract. Keep it free of file paths and implementation det
 2. Solution, from the user's point of view.
 3. User stories, long and numbered, `As a <actor>, I want a <feature>, so that <benefit>`.
 4. Requirements, the testable unit. Write each as `### Requirement: <name>` with an RFC-2119 statement (SHALL, MUST, SHOULD, MAY), followed by `#### Scenario: <name>` in bulleted WHEN, THEN, AND form.
-5. Implementation decisions, covering modules, interfaces, API, schema, and architecture. No file paths and no code, except decision-dense shapes such as a state machine, reducer, schema, or type signature. A seam may name a public symbol and its signature.
+5. Implementation decisions that a tester or reviewer must know, such as a state machine, reducer, schema, or type signature. No design sketch, file paths, or code. A seam may name a public symbol and its signature.
 6. Testing decisions, covering what makes a good test (external behavior only), the modules, and any prior art.
 7. Out of scope.
 8. Further notes.

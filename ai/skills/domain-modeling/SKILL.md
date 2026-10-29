@@ -1,28 +1,15 @@
 ---
 name: domain-modeling
-description: "Builds and sharpens a project's domain model by challenging terms, probing concrete scenarios, and writing a glossary and ADRs as decisions settle. Use when naming or defining a term, or when writing an ADR for a settled decision. Merely reading a glossary for vocabulary is not this skill, and neither is interviewing the user."
+description: "Builds and sharpens a project's domain model by challenging terms, probing concrete scenarios, and writing a glossary and ADRs as decisions settle. Use when naming or defining a term, or when writing an ADR for a settled decision. Merely reading a glossary for vocabulary is not this skill, and neither is a full question-by-question interview."
 ---
 
 # Domain Modeling
 
-Actively build and sharpen the project's domain model during design. This is the *active* discipline: challenging terms, inventing edge-case scenarios, and writing the glossary and decisions down the moment they crystallise. Reading `docs/glossary.md` for vocabulary is a one-line habit any skill can do. This skill is for changing the model, and a conflict found while reading hands over to it.
+Actively build and sharpen the project's domain model during design. This is the *active* discipline: challenging terms, inventing edge-case scenarios, and writing the glossary and decisions down the moment they crystallise. This skill is for changing the model, and a conflict found while reading hands over to it.
 
 ## File structure
 
-Most repos have a single context:
-
-```
-/
-├── docs/
-│   ├── glossary.md
-│   ├── glossary-map.md        # only when the repo has multiple contexts
-│   └── adr/
-│       ├── 0001-event-sourced-orders.md
-│       └── 0002-postgres-for-write-model.md
-└── src/
-```
-
-When the repo has multiple contexts, `docs/glossary-map.md` indexes them and each context keeps its own glossary under `docs/glossary/<context>.md`.
+A single-context repo keeps `docs/glossary.md` and `docs/adr/`. A multi-context repo adds `docs/glossary-map.md`, which indexes one `docs/glossary/<context>.md` per context.
 
 Create files lazily, when there is something to write: `docs/glossary.md` with the first resolved term, `docs/adr/` with the first ADR.
 
@@ -54,7 +41,7 @@ When a term is resolved, update `docs/glossary.md` (or `docs/glossary/<context>.
 
 Write an ADR only when all three are true:
 
-1. Hard to reverse, the cost of changing your mind later is meaningful.
+1. Hard to reverse, undoing it takes more than a revert.
 2. Surprising without context, a future reader will wonder why it is this way.
 3. The result of a real trade-off, there were genuine alternatives and one was picked for specific reasons.
 

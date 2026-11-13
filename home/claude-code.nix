@@ -2,7 +2,7 @@
 {
   programs.claude-code = {
     enable = true;
-    enableMcpIntegration = true;
+    # MCP servers and plugins are set in home/ai.nix
 
     # NOTE: pinned against the Home Manager default, which moves to XDG dirs on a stateVersion bump.
     # The CLAUDE.md below and T3's user settings both read ~/.claude.

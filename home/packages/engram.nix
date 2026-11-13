@@ -1,6 +1,6 @@
 # NOTE: the upstream release binary, because nixpkgs has no engram package.
 # TODO: switch to the nixpkgs package once one lands.
-{ lib, stdenvNoCC, fetchurl }:
+{ lib, stdenvNoCC, fetchurl, fetchFromGitHub }:
 let
   version = "3.6.0";
   # release asset and sha256 per platform, from the release's checksums.txt
@@ -23,6 +23,13 @@ stdenvNoCC.mkDerivation {
   sourceRoot = ".";
   dontFixup = true;
   installPhase = "install -Dm755 engram $out/bin/engram";
+  # the same release's source, for its Claude Code and opencode plugins
+  passthru.source = fetchFromGitHub {
+    owner = "Gentleman-Programming";
+    repo = "engram";
+    rev = "v${version}";
+    hash = "sha256-lVLGjn/eYUNy5S/Ct9lTWGiFso40EKrlIDmD+aUaDgg=";
+  };
   meta = {
     description = "Persistent memory for AI coding agents";
     homepage = "https://github.com/Gentleman-Programming/engram";

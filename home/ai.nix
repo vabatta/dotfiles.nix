@@ -10,6 +10,21 @@ let
 
   engram = pkgs.callPackage ./packages/engram.nix { };
 
+  # the database stays at ~/.engram, shared by every worktree of a repo
+  engramServer = {
+    command = "${engram}/bin/engram";
+    args = [ "mcp" "--tools=agent" ];
+    env.ENGRAM_NO_UPDATE_CHECK = "1";
+  };
+
+  # Engram's Claude Code plugin (session hooks, compaction recovery) carrying the engram server itself,
+  # so its tools get the mcp__plugin_engram_engram__ names its hooks match
+  engramClaudePlugin = pkgs.runCommand "engram-claude-plugin" { } ''
+    cp -R ${engram.source}/plugin/claude-code "$out"
+    chmod -R u+w "$out"
+    cp ${(pkgs.formats.json { }).generate "engram-mcp.json" { mcpServers.engram = engramServer // { type = "stdio"; }; }} "$out/.mcp.json"
+  '';
+
   bundle = name: source: pkgs.runCommand name { } ''
     mkdir -p "$out"
     cp -RL ${source}/. "$out/"
@@ -23,19 +38,16 @@ in
     # the mermaid skill's validator; the other tools the skills assume are listed in ai/skills/AGENTS.md
     home.packages = [ validate-mermaid engram ];
     home.sessionVariables.ENGRAM_NO_UPDATE_CHECK = "1";
+    # slim: the plugin's session-start hook skips the protocol text the engram server already sends
+    home.file.".engram/protocol-mode.json".text = builtins.toJSON { claude-code = "slim"; };
 
     # every MCP server is declared here; Claude Code, opencode, and Zed read them through enableMcpIntegration
     programs.mcp = {
       enable = true;
       servers = {
-        # the database stays at ~/.engram, shared by every worktree
-        # TODO: keep each repo's memories in the repo (engram sync to .engram/, with git hooks to export
-        # and import), decide how public repos are handled, and whether to add the Claude Code plugin.
-        engram = {
-          command = "${engram}/bin/engram";
-          args = [ "mcp" "--tools=agent" ];
-          env.ENGRAM_NO_UPDATE_CHECK = "1";
-        };
+        # NOTE: memories stay in ~/.engram on each machine. Syncing them through the repo (engram sync)
+        # is only needed to share them with other machines, and would publish them in a public repo.
+        engram = engramServer;
 
         nixos.command = lib.getExe pkgs.mcp-nixos;
 
@@ -55,10 +67,21 @@ in
       };
     };
 
+    # Claude Code gets every server except engram here; engram comes with its plugin
+    programs.claude-code = {
+      mcpServers = lib.removeAttrs config.programs.mcp.servers [ "engram" ];
+      plugins.engram = engramClaudePlugin;
+    };
+
     _module.args.ai = {
       skills = bundle "ai-skills" ../ai/skills;
       agents = bundle "ai-agents" ../ai/agents;
-      plugins = bundle "ai-plugins" ../ai/plugins;
+      # opencode plugins: ours plus Engram's from the same release as the binary
+      plugins = pkgs.runCommand "ai-plugins" { } ''
+        mkdir -p "$out"
+        cp -RL ${../ai/plugins}/. "$out/"
+        cp ${engram.source}/plugin/opencode/engram.ts "$out/engram.ts"
+      '';
       rules = ../ai/AGENTS.md;
     };
   };

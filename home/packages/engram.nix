@@ -1,5 +1,4 @@
-# NOTE: the upstream release binary, because nixpkgs has no engram package.
-# TODO: switch to the nixpkgs package once one lands.
+# TODO: use the nixpkgs package once one exists
 { lib, stdenvNoCC, fetchurl, fetchFromGitHub }:
 let
   version = "3.6.0";
@@ -23,7 +22,6 @@ stdenvNoCC.mkDerivation {
   sourceRoot = ".";
   dontFixup = true;
   installPhase = "install -Dm755 engram $out/bin/engram";
-  # the same release's source, for its Claude Code and opencode plugins
   passthru.source = fetchFromGitHub {
     owner = "Gentleman-Programming";
     repo = "engram";

@@ -36,7 +36,6 @@ let
             *) theme="latte" ;; # fallback
           esac
 
-          # the macOS accent colour as its Catppuccin match; unset is the multicolour default, shown as blue
           case "$(defaults read -g AppleAccentColor 2>/dev/null)" in
             -1) accent="lavender" ;; # graphite
             0) accent="red" ;;

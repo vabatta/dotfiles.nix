@@ -1,5 +1,3 @@
-# The devbox profile: what every devbox runs, whatever the machine. A host adds its name, boot, disks, network and keys.
-# Exported as nixosModules.devbox, so a private flake can build a real machine on top of it.
 {
   lib,
   pkgs,
@@ -14,13 +12,12 @@ in
   # keep the user's systemd services (T3 server) running without a login
   users.users.${hostUsername}.linger = true;
 
-  # macOS ships jq and python3; NixOS does not, and the skills assume both (ai/skills/AGENTS.md)
+  # macOS ships these and the skills assume them; NixOS does not
   environment.systemPackages = [ pkgs.jq pkgs.python3 ];
 
   services.openssh.enable = true;
   services.tailscale.enable = true;
 
-  # the T3 server is reachable over the tailnet only; the LAN and WAN stay closed
   networking.firewall.interfaces.tailscale0.allowedTCPPorts = [ 3773 ];
 
   home-manager.users.${hostUsername} = {

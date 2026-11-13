@@ -2,10 +2,9 @@
 {
   programs.claude-code = {
     enable = true;
-    # MCP servers and plugins are set in home/ai.nix
+    # no enableMcpIntegration: home/ai.nix passes every server except engram, which its plugin brings
 
-    # NOTE: pinned against the Home Manager default, which moves to XDG dirs on a stateVersion bump.
-    # The CLAUDE.md below and T3's user settings both read ~/.claude.
+    # NOTE: the Home Manager default moves to XDG dirs on a stateVersion bump; CLAUDE.md and T3 read ~/.claude
     configDir = "${config.home.homeDirectory}/.claude";
 
     package = inputs.llm-agents.packages.${pkgs.stdenv.hostPlatform.system}.claude-code;

@@ -90,13 +90,13 @@
       # build nixos flake using:
       # $ nixos-rebuild build --flake .#<name>
 
-      nixosConfigurations."devbox" = nixpkgs.lib.nixosSystem {
-        system = "x86_64-linux";
-        modules = [
+      nixosModules.devbox = {
+        imports = [
+          home-manager.nixosModules.home-manager
           ./nixos
-          ./hosts/devbox/configuration.nix
+          ./nixos/devbox.nix
         ];
-        specialArgs = {
+        _module.args = {
           inherit inputs self;
           hostUsername = "yeetus";
         };

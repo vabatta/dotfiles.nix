@@ -11,8 +11,9 @@ nix/
 │   ├── default.nix
 │   ├── settings.nix
 │   └── homebrew.nix
-├── nixos/                   # NixOS system settings (devbox)
-│   └── default.nix
+├── nixos/                   # NixOS system settings (devbox profile)
+│   ├── default.nix
+│   └── devbox.nix
 ├── home/                    # Home Manager config (shared by macOS and NixOS)
 │   ├── default.nix          # contains non-explicitly configured packages as well
 │   └── <program>.nix
@@ -39,15 +40,22 @@ nix/
 
 ### NixOS devbox
 
-1. Install NixOS, clone this repo to `~/.config/nix`.
-2. Replace the placeholder with the real hardware config:
-    ```bash
-    nixos-generate-config --show-hardware-config > hosts/devbox/hardware-configuration.nix
-    ```
-3. Run `sudo nixos-rebuild switch --flake .#devbox`.
-4. Create keys on the box, never copy private keys from a laptop: `ssh-keygen -t ed25519 -C devbox`.
-5. Add `~/.ssh/id_ed25519.pub` to GitHub twice, as an authentication key and as a signing key.
-6. Allow your laptop to log in: run `ssh-copy-id <user>@devbox` from the laptop.
+The devbox setup is the module `nixosModules.devbox` (`nixos/default.nix` and `nixos/devbox.nix`): user, home-manager, Tailscale, ssh and the T3 server. It has no machine details. A real machine is a separate flake that imports it and adds the host name, boot, disks, network and keys:
+
+```nix
+inputs.dotfiles.url = "github:vabatta/dotfiles.nix";
+# ...
+nixosConfigurations.<host> = dotfiles.inputs.nixpkgs.lib.nixosSystem {
+  system = "x86_64-linux";
+  modules = [ dotfiles.nixosModules.devbox ./configuration.nix ];
+};
+```
+
+Check a profile change without a machine: `scripts/check-devbox.sh` evaluates it on a throwaway host, and `--build` also builds it (needs Linux or an x86_64-linux builder).
+
+1. Create keys on the box, never copy private keys from a laptop: `ssh-keygen -t ed25519 -C devbox`.
+2. Add `~/.ssh/id_ed25519.pub` to GitHub twice, as an authentication key and as a signing key.
+3. Allow your laptop to log in: run `ssh-copy-id <user>@devbox` from the laptop.
 
 The box has no 1Password. Export `OPENROUTER_API_KEY` in the environment that starts `opencode`; the wrapper in `home/opencode.nix` uses `op` only when it is unset.
 

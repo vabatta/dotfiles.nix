@@ -5,11 +5,8 @@
   hostUsername,
   ...
 }:
+# Shared NixOS settings. home-manager is imported by nixosModules.devbox in flake.nix.
 {
-  imports = [
-    inputs.home-manager.nixosModules.home-manager
-  ];
-
   # nix config
   nix.settings = {
     experimental-features = [

@@ -15,6 +15,12 @@ in
   # macOS ships these and the skills assume them; NixOS does not
   environment.systemPackages = [ pkgs.jq pkgs.python3 ];
 
+  # rootless: the docker group is root-equivalent and agents run with bypassed permissions
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
+
   services.openssh.enable = true;
   services.tailscale.enable = true;
 
@@ -35,6 +41,7 @@ in
         Environment = [
           "PATH=/etc/profiles/per-user/${hostUsername}/bin:/run/current-system/sw/bin"
           "T3CODE_TELEMETRY_ENABLED=false"
+          "DOCKER_HOST=unix://%t/docker.sock"
         ];
         Restart = "on-failure";
       };

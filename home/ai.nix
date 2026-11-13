@@ -41,15 +41,13 @@ in
     # slim: the plugin's session-start hook skips the protocol text the engram server already sends
     home.file.".engram/protocol-mode.json".text = builtins.toJSON { claude-code = "slim"; };
 
-    # every MCP server is declared here; Claude Code, opencode, and Zed read them through enableMcpIntegration
+    # every global MCP server is declared here (repo-only ones live in each repo's .mcp.json)
     programs.mcp = {
       enable = true;
       servers = {
         # NOTE: memories stay in ~/.engram on each machine. Syncing them through the repo (engram sync)
         # is only needed to share them with other machines, and would publish them in a public repo.
         engram = engramServer;
-
-        nixos.command = lib.getExe pkgs.mcp-nixos;
 
         obscura = {
           command = lib.getExe pkgs.obscura;

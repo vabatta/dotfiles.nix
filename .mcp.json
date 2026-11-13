@@ -2,7 +2,7 @@
   "mcpServers": {
     "nixos": {
       "command": "nix",
-      "args": ["run", "nixpkgs#mcp-nixos"]
+      "args": ["run", "--inputs-from", ".", "nixpkgs#mcp-nixos"]
     }
   }
 }

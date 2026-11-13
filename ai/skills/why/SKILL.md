@@ -18,11 +18,10 @@ or analytics only when the host provides those sources.
    flags), search incident and postmortem history when available. Before
    returning, spot-check that each cited source says what the claim says and
    surface contradictions between sources.
-6. Return evidence, confidence, and gaps. When the answer will guide
-   implementation, add four lines: `Preserve:` what must stay true,
-   `Change:` what the evidence allows to change, `Avoid:` what the history
-   shows failed, `Risk:` what could break. Done when every intent claim
-   carries a tier label, and a citation unless the tier is Unknown.
+6. Reply in the shape of [assets/answer.md](assets/answer.md). Add its
+   Preserve, Change, Avoid, Risk block only when the answer will guide
+   implementation. Done when every intent claim carries a tier label, and a
+   citation unless the tier is Unknown.
 
 Read [epistemics.md](references/epistemics.md) before writing the answer, for
 the confidence tiers and calibrated phrasing. Read

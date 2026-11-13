@@ -17,16 +17,10 @@ Skip a step whose answer the request already gives. When no human can answer, re
 
 1. Who is it going to, and who is it from? One exchange. Recipient role, expertise, relationship, and the sender's name. Done when you know who and what they know that the user does not.
 2. What do you need back, and by when? One exchange. The decisions or facts the user cannot resolve alone, and the deadline. Done when you have a concrete list of what the user must be able to do or decide, plus a deadline or "no deadline".
-3. Write the questionnaire. Draft questions at the gap, follow the structure below, write to `.agent/questionnaires/<slug>.md`, and report the path. Do not send it. The user hands it over. Done when the file exists, every step-2 item is covered, and the reply names the path.
+3. Write the questionnaire. Draft questions at the gap, fill in [assets/questionnaire.md](assets/questionnaire.md), and give it in the reply as one copyable block. Do not send it. The user hands it over. Done when every step-2 item is covered and the reply holds the questionnaire.
 
 ## Document structure
 
-Put the most important questions first, since async recipients answer in one pass. Group under `##` theme headings once there are more than 5 questions.
-
-- Title, then Purpose, From, To, and how the answers will be used.
-- Context, one orienting paragraph.
-- How to answer, covering the deadline, the effort, that partial answers and "I do not know" are useful, and how to flag uncertainty.
-- Themed sections of one-idea, non-compound questions, each with an answer stub and a one-line "why this matters" only where it could be misread.
-- An "Anything else?" catch-all.
+Put the most important questions first, since async recipients answer in one pass. Group under `##` theme headings once there are more than 5 questions. Keep each question to one idea, never compound.
 
 For the interview that settles the subject itself, before it is written down, use **grill**.

@@ -1,6 +1,8 @@
 # UI prototype
 
-Use when the question is "what should this look like?". The artifact is a route that renders three, at most five, radically different variants behind `?variant=`.
+**Pick when:** the question is "what should this look like?".
+
+The artifact is a route that renders three, at most five, radically different variants behind `?variant=`.
 
 ## Variants
 

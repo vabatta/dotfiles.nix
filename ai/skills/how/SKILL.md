@@ -11,13 +11,12 @@ file names alone.
 1. State the scope and the likely entry point.
 2. Trace inputs, state, control flow, outputs, and side effects.
 3. Read the definitions and callers needed to close the path.
-4. Use independent explorers via **delegate** for seams with no shared
+4. Use independent subagents for seams with no shared
    call path. Explorers follow [explorer-prompt.md](references/explorer-prompt.md).
 5. With explorer findings in hand, the explainer follows
    [explainer-prompt.md](references/explainer-prompt.md). A solo agent skips
-   the explorer format and writes the same sections directly. The answer
-   opens with scope and entry point and has Overview, Key Concepts, How It
-   Works, Where Things Live, and Gotchas when any exist. Done when each claim in How It Works
+   the explorer and writes to that prompt's Output Format directly. The answer
+   opens with scope and entry point. Done when each claim in How It Works
    and Gotchas names a file or symbol.
 
 Label inference per **why**. Do not prescribe a change unless the user asks for one.

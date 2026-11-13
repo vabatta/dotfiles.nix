@@ -9,22 +9,10 @@ Interview the user until you reach a shared understanding. Map this as a **desig
 
 Work the tree in **rounds**. The **frontier** is every decision whose prerequisites are already settled: the questions you can ask now without guessing at answers you have not heard yet. Ask the whole frontier in one round: number each question and give your recommended answer. Keep a round to five questions at most. Then wait for the user's answers before the next round; a question left unanswered stays on the frontier.
 
-Format a round like so:
-
-```
-Q1 - <question title>: <question body, may include multiple choices>
-
-Recommended: <your recommended answer>
-
----
-
-Q2 - <question title>: <question body, may include multiple choices>
-
-Recommended: <your recommended answer>
-```
+Format each round per [assets/round.md](assets/round.md).
 
 Each round the user answers reshapes the tree: settled decisions push the frontier outward and unblock questions that depended on them. Recompute the frontier and ask the next round. A question whose answer depends on another question still open in this round belongs to a later round, not this one.
 
-Finding facts is the agent's job, never the user's. Read facts yourself with one command and open the round with the facts found. For a lookup that takes more than one command, fan a sub-agent out via **delegate**; for questions about the codebase itself use **how** or **why**. Do not block on it: a running exploration is an unsettled prerequisite, so only the questions downstream of it wait for the sub-agent. Ask the rest of the frontier now. The decisions are the user's: put each to them and wait.
+Finding facts is the agent's job, never the user's. Read facts yourself with one command and open the round with the facts found. For a lookup that takes more than one command, fan a subagent out; for questions about the codebase itself use **how** or **why**. Do not block on it: a running exploration is an unsettled prerequisite, so only the questions downstream of it wait for the sub-agent. Ask the rest of the frontier now. The decisions are the user's: put each to them and wait.
 
-The session is done when the frontier is empty: every branch of the design tree visited, nothing left silently assumed. Do not act on it until the user confirms you have reached a shared understanding. When the user is unreachable, record each recommended answer as an assumption, label it so, and continue (per **principle-never-block-on-the-human**).
+The session is done when the frontier is empty: every branch of the design tree visited, nothing left silently assumed. Do not act on it until the user confirms you have reached a shared understanding. When the user is unreachable, record each recommended answer as an assumption, label it so, and continue.

@@ -52,14 +52,14 @@ gh pr view <number> --json title,body,author,createdAt,mergedAt,labels,closingIs
 Look for out-of-band docs:
 
 ```bash
-# ADRs: search docs/adr, the directory **domain-modeling** writes
-rg -n -i '<symbol or topic>' docs/adr
+# ADRs: older repos may still keep them in docs/adr
+grep -rni '<symbol or topic>' docs/adr
 
 # TODOs and FIXMEs near the target
-rg -n -C2 '(TODO|FIXME|HACK|XXX|NOTE)' <target_file>
+grep -nE -C2 '(TODO|FIXME|HACK|XXX|NOTE)' <target_file>
 
 # Related tests. Names often encode the "why"
-rg -l '<symbol>' --glob '*test*'
+grep -rl '<symbol>' --include='*test*' .
 ```
 
 ## What good evidence looks like here

@@ -9,22 +9,26 @@ A prototype is throwaway code that answers a question. The question decides the 
 
 ## Pick a branch
 
-- Does this logic or state model feel right? Build a **logic prototype**. See [LOGIC.md](references/LOGIC.md).
-- What should this look like? Build a **UI prototype**. See [UI.md](references/UI.md).
-- Can we even do this? Does this approach, library, API, or integration work at all? Build a **feasibility prototype**. See [FEASIBILITY.md](references/FEASIBILITY.md).
+Read only the chosen variant.
+
+| Variant | Pick when |
+|---|---|
+| [logic](references/LOGIC.md) | Does this logic or state model feel right? |
+| [UI](references/UI.md) | What should this look like? |
+| [feasibility](references/FEASIBILITY.md) | Can we even do this? Does an approach, library, API, or integration work at all? |
 
 If the branch is ambiguous and the user is unreachable, choose from the surrounding code: a backend means logic, a page or component means UI, a viability question means feasibility. State the assumption at the top.
 
 ## Rules for all branches
 
-1. Throwaway from day one and clearly marked. A logic or feasibility prototype lives in `.agent/prototypes/<slug>/`; a UI prototype has to run in its real context, so scaffold it in the app following existing routing.
+1. Throwaway from day one and clearly marked. A logic or feasibility prototype lives in `.prototypes/<slug>/`, which is gitignored; a UI prototype has to run in its real context, so scaffold it in the app following existing routing.
 2. Trivial to run, one task-runner command or a double-click HTML file.
 3. No persistence by default. If persistence is the question, use a scratch file named to be wiped.
 4. Skip polish, tests, and abstractions. A feasibility prototype may pull real dependencies, but it still skips tests and refactoring.
 5. Surface the full relevant state after every action or variant switch.
 6. Capture when done. Done when all of these hold:
-   - The verdict (yes, no, conditional, or pending human) and the constraints found are written in `.agent/prototypes/<slug>/VERDICT.md`.
-   - A UI prototype is kept on a throwaway branch off main. A logic or feasibility prototype stays in `.agent/prototypes/<slug>/`, committed with its verdict until **consolidate** retires it.
+   - The verdict is saved in the shape of [assets/verdict.md](assets/verdict.md).
+   - A UI prototype is kept on a throwaway branch off main. A logic or feasibility prototype stays in `.prototypes/<slug>/`, uncommitted, and is deleted once the verdict is saved.
    - A context pointer is on the issue, only if one exists.
    - Nothing is folded into real code. The prototype is evidence, not the implementation.
 

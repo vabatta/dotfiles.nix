@@ -14,26 +14,15 @@ When a dependency is missing, don't just run an ad-hoc `nix shell` one-liner and
 ## Decision Flow
 
 1. **Check if a `flake.nix` already exists** in the project root (or the working directory).
-   - If yes → read it, add the missing package to `buildInputs` (or create a `devShells` output from the template when none exists), and run commands in it with `nix develop --command <cmd>`.
+   - If yes → read it, add the missing package to `buildInputs` (or create a `devShells` output from [assets/flake.nix](assets/flake.nix) when none exists), and run commands in it with `nix develop --command <cmd>`.
    - If no → apply step 2.
 
 2. **Apply the tie-break above.** A request for a flake means a flake. A request for a quick or throwaway approach means ephemeral.
 
 ## Finding Packages
 
-Apply **principle-use-before-build** before adding a
-package. Check the current environment and project dependencies first. Before
-assuming a package name, search for it:
-
-```bash
-nix search nixpkgs <query> --json 2>/dev/null | head -80
-```
-
-If `nix search` is slow or unavailable, fall back to:
-
-```bash
-nix eval --impure --json --expr 'builtins.attrNames (builtins.getFlake "nixpkgs").legacyPackages.${builtins.currentSystem}' | tr ',' '\n' | grep -i <query>
-```
+Before adding a package, check the current environment and project dependencies first. Before
+assuming a package name, run [scripts/find-package.sh](scripts/find-package.sh) `<query>`. It runs `nix search nixpkgs`.
 
 Package names in nixpkgs often differ from the binary name — e.g., the `rg` binary is `ripgrep`, `fd` is `fd`, `python3` may be `python3Full` or `python312`.
 
@@ -45,53 +34,19 @@ Run a single command without persisting anything:
 nix shell nixpkgs#<package> --command <binary> [args...]
 ```
 
-**Example:** `nix shell nixpkgs#jq --command jq '.version' package.json`
+**Example:** `nix shell nixpkgs#fx --command fx package.json .version`
 
 To enter an interactive shell with multiple packages:
 
 ```bash
-nix shell nixpkgs#jq nixpkgs#ripgrep
+nix shell nixpkgs#fx nixpkgs#tree
 ```
 
 ## Creating a flake.nix
 
-When creating a new flake, use this minimal template:
+Copy [assets/flake.nix](assets/flake.nix), fill in the description, and add the packages to `buildInputs`. It needs only `nixpkgs`, so it adds no `flake-utils` input. Then run [scripts/check-flake.sh](scripts/check-flake.sh) `<binary>` from the flake directory. It stages `flake.nix` and `flake.lock` in a git repo (flakes read only tracked files), locks, and prints the binary's path from `nix develop`.
 
-```nix
-{
-  description = "<short project description>";
-
-  inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-  };
-
-  outputs = { nixpkgs, ... }:
-    let
-      systems = [ "x86_64-linux" "aarch64-linux" "x86_64-darwin" "aarch64-darwin" ];
-      forAll = f: nixpkgs.lib.genAttrs systems (system: f nixpkgs.legacyPackages.${system});
-    in
-    {
-      devShells = forAll (pkgs: {
-        default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            # Add packages here
-          ];
-        };
-      });
-    };
-}
-```
-
-The template needs only `nixpkgs`, so it adds no `flake-utils` input. After writing `flake.nix`, run in this order. Nix flakes read only git-tracked files, so stage each new file before the next command:
-
-```bash
-git add flake.nix      # only in a git repo
-nix flake lock
-git add flake.lock     # only in a git repo
-nix develop --command sh -c 'command -v <binary>'
-```
-
-Done when that command prints the path of the missing binary.
+Done when the script prints the path of the missing binary.
 
 ## Extending an Existing flake.nix
 
@@ -105,7 +60,7 @@ Flakes may require opt-in. If an error about experimental features appears, reru
 
 Decide and proceed. Ask only before a one-way door, such as changing the pinned nixpkgs of a shared flake.
 
-- Package not found: search again with a broader query, check the binary-to-package name map above, then fall back to the `nix eval --impure` listing.
+- Package not found: search again with a broader query, check the binary-to-package name map above, then read the full attribute listing the script prints when `nix search` finds nothing.
 - `has an unfree license` error: rerun with `NIXPKGS_ALLOW_UNFREE=1` and `--impure`, and report that the package is unfree.
 - `not supported on this system` error: look for an alternative package, else tell the human that no build exists for this platform.
 - Download or cache failure: retry once, then report the unreachable host and the command to rerun.

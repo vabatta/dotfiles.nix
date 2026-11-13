@@ -44,8 +44,6 @@ Pass file paths instead of stdin: `validate-mermaid diagram.mmd README.md` (each
 
 This is the genuine Mermaid grammar — if it passes, the diagram renders. Still apply every authoring rule below: the parser guarantees the diagram is *valid*, the rules make it *good*.
 
-> If `validate-mermaid` is not found on `PATH`, run the script bundled with this skill: `npm ci --prefix <skill>/scripts`, then `node <skill>/scripts/validate_mermaid.mjs`, using `nix shell nixpkgs#nodejs -c ...` when `node` is absent. If neither runs, deliver the diagram labelled "unvalidated" with the reason.
-
 ### 1. Readable Node Labels — Zero Cryptic IDs
 
 Diagrams are **communication tools**, not code artefacts. Every visible label must use plain, meaningful language. Node IDs are free (`req`, `svcA`), and only the rendered label is constrained.
@@ -150,39 +148,11 @@ flowchart LR
 
 Avoid nesting subgraphs deeper than **two levels**. If three levels are needed, the diagram is trying to say too much — split it.
 
-### 7. Sequence Diagram Discipline
+### 7. Type-Specific Rules
 
-Sequence diagrams have their own grammar. Follow it precisely:
+For a sequence, state, ER, or Gantt diagram, read that type's section in [references/type-rules.md](references/type-rules.md) before writing it.
 
-- **Declare participants** in the order they appear left-to-right. Use `participant` or `actor` with aliases for long names.
-- **Solid arrows** (`->>`) for synchronous calls; **dashed arrows** (`-->>`) for responses.
-- **Activation bars** (`activate`/`deactivate` or `+`/`-` shorthand) to show when a participant is processing.
-- **`alt`/`else`/`opt`/`loop`/`par`/`critical`/`break`** blocks for control flow — use them, don't try to simulate branching with notes.
-- **Notes** (`Note right of`, `Note over`) for context that doesn't fit in a message label.
-
-Keep message labels as verbs or short verb phrases: "Place Order", "Return Token", "Validate Credentials" — not "The user submits an order request to the API gateway which then forwards it".
-
-### 8. State Diagram Discipline
-
-State diagrams model lifecycles. Follow these conventions:
-
-- Use `[*]` for start and end pseudo-states.
-- Name states with noun phrases describing the condition: `Pending`, `Processing`, `Shipped` — not actions like `Process` or `Ship`.
-- Transition labels are events or conditions that trigger the change: `payment received`, `timeout after 30m`, `cancel requested`.
-- Use `state "Long Name" as shortId` for verbose state names.
-- Use composite states (nested `state`) for states with sub-lifecycles, but limit nesting to one level.
-
-### 9. ER Diagram Discipline
-
-Entity-relationship diagrams document data models. Follow these conventions:
-
-- **Relationship labels are mandatory** — the colon-separated label is required by syntax and must be a short verb phrase: `"places"`, `"contains"`, `"belongs to"`.
-- **Read relationships left-to-right** naturally: `CUSTOMER ||--o{ ORDER : "places"` → a customer places orders.
-- **Use `--` (identifying) vs `..` (non-identifying) correctly**: `--` when the child has no meaning without the parent; `..` when both exist independently.
-- **Cardinality notation**: `||` exactly one, `o|` zero or one, `}o` zero or more, `}|` one or more.
-- **Attribute types and keys**: mark `PK`, `FK`, and data types for each attribute.
-
-### 10. Comments and Annotations
+### 8. Comments and Annotations
 
 Use `%%` comments to explain **why** a diagram is structured a certain way, not **what** it shows — the diagram itself shows the what.
 
@@ -199,7 +169,7 @@ flowchart LR
   svcA -->|JWT token| svcB
 ```
 
-### 11. Styling: Substance Over Decoration
+### 9. Styling: Substance Over Decoration
 
 Mermaid supports `classDef`, `style`, and `:::` class application. Use styling only when it carries **semantic meaning**:
 - Colour-coding node categories (e.g., green for success states, red for error states)
@@ -208,7 +178,7 @@ Mermaid supports `classDef`, `style`, and `:::` class application. Use styling o
 
 Do **not** style for aesthetics alone. Do **not** use more than 3–4 custom classes in a single diagram — beyond that, the colour-coding becomes noise.
 
-### 12. Markdown Integration
+### 10. Markdown Integration
 
 When embedding Mermaid in markdown documents:
 - Use fenced code blocks with the `mermaid` language identifier.
@@ -216,22 +186,13 @@ When embedding Mermaid in markdown documents:
 - Add a brief caption or heading above each diagram explaining what it shows.
 - Keep diagrams close to the text that references them — don't collect all diagrams at the bottom.
 
-### 13. Reserved Words and Escaping
+### 11. Reserved Words and Escaping
 
 Mermaid has several parser pitfalls:
 - **`end`** as a node label breaks flowcharts — capitalise it (`End`) or quote it (`["end"]`).
 - **`o` or `x`** as the first letter after `---` creates circle/cross edges — add a space or capitalise.
 - **Special characters** in labels require double-quote wrapping: `["Label with (parens)"]`.
 - **Markdown in labels** uses the double-quote-backtick syntax: `["` `` ` `` `**bold** text` `` ` `` `"]`.
-
-### 14. Gantt Chart Discipline
-
-Gantt charts map work to time. Follow these conventions:
-- **`dateFormat`** is mandatory — always specify it (e.g., `dateFormat YYYY-MM-DD`).
-- **Sections** group related tasks — use them to separate workstreams or phases.
-- **Task states**: `done`, `active`, `crit` (critical path) — use `crit` sparingly for genuinely critical tasks.
-- **Dependencies**: `after taskId` to show ordering — prefer this over absolute dates when the schedule is relative.
-- Keep the total timeline readable — if it spans more than ~20 tasks, split into multiple charts per phase.
 
 ## Output Checklist
 

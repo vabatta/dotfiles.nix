@@ -18,20 +18,16 @@ Word choice, filler, invented jargon, active voice, rhythm, and specificity belo
 
 One document, one mode. Two questions pick it: does the content inform action (doing) or understanding (thinking), and does it serve learning or work?
 
-- Action + learning: **tutorial**.
-- Action + work: **how-to**.
-- Understanding + work: **reference**.
-- Understanding + learning: **explanation**.
+| Variant | Pick when |
+|---|---|
+| [tutorial](references/modes.md#tutorial) | Action + learning |
+| [how-to](references/modes.md#how-to) | Action + work |
+| [reference](references/modes.md#reference) | Understanding + work |
+| [explanation](references/modes.md#explanation) | Understanding + learning |
 
 Use the compass on a whole document or on one sentence. Reach for it whenever you feel unsure what you are writing. Gut feel is often wrong here.
 
-**Tutorial: learning by doing.** You are the teacher. The learner's success is your job, not theirs. Open by saying what the learner will build, not what they will "learn". Every step produces a visible result, early and often. Tell them what they should see: the expected output, the prompt change, the log line. Cut explanation to one clause and a link. Teaching pauses break the lesson. Stay concrete. Write as "we", in commands: "First, do x. Now, do y."
-
-**How-to: steps to a goal.** Solve a problem a person has, not an operation the machine can perform. Assume competence. Skip teaching. Action only: no digressions, no background, no completeness for its own sake. Link those instead. Allow forks and judgment: "If you want x, do y." Name the guide by the task: "How to calibrate the radar array", not "Radar array calibration".
-
-**Reference: facts for lookup.** Describe. Only describe. No instruction, no persuasion, no opinion. Be dry, complete, and sure: state facts, options, limits, and errors with no hedging. Mirror the structure of the thing described, so code and docs can be navigated together. Put material where readers expect it. Generate from code where possible, so it stays true.
-
-**Explanation: understanding and why.** One bounded topic, readable away from the product. Each title should tolerate an implicit "About..." in front. Anchor on a real why question. Give context: design decisions, history, constraints, alternatives. Opinion is allowed here and nowhere else.
+Then read only that mode's section before writing.
 
 Don't mix modes: no reference tables inside a tutorial, no tutorial hand-holding inside reference, no arguing inside a how-to. Split and link instead. A README is one file, so give each mode its own heading section (a how-to quick start, then a short explanation) and link out to separate files for anything longer.
 
@@ -80,30 +76,9 @@ Source: Kohl, The Global English Style Guide (SAS Press). Guideline text fetched
 ## Voice and repo specifics
 
 - Apply **unslop** to every doc this skill touches, as the last pass after the other layers. It owns the slop-pattern catalog and the voice rules. Keep opinion to explanation docs.
-- PR descriptions and commit messages are writing too. Every layer except Diátaxis applies to them. For a PR description with a verification write-up, use the PR-body shape owned by **blast-radius**.
+- PR descriptions and commit messages are writing too. Every layer except Diátaxis applies to them. Write a PR description in the shape of [assets/pr-description.md](assets/pr-description.md).
 - Write real paths and real symbols. Make every count or tree claim true at the commit that lands it, and include the command that regenerates it.
 
-## Worked example
+## Review
 
-Before:
-
-> Configuration of the proto import ratchet budget script parameters is performed via budget.json. Note that it's important to remember that running with --write, which updates the committed budget to reflect the current count, should only be done when lowering it. If exceeded, CI fails.
-
-After:
-
-> `budget.mjs` reads the committed budget from `budget.json` and counts the files that import protos. If the count exceeds the budget, CI fails. Run `budget.mjs --write` only to lower the budget.
-
-The fixes, by layer: "configuration is performed" becomes "`budget.mjs` reads", so someone does something (**unslop**). "Ratchet" goes away. The script's real filename does the naming (**unslop**). The five-noun string breaks up into plain clauses (Global English). The hedge "note that it's important to remember" is deleted (**unslop**). The failure condition moves ahead of the step it explains (STE). The buried "should only be done when lowering" becomes a command with "only" next to its verb (STE). "If exceeded" gets a subject: the count (Global English).
-
-## Review checklist
-
-Apply to any prose this skill covers. Done when every item passes. Item 1 applies to document sets and READMEs:
-
-1. Is each file, or each README section, one Diátaxis mode, with links where modes meet?
-2. Is every instruction written as a command, with its condition in front?
-3. Does any sentence carry two instructions or two thoughts? Split it.
-4. Does **unslop** find anything to cut or replace?
-5. Is "only" next to the word it changes? Does every "it" point at one thing? Does every clause keep its verb?
-6. Does each thing have exactly one name across the docs?
-7. Does every name match the real symbol, file, flag, or command?
-8. Are all symbols, paths, and counts real at this commit, with the commands that regenerate the counts?
+Before delivering, run the checklist in [references/review.md](references/review.md). Done when every item passes. The same file has a worked before-and-after example that shows each layer's fix.

@@ -5,23 +5,36 @@ description: "Examines the current state of a system against a broad quality goa
 
 # Investigate
 
-An open question about quality, answered with evidence from the system as it is. The output is a ranked list of findings and candidate fixes. Nothing is built, and the only file written is the findings file, plus any delegate briefs.
+An open question about quality, answered with evidence from the system as it is. The output is a ranked list of findings and candidate fixes. Nothing is built and no file is written.
 
 Use this when no change is on the table yet. When you can state a specific change as "replace X with Y", use **assess**.
 
 ## Frame
 
-Restate the goal as an observable symptom. "Improve determinism" becomes "the same input gives a different result, and this is how we would see it." Name the scope: which code, skills, runs, or period. Done when the symptom, the observation that would show it, and the scope are written. When the missing context lives with the user and they cannot answer, state the reading you chose as an assumption and continue (**principle-never-block-on-the-human**).
+Restate the goal as an observable symptom. "Improve determinism" becomes "the same input gives a different result, and this is how we would see it." Name the scope: which code, skills, runs, or period. Done when the symptom, the observation that would show it, and the scope are written. When the missing context lives with the user and they cannot answer, state the reading you chose as an assumption and continue.
+
+## Pick the goal's variant
+
+Read only the variant that matches the goal. It names what to measure, how, where to look first, and what makes a finding PROVEN. A goal that matches none uses the general method below.
+
+| Variant | Pick when |
+|---|---|
+| [reliability](references/goals/reliability.md) | It should fail less or recover by itself |
+| [speed](references/goals/speed.md) | It should run faster: latency, throughput, build or test time |
+| [determinism](references/goals/determinism.md) | The same input should give the same result |
+| [clarity](references/goals/clarity.md) | The code should be easier to read and change |
+| [security](references/goals/security.md) | Less should go wrong if someone tries |
+| [cost](references/goals/cost.md) | It should cost less: money, tokens, compute, CI minutes |
 
 ## Collect evidence
 
-Evidence comes from artifacts, not opinion.
+Evidence comes from artifacts, not opinion. Start from the variant's measures when one applies.
 
 - Real runs: rerun the thing several times and diff the results, or read past logs, transcripts, and failures.
-- The record: `.agent/INDEX.md` lessons, `.agent/decisions/` rows marked reverted, failed, or INCONCLUSIVE, and `.agent/handoffs/`.
+- The record: Engram (`mem_search` for decisions, reverted or failed attempts, and learnings in this area) and the git history.
 - The structure: where a rule exists only as prose, and where a script or check could hold it instead.
 
-Fan out one read-only worker per seam per **delegate** when the scope has several. Route bulk output to the workers and keep summaries (**principle-guard-agent-context**). Done when each finding has a pointer a reader can open, such as a `file:line`, a command and its output, or a run count.
+Fan out one read-only subagent per seam when the scope has several. Route bulk output to the subagents and keep summaries. Done when each finding has a pointer a reader can open, such as a `file:line`, a command and its output, or a run count.
 
 ## Rank
 
@@ -29,14 +42,14 @@ For each finding write the symptom, the cause, how often it happens, and what it
 
 ## Candidates
 
-For the top findings give one candidate fix each. Prefer a structural fix (a script, a check, a gate, a deleted step) over more prose (**principle-encode-lessons-in-structure**, **principle-subtract-before-you-add**). Write the candidate as a claim that **assess** could judge, and do not build it. Done when each top finding has a candidate or a stated reason it has none.
+For the top findings give one candidate fix each. Prefer a structural fix (a script, a check, a gate, a deleted step) over more prose. Write the candidate as a claim that **assess** could judge, and do not build it. Done when each top finding has a candidate or a stated reason it has none.
 
 ## Hand off
 
-Write `.agent/runs/investigate/<slug>.md` with the symptom, the findings table, the candidates, and what could not be measured. Name the next move per finding:
+Reply in the shape of [assets/findings.md](assets/findings.md), and save it with `mem_save` (`topic_key` `investigate/<slug>`). The next move per finding:
 
 - A candidate worth judging goes to **assess**.
-- A candidate that is obviously right and small goes to **plan-work**.
+- A candidate that is obviously right and small goes to **build**.
 - A finding that is one concrete bug goes to **diagnosing-bugs**.
 
-**Reply:** the goal as a symptom, the findings ranked with PROVEN or CLAIM, what could not be measured, the candidates, and the next move per finding. Done when the reply names each and the findings file exists.
+Done when the reply follows the template, every finding has a status and a next move, and the record is saved.

@@ -29,7 +29,7 @@ Skip Phase A only when the work is genuinely greenfield with no surrounding syst
 
 ## Phase B: Sketch
 
-Run the **arena** workflow with the design-sketch task and the Phase A grounding artifacts. Pass `references/runner-prompt.md` as each runner's brief, per **delegate**. Ask **arena** for the selected artifact only, since Phase C implements it. Each candidate produces a design package shaped per `references/rationale-template.md`: the caller's usage written first, then the type sketch, function signatures, module map, and prose rationale derived from it.
+Run the **arena** workflow with the design-sketch task and the Phase A grounding artifacts. Pass `references/runner-prompt.md` as each runner's brief. Ask **arena** for the selected artifact only, since Phase C implements it. Each candidate produces a design package shaped per `references/rationale-template.md`: the caller's usage written first, then the type sketch, function signatures, module map, and prose rationale derived from it.
 
 Design it twice, per **arena**. Whole-shape alternatives, not point fixes inside one shape.
 
@@ -44,13 +44,13 @@ Done when one synthesized package exists at that home with a red-flag screen res
 
 ## Phase C: Agree (opt-in)
 
-Default: proceed directly to implementation with the synthesized design. No human checkpoint. When **plan-work** or **tdd** follows as the next step, stop after this phase and hand them the package. Done when the package is handed on or signed off.
+Default: proceed directly to implementation with the synthesized design. No human checkpoint. When **build** follows as the next step, stop after this phase and hand it the package. Done when the package is handed on or signed off.
 
 Opt in to a checkpoint when the invoker explicitly asks to stop and show the
 design before implementation. Then surface the synthesized design and pause for
 sign-off.
 
-The synthesis can ship as its own commit either way. That's the "scaffold first" mode of **principle-foundational-thinking**; subsequent commits read as filling in bodies against a stable contract. Planned and scoped breakage during fill-in is fine, per **principle-outcome-oriented-execution**. For adversarial pressure on the design before implementing, run the **adversarial-review** skill on the synthesized sketch.
+The synthesis can ship as its own commit either way. That's the "scaffold first" mode: data shape first; subsequent commits read as filling in bodies against a stable contract. Planned and scoped breakage during fill-in is fine. For adversarial pressure on the design before implementing, ask for an independent review of the synthesized sketch: a subagent, or `delegate_task` on another provider where T3 offers it.
 
 If the human pushes back on the shape (in a checkpoint or after the fact), treat that as Phase A evidence. Re-ground and re-run Phase B before writing more code.
 
@@ -78,16 +78,16 @@ The signal is a *pattern*, not single instances. Tells:
 When you scrap:
 
 1. Re-run the **how** skill over what's been built. The implementation lessons enter the new design as inputs, not vibes.
-2. Redesign as if the new constraints had been day-one assumptions, per **principle-redesign-from-first-principles**.
-3. Subtract before adding, per **principle-subtract-before-you-add**. The new sketch should be smaller than the old one before it grows.
+2. Redesign as if the new constraints had been day-one assumptions.
+3. Subtract before adding. The new sketch should be smaller than the old one before it grows.
 4. Return to Phase B and re-run arena.
 
 ## Outputs
 
-The caller's usage is written first and the type sketch derived from it. One file of types and signatures, plus a module map when more than one module is involved. The rationale ships alongside, shaped per `references/rationale-template.md`, including the usage sketch and the synthesis decision. Write both to `.agent/runs/architect/<slug>/`. When the design is hard to reverse, also record it as an ADR via **domain-modeling**, which owns the ADR location.
+The caller's usage is written first and the type sketch derived from it. One file of types and signatures, plus a module map when more than one module is involved. The rationale ships alongside, shaped per `references/rationale-template.md`, including the usage sketch and the synthesis decision. Write the types and signatures as compilable stubs in the codebase, with failing tests that state the behavior, in one commit. Give the rationale in the reply and save the load-bearing decisions with `mem_save`. Write no design document and no ADR.
 
 ## Vocabulary
 
 Use the shared vocabulary for module design, not the words component, service, API, or boundary. See [deep-modules.md](references/deep-modules.md) for Module, Interface, Depth, Seam, Adapter, Leverage, and Locality plus the deletion test, and [deepening.md](references/deepening.md) for how dependencies decide the seam and the test strategy.
 
-Apply **principle-boundary-discipline**, **principle-model-the-domain**, and **principle-type-system-discipline** to the sketch.
+Apply these design lenses to the sketch. Validate at boundaries and trust types inside. Model the domain with types, not branch ladders, and get the data shape right first. Make state transitions idempotent. Give each writer its own state and merge at the read boundary. When replacing an API, migrate every caller and delete the old one in the same change. When a new requirement arrives, redesign as if it had been foundational.

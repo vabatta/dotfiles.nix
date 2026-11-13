@@ -162,7 +162,7 @@ See `references/schemas.md` for the full schema (including the `expectations` fi
 
 This section is one continuous sequence. Run it to the end. Done when `benchmark.json` shows runs for both configurations and the viewer file or server exists. The scripts need Python 3.9 or newer.
 
-Put results in `.agent/runs/skill-creator/<skill-name>/`, meaning that path wherever `<workspace>` appears below. Within the workspace, organize results by iteration (`iteration-1/`, `iteration-2/`, etc.) and within that, each test case gets a directory (`eval-0/`, `eval-1/`, etc.). Don't create all of this upfront — just create directories as you go.
+Put results in `.skill-workspaces/<skill-name>/` (gitignored), meaning that path wherever `<workspace>` appears below. Within the workspace, organize results by iteration (`iteration-1/`, `iteration-2/`, etc.) and within that, each test case gets a directory (`eval-0/`, `eval-1/`, etc.). Don't create all of this upfront — just create directories as you go.
 
 ### Step 1: Spawn all runs (with-skill AND baseline) in the same turn
 

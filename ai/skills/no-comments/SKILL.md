@@ -17,13 +17,12 @@ linter or compiler warnings.
 3. Keep comments that explain an external constraint, a non-obvious invariant,
    or a deliberate tradeoff. A comment that flags a known defect is a TODO in
    disguise. Fix the defect and delete the comment, or keep it and report it.
-4. Encode a recurring constraint as structure, per
-   **principle-encode-lessons-in-structure**.
+4. Encode a recurring constraint as structure: a test, a type, or a check.
 5. Verify that the resulting code still explains its behavior and that tests
    cover the encoded constraint. With no test setup, a runtime check or a
    one-off script run is the proof, and the report says which.
 
-In report-only mode, list each comment as remove, keep, or encode with a reason, and edit nothing. Done when every comment has a verdict.
+In report-only mode, edit nothing and fill in [assets/report.md](assets/report.md), one row per comment. In edit mode, reply with the same table for what changed. Done when every comment has a verdict.
 
 Done when every remaining comment names a constraint the code cannot express
 and the verification ran.

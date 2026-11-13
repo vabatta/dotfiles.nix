@@ -6,6 +6,8 @@ Each case below names the mode and the adaptations.
 
 ## Error messages and CLI output
 
+**Pick when:** writing an error, warning, or CLI message.
+
 Mode: procedural. This is the highest-value target: an error message is a 2 a.m. instruction to a stressed reader.
 
 Pattern: state what happened (past simple), state the cause if known, give the command or condition to fix it.
@@ -15,6 +17,8 @@ Pattern: state what happened (past simple), state the cause if known, give the c
 
 ## Runbooks and standard operating procedures
 
+**Pick when:** writing steps an operator follows, often under pressure.
+
 Mode: strict-leaning procedural. This is STE's home turf — an on-call runbook is a maintenance manual.
 
 - Every step imperative, one instruction per step, conditions first.
@@ -22,6 +26,8 @@ Mode: strict-leaning procedural. This is STE's home turf — an on-call runbook 
 - 20-word limit enforced hard: an operator under pager stress reads each sentence once.
 
 ## Incident reports and postmortems
+
+**Pick when:** writing up what happened during an outage or incident.
 
 Mode: descriptive. Simple past only — a timeline in present perfect ("we have identified...") hides when things happened.
 
@@ -32,13 +38,19 @@ STE bans hedges ("may have impacted") — the report states what is known and sa
 
 ## Commit messages and PR descriptions
 
+**Pick when:** writing a commit message or PR body.
+
 Mode: descriptive body, imperative subject. Convention already matches STE: imperative subject line, plain past facts in the body. Apply **unslop** and the 25-word limit to the body. Delete "this PR aims to".
 
 ## API changelogs and release notes
 
+**Pick when:** writing release notes or a changelog entry.
+
 Mode: descriptive. One entry, one change, one sentence where possible. "Breaking:" entries follow the warning pattern — command first: "Update your calls to `v2/users`. The `name` field split into `first_name` and `last_name`."
 
 ## Instructions for AI agents (prompts, AGENTS.md, skills)
+
+**Pick when:** writing a prompt, AGENTS.md, or skill text an agent executes.
 
 Mode: procedural. A system prompt is a procedure executed by a reader with no ability to ask questions — the exact reader STE was designed for.
 
@@ -49,16 +61,24 @@ Mode: procedural. A system prompt is a procedure executed by a reader with no ab
 
 ## Support macros and status-page updates
 
+**Pick when:** writing support replies or status-page updates.
+
 Mode: descriptive, 25-word limit. Non-native readers are the majority of many user bases. No "we sincerely apologize for any inconvenience this may have caused" — "The API was down for 18 minutes. Uploads made during this time were saved and will process today."
 
 ## Translation and localization prep
+
+**Pick when:** the text will be translated or read mostly by non-native readers.
 
 Mode: strict. STE's original purpose was making English readable for non-native maintenance crews, and it doubles as pre-editing for machine translation. One meaning per word plus complete grammar (articles, "that") removes most translation ambiguity. If your docs get localized, STE cuts the error rate and the cost.
 
 ## UI copy and empty states
 
+**Pick when:** writing buttons, labels, empty states, or other UI text.
+
 Mode: procedural, hard length limits. Buttons and labels are technical names (exempt). Body copy follows the rules: "No projects yet. Create a project to start." Nothing else survives at this length anyway.
 
 ## Where STE does not fit
+
+**Pick when:** the text is marketing, brand voice, or persuasion.
 
 Marketing pages, launch posts, blog voice, brand writing. STE deletes persuasion on purpose. Write those in your own voice — then use STE for the docs the landing page links to.

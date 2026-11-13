@@ -143,6 +143,12 @@ for skill_md in "$skills_dir"/*/SKILL.md; do
     fail "$skill_md: relative link '](../'"
   fi
 
+  while IFS= read -r variant; do
+    [ -n "$variant" ] || continue
+    file="$(dirname "$skill_md")/${variant%%#*}"
+    [ -f "$file" ] && ! grep -qF '**Pick when:**' "$file" && fail "$skill_md: variant '$variant' has no **Pick when:** line"
+  done < <(grep -oE '^ *\| *\[[^]]*\]\(references/[^)]+\)' "$skill_md" | sed -E 's/.*\]\(//; s/\)$//')
+
   grep -oE '`[a-z][a-z0-9-]*`' "$skill_md" | sed -e 's/^`//' -e 's/`$//' >> "$tokens_file"
   grep -oE '\*\*[a-z][a-z0-9-]*\*\*' "$skill_md" | sed -e 's/^\*\*//' -e 's/\*\*$//' >> "$tokens_file"
 done
@@ -214,6 +220,19 @@ if [ -n "$guide_file" ]; then
       [ -n "$fam" ] || continue
       printf '%s\n' "$families" | grep -qxF "$fam" || fail "$guide_file: journey family not declared: $fam"
     done < <(sed -n '/^const JOURNEYS/,/^];/p' "$guide_file" | grep -E '^   ".*"\],?$' | sed -E 's/.*, "([^"]+)"\],?$/\1/' | sort -u)
+    playbooks_dir="$skills_dir/figure-it-out/references/playbooks"
+    if [ -d "$playbooks_dir" ]; then
+      guide_routes="$(sed -n '/^const JOURNEYS/,/^];/p' "$guide_file" | awk '
+        /^  \["/ { if (t != "") print t "|" s; t = $0; sub(/^  \["/, "", t); sub(/",.*/, "", t); s = "" }
+        /^     \[\[/ { k = $0; sub(/^     \[\[/, "", k); sub(/\].*/, "", k); gsub(/"/, "", k); s = (s == "" ? k : s ", " k) }
+        END { if (t != "") print t "|" s }' | sort)"
+      table_routes="$(for pb in "$playbooks_dir"/*.md; do awk '
+        /^# / && t == "" { t = substr($0, 3) }
+        /^\*\*Chain:\*\* / { c = substr($0, 12) }
+        /^\*\*Journey:\*\* yes/ { j = 1 }
+        END { if (j) print t "|" c }' "$pb"; done | sort)"
+      [ "$guide_routes" = "$table_routes" ] || fail "$playbooks_dir: journey playbooks do not match $guide_file JOURNEYS"
+    fi
     guide_rules="$(sed -n '/^const RULES/,/^];/p' "$guide_file" | grep -oE 'principle-[a-z0-9-]+' | sort -u)"
     agents_rules="$(grep -oE 'principle-[a-z0-9-]+' "$rules_file" | sort -u)"
     [ "$guide_rules" = "$agents_rules" ] || fail "$guide_file: RULES do not match $rules_file"

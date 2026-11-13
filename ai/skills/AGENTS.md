@@ -38,42 +38,53 @@ Then the local rules:
 ## Body
 
 - Keep `SKILL.md` under 500 lines. Push detail into `references/` and point at it.
+- Bundle what is fixed. `SKILL.md` holds the judgment. A fixed output shape is a template
+  in `assets/`, a fixed brief for a subagent or a lookup table is in `references/`, and a
+  fixed command sequence is an executable script in `scripts/`. Do not describe any of
+  them in prose. Point at the file and say when to use it.
+- Variants. When a skill's method differs by case, give each case a variant: its own file
+  under `references/` when it runs past a screen, or a `##` section of one shared file when
+  short. Each variant opens with a `**Pick when:**` line. `SKILL.md` lists the variants in a
+  `| Variant | Pick when |` table whose first column links each one (a section by its
+  anchor), and says to read only the chosen variant. Routing between skills lives in
+  **figure-it-out**, never in variants.
 - Keep references one level deep from `SKILL.md`; never reference a file that only
   another reference reaches.
 - Name files by content, use forward slashes, and give each reference a one-line pointer
   from `SKILL.md` saying what it is and when to read it.
 - Use third-person instructions in the imperative for the agent. Every step ends on a
   completion criterion. A short sequential procedure can end on one instead, so done and not-done are checkable.
-- Route to other skills by their full name in bold, for example **delegate**. Do not
+- Route to other skills by their full name in bold, for example **build**. Do not
   restate another skill's contract; point at it.
-- A skill that fans out to workers or reviewers points at **delegate** for the
-  sequential fallback and does not restate it. A step that would ask the human names a
-  default to use when no one answers (see **principle-never-block-on-the-human**).
+- The host is T3 with Claude Code or opencode, on macOS or Linux. Engram, subagents,
+  `delegate_task`, Nix, `git`, `grep`, `gh`, `fx`, `python3`, and `validate-mermaid` are always present.
+  Write no fallback for them, and assume no other tool.
+- Commands and scripts run on both macOS and Linux: bash 3.2, and only the flags BSD and
+  GNU tools share. Branch on the OS only where the tools differ, as `open` and `xdg-open` do.
+- A skill that fans out runs its workers as subagents: the native subagent tool for a
+  same-model worker, `delegate_task` for another model or its own checkout. A step that would
+  ask the human names a default to use when no one answers (see **build** step 7).
 - Wording doctrine is owned by **writing-for-agents**.
 
 ## Artifact layout
 
-Skills that write files pick a home by audience, not by skill. Three homes exist.
+Skills keep almost nothing in files. The code is the source of truth. What code cannot
+say goes to Engram with `mem_save`, with a `topic_key` of `<skill>/<slug>`.
 
-- Durable knowledge a reviewer needs after the run, committed under `docs/`:
-  `docs/glossary.md`, `docs/glossary-map.md` and `docs/glossary/<context>.md` when a
-  repo has multiple contexts, `docs/adr/NNNN-<slug>.md`, `docs/specs/<slug>.md`,
-  `docs/decisions/<slug>.tsv` when a trail is promoted.
-- The agents' own knowledge base and working state, under `.agent/`. It is always
-  committed and never gitignored, and **consolidate** keeps it from growing without bound:
-  `.agent/decisions/<slug>.tsv`, `.agent/runs/<skill>/`, `.agent/handoffs/<slug>.md`,
-  `.agent/questionnaires/<slug>.md`, `.agent/tickets/<slug>.md` (the fallback without `gh`), `.agent/teaching/`, `.agent/prototypes/<slug>/`,
-  `.agent/wizards/<slug>.sh`, `.agent/INDEX.md`, and `.agent/.gitattributes` (both owned by **consolidate**).
-  Nothing under `.agent/` may hold a secret, token, or personal data, since it is committed.
+- Durable project knowledge a reviewer needs, committed under `docs/`: `docs/glossary.md`,
+  and `docs/glossary-map.md` with `docs/glossary/<context>.md` when a repo has multiple
+  contexts. Nothing else is promoted into `docs/`.
+- Throwaway working state, gitignored: `.prototypes/<slug>/`,
+  `.skill-workspaces/<skill-name>/`, and `.teaching/`. Nothing there may hold a secret,
+  token, or personal data.
+- A script a procedure leaves behind goes under `scripts/`, for example
+  `scripts/wizards/<slug>.sh`.
 - Work tracking lives in the issue tracker.
 
-One task uses one slug in every artifact it writes, so its plan, ledger, report, and handoff match by name. Unrelated work starts a new slug.
-
-Promotion is one move. An artifact under `.agent/` that earns durability moves to
-`docs/`. Do not invent a fourth location. Committed configuration that a skill owns is not an artifact, for example `.ai/model-policy.json` owned by **setup-ai**.
+One task uses one slug in every artifact it writes. Unrelated work starts a new slug.
 
 A skill's own `references/`, `scripts/`, and `assets/` ship with the skill. They are
-not project artifacts and never go under `docs/` or `.agent/`.
+not project artifacts and never go under `docs/`.
 
 A skill names only the artifacts it owns. To point at another skill's files, name
 that skill; never repeat its paths. The owner skill is the single source for its

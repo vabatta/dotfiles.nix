@@ -1,6 +1,8 @@
 # Logic prototype
 
-Use when the question is "does this logic or state model feel right?". The artifact is a single self-contained HTML file a non-developer can open. When no human audience exists, a one-command script that prints the state after each scenario replaces the page.
+**Pick when:** the question is "does this logic or state model feel right?".
+
+The artifact is a single self-contained HTML file a non-developer can open. When no human audience exists, a one-command script that prints the state after each scenario replaces the page.
 
 ## Shape
 

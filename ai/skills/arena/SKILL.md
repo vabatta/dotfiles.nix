@@ -7,18 +7,18 @@ description: "Builds competing candidate artifacts in isolation, scores them aga
 
 1. Define the artifact, its definition of done, and a three-to-six-point rubric.
    Done when all three are written.
-2. Produce at least two structurally different candidates.
-3. Fan the writers out per **delegate**, each with its own directory under
-   `.agent/runs/arena/<slug>/candidate-N/`. Isolation comes from the separate directories (**principle-separate-before-serializing-shared-state**).
+2. Produce at least two structurally different candidates. Use this when the design has no precedent in the codebase.
+3. Fan the writers out, each in its own worktree on its own branch `arena/<slug>/N`,
+   so no two writers share a file. Use `delegate_task` with
+   `isolation:"worktree"`, one per candidate.
 4. Read every candidate and score it against the rubric.
 5. Select the base by rubric score. Break ties by the rubric's first axis.
 6. Graft only ideas that preserve one coherent design. Record rejected ideas.
 7. Verify the synthesized artifact against the original definition of done.
 8. Fold the verdict into real code, unless the caller asked only for the
-   selected artifact. Record an ADR per
-   **domain-modeling** when it qualifies. Write the rejected ideas into the
-   rationale or ADR before deleting the candidate directories. They are
-   working state.
+   selected artifact. Save the verdict and the rejected ideas with `mem_save`
+   (`topic_key` `arena/<slug>`), then delete the candidate
+   branches and worktrees. They are working state.
 
-Return the candidates considered, the rubric scores, the selection, the grafts,
-the rejected ideas, and the verification result.
+Reply in the shape of [assets/report.md](assets/report.md): the selection and
+verification first, then the score, graft, and rejected-idea tables.

@@ -5,13 +5,23 @@ description: "Runs a diagnosis loop for hard bugs and performance regressions th
 
 # Diagnosing bugs
 
-The practicing companion to **principle-fix-root-causes**. That skill states the rule; this one runs the loop. Skip a phase only with a stated justification, and read the project glossary and any area ADRs, owned by **domain-modeling**, when exploring. Skip them when none exist.
+Runs the loop that finds a root cause and fixes it there. Skip a phase only with a stated justification, and read the project glossary and any area ADRs, owned by **domain-modeling**, when exploring. Skip them when none exist.
 
 Redact first. Replace every secret with `<REDACTED>` in commands, output, and artifacts. Build loops against environment variables so credentials stay out of files. Quote only the signal-bearing lines. If redaction leaves too little to reason about, say so and ask.
 
 ## Phase 1: Build a feedback loop
 
 This is the skill. Build a tight pass or fail signal that goes red on this bug. Spend disproportionate effort here.
+
+Name the failure class and read only its variant. It says how to build the loop, narrow it, where causes usually sit, and what proves the fix. Its scripts are [scripts/repeat.sh](scripts/repeat.sh) (failure rate over N runs) and [scripts/time-runs.sh](scripts/time-runs.sh) (min, median, and max wall time). When no class fits, use the ladder below.
+
+| Variant | Pick when |
+|---|---|
+| [crash](references/classes/crash.md) | Same input, same exception, exit code, or wrong output every time |
+| [flaky](references/classes/flaky.md) | Passes and fails with no code change |
+| [performance](references/classes/performance.md) | Works but slower, more memory, or more calls than before |
+| [after-change](references/classes/after-change.md) | Worked before an upgrade, bump, merge, or config change |
+| [environment](references/classes/environment.md) | Works in one place, fails in another |
 
 Construction ladder, best first:
 
@@ -24,7 +34,7 @@ Construction ladder, best first:
 7. A property or fuzz loop.
 8. A bisection harness for `git bisect run`.
 9. A differential loop, old versus new.
-10. A human-in-the-loop bash script, the last resort. Use `scripts/hitl-loop.template.sh`.
+10. A human-in-the-loop bash script, the last resort. Use [scripts/hitl-loop.template.sh](scripts/hitl-loop.template.sh).
 
 Tighten the loop as a product. Faster? Sharper, asserting the exact symptom rather than "did not crash"? More deterministic, with pinned time, seeded RNG, isolated filesystem, and frozen network? A 30-second flaky loop is barely better than no loop. For non-deterministic bugs the goal is a higher reproduction rate, not a clean repro. Loop many times, parallelise, stress, and narrow the timing window.
 
@@ -38,7 +48,7 @@ Run the loop. Confirm it is the user's failure mode, not a nearby one. Capture t
 
 ## Phase 3: Hypothesise
 
-First run a one-commit-log probe, `git log -1 -- <suspect path>` or `git log -S<symbol>`, and use **why** only when that commit explains the failure. Write three to five ranked, falsifiable hypotheses before testing any. Format: if X is the cause, then changing Y makes the bug disappear, and changing Z makes it worse. No prediction means it is a vibe, discard it. Post the ranked list, then continue.
+First run a one-commit-log probe, `git log -1 -- <suspect path>` or `git log -S<symbol>`, and use **why** only when that commit explains the failure. Write three to five ranked, falsifiable hypotheses before testing any, as the table in [assets/hypotheses.md](assets/hypotheses.md). A row without a prediction is a vibe, discard it. Post the table, then continue.
 
 ## Phase 4: Instrument
 
@@ -46,8 +56,8 @@ Every probe maps to a prediction, and each change touches one variable. Prefer a
 
 ## Phase 5: Fix and regression test
 
-Run the loop per **tdd**, at the correct seam: the one that exercises the real bug pattern as it appears at the call site. Promote the Phase 1 test to the regression test when it sits there. A shallow seam gives false confidence. If no correct seam exists, that itself is the finding, because the architecture prevents lock-down. Then re-run the original un-minimised Phase 1 loop.
+Run the loop test-first per **build**, at the correct seam: the one that exercises the real bug pattern as it appears at the call site. Promote the Phase 1 test to the regression test when it sits there. A shallow seam gives false confidence. If no correct seam exists, that itself is the finding, because the architecture prevents lock-down. Then re-run the original un-minimised Phase 1 loop.
 
 ## Phase 6: Cleanup
 
-Confirm the original repro no longer reproduces, the regression test passes or the missing seam is documented, every `[DEBUG-...]` tag is removed, and throwaway prototypes are deleted or marked. State the winning hypothesis in the commit or PR message. Run **accept-change** on the fix and regression test before declaring done. For a fix under 20 changed lines, run **blast-radius** instead.
+Confirm the original repro no longer reproduces, the regression test passes or the missing seam is documented, [scripts/debug-tags.sh](scripts/debug-tags.sh) finds no `[DEBUG-...]` tag, and throwaway prototypes are deleted or marked. State the winning hypothesis in the commit or PR message. Before declaring done, check what else the change touches, then take the fix through **review**.

@@ -36,7 +36,17 @@ let
             *) theme="latte" ;; # fallback
           esac
 
-          accent="blue" # TODO: derive the accent from the theme instead of hard-coding it
+          # the macOS accent colour as its Catppuccin match; unset is the multicolour default, shown as blue
+          case "$(defaults read -g AppleAccentColor 2>/dev/null)" in
+            -1) accent="lavender" ;; # graphite
+            0) accent="red" ;;
+            1) accent="peach" ;;
+            2) accent="yellow" ;;
+            3) accent="green" ;;
+            5) accent="mauve" ;;
+            6) accent="pink" ;;
+            *) accent="blue" ;;
+          esac
         else
           echo "Usage: themeup <theme> <accent>" >&2
           return 1

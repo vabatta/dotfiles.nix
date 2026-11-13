@@ -14,8 +14,8 @@ in
   # keep the user's systemd services (T3 server) running without a login
   users.users.${hostUsername}.linger = true;
 
-  # macOS ships python3 with the Xcode command line tools; NixOS does not, and skill-creator needs it
-  environment.systemPackages = [ pkgs.python3 ];
+  # macOS ships jq and python3; NixOS does not, and the skills assume both (ai/skills/AGENTS.md)
+  environment.systemPackages = [ pkgs.jq pkgs.python3 ];
 
   services.openssh.enable = true;
   services.tailscale.enable = true;

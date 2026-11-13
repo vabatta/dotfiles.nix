@@ -57,7 +57,7 @@ Then the local rules:
 - Route to other skills by their full name in bold, for example **build**. Do not
   restate another skill's contract; point at it.
 - The host is T3 with Claude Code or opencode, on macOS or Linux. Engram, subagents,
-  `delegate_task`, Nix, `git`, `grep`, `gh`, `fx`, `python3`, and `validate-mermaid` are always present.
+  `delegate_task`, Nix, `git`, `grep`, `gh`, `jq`, `python3`, and `validate-mermaid` are always present.
   Write no fallback for them, and assume no other tool.
 - Commands and scripts run on both macOS and Linux: bash 3.2, and only the flags BSD and
   GNU tools share. Branch on the OS only where the tools differ, as `open` and `xdg-open` do.

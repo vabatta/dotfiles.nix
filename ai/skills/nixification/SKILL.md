@@ -34,12 +34,12 @@ Run a single command without persisting anything:
 nix shell nixpkgs#<package> --command <binary> [args...]
 ```
 
-**Example:** `nix shell nixpkgs#fx --command fx package.json .version`
+**Example:** `nix shell nixpkgs#yq-go --command yq '.version' chart.yaml`
 
 To enter an interactive shell with multiple packages:
 
 ```bash
-nix shell nixpkgs#fx nixpkgs#tree
+nix shell nixpkgs#yq-go nixpkgs#tree
 ```
 
 ## Creating a flake.nix

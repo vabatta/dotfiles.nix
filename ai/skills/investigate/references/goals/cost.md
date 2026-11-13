@@ -8,7 +8,7 @@
 - The largest single line: which job, model, call, or resource dominates.
 
 ## How to measure
-- CI minutes: `gh run list --limit 100 --json name,createdAt,updatedAt | fx` and sum the durations per workflow.
+- CI minutes: `gh run list --limit 100 --json name,createdAt,updatedAt | jq -r 'group_by(.name)[] | "\(.[0].name) \(map((.updatedAt | fromdate) - (.createdAt | fromdate)) | add)s"'` sums the seconds per workflow.
 - Agent calls and tokens: count tool calls and usage in the harness transcripts, for example `grep -ho '"name":"<tool>"' <transcripts> | sort | uniq -c`.
 - Model spend: the provider's usage export or dashboard, read for the same period.
 - Compute: resource requests against measured use in the deployment config and its metrics.

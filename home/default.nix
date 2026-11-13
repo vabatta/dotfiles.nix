@@ -61,7 +61,6 @@
       curl
       entr
       fastfetch
-      fx
       kubectl
       noti
       oha

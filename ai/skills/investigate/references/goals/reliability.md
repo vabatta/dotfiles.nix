@@ -9,7 +9,7 @@
 - Detection: how long a failure goes unnoticed, and who or what notices it.
 
 ## How to measure
-- CI history: `gh run list --limit 100 --json name,conclusion,createdAt | fx '.filter(r => r.conclusion == "failure")'`.
+- CI history: `gh run list --limit 100 --json name,conclusion,createdAt | jq 'map(select(.conclusion == "failure"))'`.
 - Fix pressure: `git log --since=6.months -i -E --grep='fix|revert|hotfix' --oneline -- <path>`.
 - Swallowed errors: `git grep -nIE '\|\| true|2>/dev/null|catch *\(|except *:|_ = ' -- <path>`.
 - Recovery: kill the process mid-run, rerun it, and diff the state against a clean run.

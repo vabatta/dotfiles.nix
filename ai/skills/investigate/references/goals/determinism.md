@@ -9,7 +9,7 @@
 
 ## How to measure
 - Repeat and hash: `for i in 1 2 3 4 5; do <command> > "out.$i"; done; cksum out.*`, then diff the outputs that differ.
-- Same commit, different result: `gh run list --limit 100 --json headSha,conclusion,name | fx '.filter(r => r.conclusion)'`, grouped by `headSha`.
+- Same commit, different result: `gh run list --limit 100 --json headSha,conclusion,name | jq 'map(select(.conclusion != null)) | group_by(.headSha) | map(select(map(.conclusion) | unique | length > 1))'` lists the commits whose runs disagree.
 - Hidden inputs: `git grep -nIE 'time\.Now|Date\.now|Math\.random|rand\.|uuid|sleep|os\.Getenv|process\.env' -- <path>`.
 - Order: rerun with a shuffled test order, or a different `TZ`, `LANG`, or working directory.
 

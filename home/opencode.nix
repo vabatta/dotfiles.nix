@@ -6,7 +6,8 @@ let
   # The key stays outside the Nix store and reaches OpenCode at launch: an already-set variable wins
   # (hosts without 1Password export it), otherwise the host's 1Password vault supplies it.
   # A host with no vault set never calls op.
-  # The wrapper avoids a bin/opencode collision and the Home Manager null-package bug.
+  # FIXME: the wrapper also works around a bin/opencode collision and the Home Manager
+  # null-package bug. Pass the package directly once both are gone.
   opencodeWrapped = pkgs.writeShellScriptBin "opencode" ''
     ${lib.optionalString (vault != null) ''export OPENROUTER_API_KEY="''${OPENROUTER_API_KEY:-$(${pkgs._1password-cli}/bin/op read 'op://${vault}/OpenRouter - opencode/credential' --no-newline)}"''}
     exec ${opencode}/bin/opencode "$@"

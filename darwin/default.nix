@@ -28,6 +28,16 @@
 
   nixpkgs.config.allowUnfree = true;
 
+  # FIXME: marksman pulls the source-built .NET runtime (~30 min, uncached), so this swaps in the
+  # prebuilt one. Drop the overlay once NixOS/nixpkgs#584390 is fixed.
+  nixpkgs.overlays = [
+    (final: prev: {
+      dotnetCorePackages = prev.dotnetCorePackages.overrideScope (_: p: {
+        runtime_9_0 = p.runtime_9_0-bin;
+      });
+    })
+  ];
+
   # homebrew installation manager
   nix-homebrew = {
     user = hostUsername;

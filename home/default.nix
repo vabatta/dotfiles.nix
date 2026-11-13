@@ -21,6 +21,7 @@
     ./nvim.nix
     ./ssh.nix
     ./starship.nix
+    ./t3code.nix
     ./vivid.nix
     ./zed.nix
     ./zoxide.nix

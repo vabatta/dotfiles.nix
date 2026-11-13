@@ -10,6 +10,7 @@
   homebrew.casks = [
     "docker-desktop"
     "local/container/container"
+    "t3-code"
     "wouterdebie/tap/davit"
   ];
 
@@ -23,6 +24,8 @@
   };
 
   home-manager.users.${hostUsername} = {
+    ai.mcp.remote = true;
+
     xdg.enable = true;
     home.preferXdgDirectories = true;
     opencode.opVault = "Macbook Personal";

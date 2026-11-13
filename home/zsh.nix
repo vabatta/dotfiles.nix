@@ -36,7 +36,7 @@ let
             *) theme="latte" ;; # fallback
           esac
 
-          accent="blue" # could be made dynamic later
+          accent="blue" # TODO: derive the accent from the theme instead of hard-coding it
         else
           echo "Usage: themeup <theme> <accent>" >&2
           return 1

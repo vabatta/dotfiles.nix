@@ -64,7 +64,8 @@ in
 
   programs.zsh.initContent = themeFunc;
 
-  # custom batpipe for LESSOPEN (simpler alternative to bat-extras batpipe because nix-version is broken)
+  # FIXME: custom batpipe for LESSOPEN, because the nixpkgs bat-extras batpipe fails on macOS
+  # ("ps: time: requires entitlement" instead of the file, checked 2026-11-13). Switch once it works.
   home.packages = [
     (pkgs.writeShellScriptBin "batpipe" (builtins.readFile ../scripts/batpipe.sh))
   ];

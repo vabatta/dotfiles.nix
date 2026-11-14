@@ -9,13 +9,11 @@
 
   homebrew.casks = [
     "docker-desktop"
-    "local/container/container"
     "t3-code"
     "wouterdebie/tap/davit"
   ];
 
   homebrew.taps = [
-    "local/container"
     "wouterdebie/tap"
   ];
 

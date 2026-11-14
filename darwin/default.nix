@@ -48,10 +48,6 @@
         path = ../taps/tableplus;
         name = "homebrew-tableplus";
       };
-      "local/homebrew-container" = builtins.path {
-        path = ../taps/container;
-        name = "homebrew-container";
-      };
       "wouterdebie/homebrew-tap" = inputs.homebrew-wouterdebie;
     };
     mutableTaps = false;
@@ -59,7 +55,6 @@
     # Homebrew ignores casks from non-official taps until they are trusted.
     # Entries are added on activation and are not removed when dropped from this list.
     trust.casks = [
-      "local/container/container"
       "local/tableplus/tableplus"
       "wouterdebie/tap/davit"
     ];

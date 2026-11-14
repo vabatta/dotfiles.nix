@@ -38,6 +38,7 @@
     ];
     brews = [
       "mas"
+      "container"
     ];
     taps = [ "local/tableplus" ];
     masApps = {

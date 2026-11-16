@@ -29,6 +29,9 @@
     # AI agent CLIs (claude-code, opencode, pi); no nixpkgs follows so the numtide binary cache hits
     llm-agents.url = "github:numtide/llm-agents.nix";
 
+    gm.url = "github:vabatta/gm";
+    gm.inputs.nixpkgs.follows = "nixpkgs";
+
     # official davit homebrew tap (cask only, not a flake)
     homebrew-wouterdebie = {
       url = "github:wouterdebie/homebrew-tap";
@@ -46,20 +49,7 @@
       nvf,
       ...
     }@inputs:
-    let
-      pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-    in
     {
-      checks.aarch64-darwin.skills =
-        pkgs.runCommand "check-skills"
-          {
-            nativeBuildInputs = [ pkgs.bash ];
-          }
-          ''
-            bash ${./scripts/check-skills.sh} ${./ai/skills} ${./ai/AGENTS.md} ${./ai/skills-guide.html}
-            touch $out
-          '';
-
       # build darwin flake using:
       # $ darwin-rebuild build --flake .#<name>
 

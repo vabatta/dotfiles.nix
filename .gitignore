@@ -2,5 +2,5 @@ result
 result-*
 .claude/settings.local.json
 
-# agent working state; knowledge lives in Engram
+# agent working state; knowledge lives in gm notes
 .agent/

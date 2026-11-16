@@ -144,6 +144,26 @@
         "type": "github"
       }
     },
+    "gm": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1794836681,
+        "narHash": "sha256-7tnpzH4s+oe+rWF8HoHaVPyw9vAwxNPd029ALH6Asoo=",
+        "owner": "vabatta",
+        "repo": "gm",
+        "rev": "638b328fa28b3105af20ab1663e0f4a7c913282d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vabatta",
+        "repo": "gm",
+        "type": "github"
+      }
+    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -310,6 +330,7 @@
       "inputs": {
         "darwin": "darwin",
         "flake-utils": "flake-utils",
+        "gm": "gm",
         "home-manager": "home-manager",
         "homebrew-wouterdebie": "homebrew-wouterdebie",
         "llm-agents": "llm-agents",

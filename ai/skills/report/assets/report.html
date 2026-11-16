@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><!-- two to four words --></title>
+<style>
+:where(:root){
+  color-scheme: light dark;
+  --ok: var(--success, #1c7443); --wn: var(--warning, #8a6a00);
+  --rk: var(--destructive, #b0341e); --in: var(--info, #1a6890);
+  --dim: var(--muted-foreground, #5d6470); --ln: var(--border, #d4d7dd);
+  --r: var(--radius, 8px); --mono: var(--font-mono, ui-monospace, monospace);
+}
+@media (prefers-color-scheme: dark){:where(:root){
+  --ok: var(--success, #6fcf97); --wn: var(--warning, #e8c547); --rk: var(--destructive, #ef6f5c);
+  --in: var(--info, #6cb6e0); --dim: var(--muted-foreground, #9aa1ab); --ln: var(--border, #30343b);
+}}
+body{margin:0;font:14px/1.5 var(--font-sans, ui-sans-serif, -apple-system, "Segoe UI", sans-serif)}
+h2{font-size:14px;margin:20px 0 8px}
+p{margin:0 0 8px}
+a{color:inherit}
+code{font:12px var(--mono)}
+.lead{font-size:16px;line-height:1.45;margin:0 0 4px}
+.meta,.src{color:var(--dim);font-size:12px}
+.chip{display:inline-flex;align-items:center;gap:6px;font:600 11px var(--mono);padding:1px 7px;justify-self:start;
+  border:1px solid currentColor;border-radius:4px;white-space:nowrap;vertical-align:1px}
+.chip::before{content:'';flex:none;width:7px;height:7px;background:currentColor}
+.ok{color:var(--ok)} .ok::before{border-radius:50%}
+.wn{color:var(--wn)} .wn::before{clip-path:polygon(50% 0,100% 100%,0 100%)}
+.rk{color:var(--rk)}
+.in{color:var(--in)} .in::before{width:6px;height:6px;transform:rotate(45deg)}
+.rows{border-top:1px solid var(--ln)}
+.row{display:grid;grid-template-columns:minmax(0,170px) 1fr auto;gap:12px;align-items:baseline;padding:8px 0;border-bottom:1px solid var(--ln)}
+.row b{font-weight:600;overflow-wrap:anywhere}
+.row span:not(.chip){color:var(--dim);font-size:13px}
+.groups{display:flex;flex-wrap:wrap;gap:12px}
+.group{flex:1 1 200px;border:1px solid var(--ln);border-radius:var(--r);padding:12px}
+.group h3{display:flex;justify-content:space-between;align-items:center;margin:0 0 6px;font-size:13px}
+.group div{padding:6px 0;border-top:1px solid var(--ln);font-size:12px;color:var(--dim)}
+.group div b{display:block;font:600 12px var(--mono);color:var(--foreground, CanvasText)}
+figure{margin:0;padding:12px;border:1px solid var(--ln);border-radius:var(--r);overflow-x:auto}
+figure svg{display:block;width:100%;min-width:520px;height:auto;font:12px var(--font-sans, sans-serif)}
+figcaption{color:var(--dim);font-size:12px;margin-top:6px}
+details{margin-top:14px;border:1px solid var(--ln);border-radius:var(--r);padding:8px 12px}
+summary{cursor:pointer;font-weight:600}
+details ol{margin:8px 0 0;padding-left:18px;font-size:13px}
+details li{margin:0 0 4px}
+.decide li{margin:0 0 6px}
+@media (max-width:480px){.row{grid-template-columns:1fr auto}.row span:not(.chip){grid-column:1/-1;grid-row:2}}
+</style>
+</head>
+<body>
+
+<!-- lead: the answer first, nothing above it -->
+<p class="lead">ANSWER</p>
+<p class="meta">KIND · YYYY-MM-DD · VERSIONS</p>
+
+<!-- rows: one item per row, a few words of reason, one chip -->
+<h2>HEADING</h2>
+<div class="rows">
+  <div class="row"><b>ITEM</b><span>REASON</span><span class="chip ok">keep</span></div>
+  <div class="row"><b>ITEM</b><span>REASON</span><span class="chip rk">off</span></div>
+</div>
+
+<!-- groups: two to four buckets, the chip holds the count -->
+<h2>HEADING</h2>
+<div class="groups">
+  <section class="group"><h3>BUCKET <span class="chip rk">2</span></h3>
+    <div><b>ITEM</b>REASON</div>
+    <div><b>ITEM</b>REASON</div>
+  </section>
+  <section class="group"><h3>BUCKET <span class="chip ok">1</span></h3>
+    <div><b>ITEM</b>REASON</div>
+  </section>
+</div>
+
+<!-- figure: inline SVG only. Labels left and right, lines start past the longest label -->
+<h2>HEADING</h2>
+<figure>
+<svg viewBox="0 0 680 100" role="img" aria-label="DESCRIBE THE FIGURE">
+  <g fill="currentColor">
+    <text x="0" y="14" fill="var(--dim)">LEFT</text><text x="440" y="14" fill="var(--dim)">RIGHT</text>
+    <text x="0" y="46">NODE A</text><text x="440" y="46">NODE B</text>
+    <text x="0" y="82">NODE C</text><text x="440" y="82">NODE D</text>
+  </g>
+  <g fill="none" stroke-width="1.5">
+    <path d="M170 42 C300 42 300 42 430 42" stroke="var(--rk)"/>
+    <path d="M170 78 C300 78 300 42 430 42" stroke="var(--wn)" stroke-dasharray="4 3"/>
+  </g>
+</svg>
+<figcaption>WHAT THE LINES MEAN</figcaption>
+</figure>
+
+<!-- evidence: below the answer, folded, summary counts each tier -->
+<details>
+<summary>Evidence · N sourced · N secondary · N unverified</summary>
+<ol>
+  <li><span class="chip ok">sourced</span> CLAIM <a class="src" href="URL">SOURCE, YYYY-MM-DD</a></li>
+  <li><span class="chip wn">secondary</span> CLAIM <a class="src" href="URL">SOURCE, YYYY-MM-DD</a></li>
+  <li><span class="chip rk">unverified</span> CLAIM <span class="src">none</span></li>
+</ol>
+</details>
+
+<!-- decide: only questions the user must settle, recommendation first -->
+<h2>Decide</h2>
+<ul class="decide">
+  <li><b>QUESTION</b> OPTION A, recommended, or OPTION B.</li>
+</ul>
+
+<!-- next -->
+<p class="meta">Next: <b>SKILL</b>, WHY.</p>
+
+</body>
+</html>

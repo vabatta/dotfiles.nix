@@ -1,16 +1,16 @@
 # Teaching workspace
 
-The multi-session mode of **teach**. Treat `.teaching/` as a teaching workspace.
+The multi-session mode of **teach**. Treat `.agents/teaching/` as a teaching workspace.
 
 ## Files
 
-- `.teaching/MISSION.md` records the reason the user is interested. It grounds every lesson. If it is unclear, ask why before the first lesson. When no one answers, infer it from the repo and record that as an assumption.
-- `.teaching/reference/*.html` holds compressed learnings, cheat sheets, algorithms, syntax, and glossaries. They are rarely revisited, so capture the essence.
-- `.teaching/RESOURCES.md` lists trusted resources to ground teaching. Do not trust parametric knowledge before this is populated. On the first lesson, create the missing files and populate it from the repo and its docs.
-- `.teaching/learning-records/*.md` records what the user learned, like ADRs, the non-obvious insights. Number them `0001-<slug>.md`. They compute the zone of proximal development.
-- `.teaching/lessons/*.html` holds lessons, one self-contained HTML page teaching one tightly scoped thing tied to the mission. This is the primary unit.
-- `.teaching/assets/*` holds reusable components. Read this before authoring and never inline a reusable thing.
-- `.teaching/NOTES.md` records the user's teaching preferences.
+- `.agents/teaching/MISSION.md` records the reason the user is interested. It grounds every lesson. If it is unclear, ask why before the first lesson. When no one answers, infer it from the repo and record that as an assumption.
+- `.agents/teaching/reference/*.html` holds compressed learnings, cheat sheets, algorithms, syntax, and glossaries. They are rarely revisited, so capture the essence.
+- `.agents/teaching/RESOURCES.md` lists trusted resources to ground teaching. Do not trust parametric knowledge before this is populated. On the first lesson, create the missing files and populate it from the repo and its docs.
+- `.agents/teaching/learning-records/*.md` records what the user learned, like ADRs, the non-obvious insights. Number them `0001-<slug>.md`. They compute the zone of proximal development.
+- `.agents/teaching/lessons/*.html` holds lessons, one self-contained HTML page teaching one tightly scoped thing tied to the mission. This is the primary unit.
+- `.agents/teaching/assets/*` holds reusable components. Read this before authoring and never inline a reusable thing.
+- `.agents/teaching/NOTES.md` records the user's teaching preferences.
 
 ## Principles
 

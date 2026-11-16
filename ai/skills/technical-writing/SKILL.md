@@ -76,7 +76,7 @@ Source: Kohl, The Global English Style Guide (SAS Press). Guideline text fetched
 ## Voice and repo specifics
 
 - Apply **unslop** to every doc this skill touches, as the last pass after the other layers. It owns the slop-pattern catalog and the voice rules. Keep opinion to explanation docs.
-- PR descriptions and commit messages are writing too. Every layer except Diátaxis applies to them. Write a PR description in the shape of [assets/pr-description.md](assets/pr-description.md).
+- PR descriptions and commit messages are writing too. Every layer except Diátaxis applies to them. Write a PR description in the shape of [assets/pr-description.md](assets/pr-description.md). It carries context and intent, never a retelling of the diff.
 - Write real paths and real symbols. Make every count or tree claim true at the commit that lands it, and include the command that regenerates it.
 
 ## Review

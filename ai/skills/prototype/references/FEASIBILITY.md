@@ -8,7 +8,7 @@ The answer is yes, no, or conditional, plus the constraints discovered.
 
 1. State the one question. "Can the vendor API return line items before payment?" "Does this library stream without buffering?"
 2. Build the shortest path to a real answer. Unlike a design prototype, a feasibility prototype may pull real dependencies, a real server, a database, or real credentials. Exercise the real thing; do not stub the part whose feasibility is the question.
-3. Keep it time-boxed and marked. Leave it in `.prototypes/<slug>/`. Read credentials from the environment, never from that folder. No tests, no polish, no generalisation.
+3. Keep it time-boxed and marked. Leave it in `.agents/prototypes/<slug>/`. Read credentials from the environment, never from that folder. No tests, no polish, no generalisation.
 4. Surface the failure honestly. A prototype that "works" only because it skips the hard part has answered nothing.
 
 ## Capture

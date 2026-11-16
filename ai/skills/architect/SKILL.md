@@ -50,7 +50,7 @@ Opt in to a checkpoint when the invoker explicitly asks to stop and show the
 design before implementation. Then surface the synthesized design and pause for
 sign-off.
 
-The synthesis can ship as its own commit either way. That's the "scaffold first" mode: data shape first; subsequent commits read as filling in bodies against a stable contract. Planned and scoped breakage during fill-in is fine. For adversarial pressure on the design before implementing, ask for an independent review of the synthesized sketch: a subagent, or `delegate_task` on another provider where T3 offers it.
+The synthesis can ship as its own commit either way. That's the "scaffold first" mode: data shape first; subsequent commits read as filling in bodies against a stable contract. Planned and scoped breakage during fill-in is fine. For adversarial pressure on the design before implementing, ask for an independent review of the synthesized sketch from a fresh-context subagent, on a different model or provider when you have one.
 
 If the human pushes back on the shape (in a checkpoint or after the fact), treat that as Phase A evidence. Re-ground and re-run Phase B before writing more code.
 
@@ -84,10 +84,12 @@ When you scrap:
 
 ## Outputs
 
-The caller's usage is written first and the type sketch derived from it. One file of types and signatures, plus a module map when more than one module is involved. The rationale ships alongside, shaped per `references/rationale-template.md`, including the usage sketch and the synthesis decision. Write the types and signatures as compilable stubs in the codebase, with failing tests that state the behavior, in one commit. Give the rationale in the reply and save the load-bearing decisions with `mem_save`. Write no design document and no ADR.
+The caller's usage is written first and the type sketch derived from it. One file of types and signatures, plus a module map when more than one module is involved. The rationale ships alongside, shaped per `references/rationale-template.md`, including the usage sketch and the synthesis decision. Write the types and signatures as compilable stubs in the codebase, with failing tests that state the behavior, in one commit. Give the rationale in the reply and save the load-bearing decisions with **memory**. Write no design document and no ADR.
 
 ## Vocabulary
 
 Use the shared vocabulary for module design, not the words component, service, API, or boundary. See [deep-modules.md](references/deep-modules.md) for Module, Interface, Depth, Seam, Adapter, Leverage, and Locality plus the deletion test, and [deepening.md](references/deepening.md) for how dependencies decide the seam and the test strategy.
 
 Apply these design lenses to the sketch. Validate at boundaries and trust types inside. Model the domain with types, not branch ladders, and get the data shape right first. Make state transitions idempotent. Give each writer its own state and merge at the read boundary. When replacing an API, migrate every caller and delete the old one in the same change. When a new requirement arrives, redesign as if it had been foundational.
+
+If another skill called this one, return to its next step. This return ends the skill, not the turn.

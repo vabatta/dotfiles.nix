@@ -21,4 +21,4 @@ Write the explanation per **unslop**, in plain spoken English, the way it would 
 
 ## Multi-session mode
 
-When teaching spans sessions, treat `.teaching/` as a teaching workspace. The file layout, the storage-versus-fluency distinction, and the zone of proximal development are in [TEACHING-WORKSPACE.md](references/TEACHING-WORKSPACE.md). The single-explanation mode above stays the default for a one-off question. Enter this mode only when the user asks for a course or ongoing teaching. Asking why they care is allowed here only to write `MISSION.md`.
+When teaching spans sessions, treat `.agents/teaching/` as a teaching workspace. The file layout, the storage-versus-fluency distinction, and the zone of proximal development are in [TEACHING-WORKSPACE.md](references/TEACHING-WORKSPACE.md). The single-explanation mode above stays the default for a one-off question. Enter this mode only when the user asks for a course or ongoing teaching. Asking why they care is allowed here only to write `MISSION.md`.

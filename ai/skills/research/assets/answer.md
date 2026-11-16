@@ -1,14 +1,16 @@
-**Answer:** <the answer, one to three sentences>
+**lead:** <the answer, one to three sentences>
 
-| Claim | Source | Read | Tier |
-|---|---|---|---|
-| <claim> | <URL or command> | <date> | SOURCED / SECONDARY / UNVERIFIED |
+**meta:** Research · <date> · <pinned versions the answer depends on>
 
-<When comparing options, one row per option.>
+**rows**, one per option compared, omit for a single answer:
+- <option> | <the one fact that decides it> | <chip: ok use, wn fallback, rk reject, in rules only>
 
-| Option | Deciding fact |
-|---|---|
-| <option> | <the one fact that decides between them> |
+**evidence**, one per claim:
+- <sourced | secondary | unverified> | <claim> | <URL or command, or none> | <date read>
 
-**Not found:** <what could not be checked, and why, or "nothing">
-**Next:** <assess / prototype / build, with one line on why>
+**decide**, only what the user must settle:
+- <question> | <recommended option> | <other option>
+
+**not found:** <what could not be checked, and why, or nothing>
+
+**next:** <assess | prototype | build> | <one line on why>

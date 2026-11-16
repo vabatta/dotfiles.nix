@@ -60,4 +60,6 @@ Run the loop test-first per **build**, at the correct seam: the one that exercis
 
 ## Phase 6: Cleanup
 
-Confirm the original repro no longer reproduces, the regression test passes or the missing seam is documented, [scripts/debug-tags.sh](scripts/debug-tags.sh) finds no `[DEBUG-...]` tag, and throwaway prototypes are deleted or marked. State the winning hypothesis in the commit or PR message. Before declaring done, check what else the change touches, then take the fix through **review**.
+Confirm the original repro no longer reproduces, the regression test passes or the missing seam is documented, [scripts/debug-tags.sh](scripts/debug-tags.sh) finds no `[DEBUG-...]` tag, and throwaway prototypes are deleted or marked. State the winning hypothesis in the commit or PR message. Before declaring done, check what else the change touches.
+
+If another skill called this one, return to its next step. This return ends the skill, not the turn.

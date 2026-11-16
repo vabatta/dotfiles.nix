@@ -51,7 +51,7 @@ When the target design itself is open, run **arena** for competing designs. That
 
 Reply in the shape of [assets/verdict.md](assets/verdict.md): the verdict line first, then the tables. Give confidence as high, medium, or low, and the one fact that would most change the verdict. Keep prose to the sentences the tables cannot hold.
 
-Save the claim, the kill criterion, the proven facts, the lens disagreements, and the verdict with `mem_save` (`topic_key` `assess/<slug>`) when the decision is hard to reverse. Use the slug of the `investigate` record when the question came from one.
+When the decision is hard to reverse, save it as a decision with **memory** (`--topic` `assess/<slug>`): the verdict, why, and the rejected options with the facts that ruled them out.
 
 ## Next
 
@@ -60,3 +60,5 @@ Save the claim, the kill criterion, the proven facts, the lens disagreements, an
 - Don't → stop, and state what would change the answer.
 
 Done when every load-bearing fact is marked proven or unproven, every lens has answered, and the reply follows the verdict template.
+
+If another skill called this one, return to its next step. This return ends the skill, not the turn.

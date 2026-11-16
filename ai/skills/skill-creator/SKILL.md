@@ -21,7 +21,7 @@ At a high level, the process of creating a skill goes like this:
 
 Find where the user is in this process and help them progress through these stages. For "I want to make a skill for X", narrow down what they mean, write a draft, write the test cases, agree how to evaluate, run all the prompts, and repeat. When they already have a draft, go straight to the eval and iterate part of the loop. When they want no evaluations, skip them.
 
-For a small single-step behavior change to an existing skill, skip the eval loop: edit, run the bundle checker below, and show the diff. Send pure wording tightening to **writing-for-agents**. Start the loop when the edit changes behavior the user cannot judge by reading.
+For a small single-step behavior change to an existing skill, skip the eval loop: edit, reread it against the authoring rules below, and show the diff. Send pure wording tightening to **writing-for-agents**. Start the loop when the edit changes behavior the user cannot judge by reading.
 
 After the skill is done, offer the description optimization loop (`scripts/run_loop.py`) to tune its triggering.
 
@@ -64,7 +64,7 @@ Based on the user interview, fill in these components:
 - **compatibility**: Required tools, dependencies (optional, rarely needed)
 - **the rest of the skill**
 
-Follow the authoring rules in `ai/skills/AGENTS.md`, and run the bundle checker `bash scripts/check-skills.sh ai/skills ai/AGENTS.md` from the repository that holds the bundle before handing the skill back. For a bundle elsewhere, pass that bundle's own skills directory and rules file. Done when it reports 0 failures and 0 warnings for the skill.
+Follow the authoring rules in `ai/skills/AGENTS.md`, or the rules file of the bundle that holds the skill. Before handing the skill back, reread it against every rule there. Done when each rule holds for the skill.
 
 ### Skill Writing Guide
 
@@ -162,7 +162,7 @@ See `references/schemas.md` for the full schema (including the `expectations` fi
 
 This section is one continuous sequence. Run it to the end. Done when `benchmark.json` shows runs for both configurations and the viewer file or server exists. The scripts need Python 3.9 or newer.
 
-Put results in `.skill-workspaces/<skill-name>/` (gitignored), meaning that path wherever `<workspace>` appears below. Within the workspace, organize results by iteration (`iteration-1/`, `iteration-2/`, etc.) and within that, each test case gets a directory (`eval-0/`, `eval-1/`, etc.). Don't create all of this upfront — just create directories as you go.
+Put results in `.agents/evals/<skill-name>/`, meaning that path wherever `<workspace>` appears below. Within the workspace, organize results by iteration (`iteration-1/`, `iteration-2/`, etc.) and within that, each test case gets a directory (`eval-0/`, `eval-1/`, etc.). Don't create all of this upfront — just create directories as you go.
 
 ### Step 1: Spawn all runs (with-skill AND baseline) in the same turn
 

@@ -31,7 +31,7 @@ Read only the variant that matches the goal. It names what to measure, how, wher
 Evidence comes from artifacts, not opinion. Start from the variant's measures when one applies.
 
 - Real runs: rerun the thing several times and diff the results, or read past logs, transcripts, and failures.
-- The record: Engram (`mem_search` for decisions, reverted or failed attempts, and learnings in this area) and the git history.
+- The record: `gm search --all` for decisions, failed attempts, and lessons in this area, and the git history.
 - The structure: where a rule exists only as prose, and where a script or check could hold it instead.
 
 Fan out one read-only subagent per seam when the scope has several. Route bulk output to the subagents and keep summaries. Done when each finding has a pointer a reader can open, such as a `file:line`, a command and its output, or a run count.
@@ -46,10 +46,12 @@ For the top findings give one candidate fix each. Prefer a structural fix (a scr
 
 ## Hand off
 
-Reply in the shape of [assets/findings.md](assets/findings.md), and save it with `mem_save` (`topic_key` `investigate/<slug>`). The next move per finding:
+Reply in the shape of [assets/findings.md](assets/findings.md). Save only the lessons that pass the test in **memory**. The next move per finding:
 
 - A candidate worth judging goes to **assess**.
 - A candidate that is obviously right and small goes to **build**.
 - A finding that is one concrete bug goes to **diagnosing-bugs**.
 
 Done when the reply follows the template, every finding has a status and a next move, and the record is saved.
+
+If another skill called this one, return to its next step. This return ends the skill, not the turn.

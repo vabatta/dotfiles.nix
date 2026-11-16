@@ -29,3 +29,5 @@ the confidence tiers and calibrated phrasing. Read
 queries behind step 2.
 
 When the missing knowledge lives with another person, use **to-questionnaire**.
+
+If another skill called this one, return to its next step. This return ends the skill, not the turn.

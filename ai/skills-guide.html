@@ -232,20 +232,23 @@
 
   <section id="layout">
     <h2>Where things live <span class="hint">the code is the truth, memory holds the rest</span></h2>
-    <p class="lead">The code is the source of truth: behavior lives in test names and types. What code cannot say goes to Engram, tied to the code it concerns. Almost nothing is written to files. Only the glossary is committed under <code>docs/</code>. Throwaway working state is gitignored.</p>
+    <p class="lead">The code is the source of truth: behavior lives in test names and types. What code cannot say goes to a gm note, anchored to the code it concerns. Almost nothing is written to files. The glossary lives under <code>docs/</code>, and everything else a skill writes under <code>.agents/</code>.</p>
     <div class="treewrap">
       <div class="tree">
         <span class="p">repo/</span><span class="n"></span>
-        <span class="p">├── <i class="d">docs/</i>glossary.md</span><span class="n">the project language, committed</span>
-        <span class="p">├── <i class="d">scripts/</i>wizards/slug.sh</span><span class="n">left behind by a procedure</span>
-        <span class="p">├── <i class="a">.prototypes/</i>slug/</span><span class="n">gitignored, deleted after the verdict</span>
-        <span class="p">├── <i class="a">.skill-workspaces/</i></span><span class="n">gitignored, skill evals</span>
-        <span class="p">└── <i class="a">.teaching/</i></span><span class="n">gitignored, multi-session teaching</span>
-        <span class="p">~/.engram</span><span class="n">memory: decisions, lessons, summaries (not in the repo)</span>
+        <span class="p">├── <i class="d">docs/</i>glossary.md</span><span class="n">the project language</span>
+        <span class="p">└── .agents/</span><span class="n"></span>
+        <span class="p">    ├── <i class="d">memory/</i></span><span class="n">gm notes: why, what failed, outside facts (a .gmconfig can move them)</span>
+        <span class="p">    ├── <i class="d">wizards/</i>slug.sh</span><span class="n">left behind by a procedure</span>
+        <span class="p">    ├── <i class="a">prototypes/</i>slug/</span><span class="n">deleted after the verdict</span>
+        <span class="p">    ├── <i class="a">evals/</i>skill/</span><span class="n">skill evals</span>
+        <span class="p">    ├── <i class="a">runs/</i>slug.md</span><span class="n">unattended run contracts</span>
+        <span class="p">    ├── <i class="a">reports/</i>slug.html</span><span class="n">pages with no inline view</span>
+        <span class="p">    └── <i class="a">teaching/</i></span><span class="n">multi-session teaching</span>
       </div>
       <div class="legend">
-        <span><i class="sw doc"></i><b>docs/</b> committed durable knowledge</span>
-        <span><i class="sw agent"></i><b>gitignored</b> throwaway working state</span>
+        <span><i class="sw doc"></i><b>docs/</b> durable knowledge</span>
+        <span><i class="sw agent"></i><b>.agents/</b> working state</span>
         <span><i class="sw skill"></i><b>skill/</b> references, scripts, and assets are part of the skill</span>
       </div>
     </div>
@@ -298,23 +301,21 @@ const JOURNEYS = [
    "You know what to build. Use Fix a hard bug when the cause is unknown.",
    [
      [["architect"], "", "Sketch the types, the signatures, and the failing tests first.", "If the change adds a module or an interface, do this step.", []],
-     [["build"], "", "State the stack, the budget, and the check. Go red first, then make the smallest change. Prove it on the real artifact.", "", []],
-     [["review"], "", "Run the project check, open the PR, and answer every finding.", "If the repo has no PR-Agent, the step still covers the PR comments.", []]
+     [["build"], "", "State the acceptance lines, the stack, the budget, and the check. Go red first, then make the smallest change. Prove it on the real artifact.", "", ["review"]]
    ],
-   "the check passes, the PR is open with every finding answered, and the decisions are saved.", "implement X / add Y / change Z", "Change"],
+   "the check passes on the real artifact, review has converged, and the decisions are saved.", "implement X / add Y / change Z", "Change"],
   ["Fix a hard bug",
    "A failure with an unknown cause, a flaky test, or a performance regression.",
    [
      [["diagnosing-bugs"], "", "Build a feedback loop that can fail, find the root cause, and fix it there.", "", []],
-     [["build"], "", "Turn the repro into the regression test and prove the fix on the real artifact.", "If the diagnosis already produced the regression test, this step only proves it.", []],
-     [["review"], "", "Run the project check, open the PR, and answer every finding.", "", []]
+     [["build"], "", "Turn the repro into the regression test and prove the fix on the real artifact.", "If the diagnosis already produced the regression test, this step only proves it.", []]
    ],
-   "the original repro no longer fails, the regression test passes, and the PR is reviewed.", "it fails sometimes / hard bug / flaky", "Change"],
+   "the original repro no longer fails and the regression test passes.", "it fails sometimes / hard bug / flaky", "Change"],
   ["Run while you are away",
    "Long or scheduled work that no one watches.",
    [
      [["unattended"], "", "Write the contract: the goal, a done command that exits 0, the scope, the caps, and the one-way actions you allow.", "", []],
-     [["figure-it-out"], "", "Drive each unit through the gates: understand, examine, decide, de-risk, design, compare, build, review. Commit each green unit. Park a unit that fails its check three times.", "", []]
+     [["figure-it-out"], "", "Drive each unit through the gates: understand, examine, decide, de-risk, design, compare, build. Commit each green unit. Park a unit that fails its check three times.", "", []]
    ],
    "the done command passes, the cap is reached, or no unblocked unit is left, and the report is written.", "overnight / while I am away / run on its own", "Run alone"],
   ["Examine a system",
@@ -338,9 +339,9 @@ const FAMILIES = ["Decide", "Change", "Explore", "Run alone"];
 const PARTS = ["how", "no-comments", "domain-modeling", "writing-for-agents"];
 
 const PROCESS = [
-  ["figure-it-out", "Turns a vague goal into a done condition you can check, picks the route through the skills, and drives it to the end on its own. Every code unit passes its gates: understand, examine, decide, de-risk, design, compare, build, review. It asks only at one-way doors."],
-  ["build", "Implements a change test-first in small verified units. It states the stack and a line budget first and proves the result on the real artifact."],
-  ["review", "Takes a branch to a reviewed pull request: runs the checks, opens the PR, reads PR-Agent's findings, and fixes or answers each."],
+  ["figure-it-out", "Turns a vague goal into a done condition you can check, picks the route through the skills, and drives it to the end on its own. Every code unit passes its gates: understand, examine, decide, de-risk, design, compare, build. It asks only at one-way doors."],
+  ["build", "Implements a change test-first in small verified units. It states the stack and a line budget first, proves the result on the real artifact, and ends with a review."],
+  ["review", "Reviews a change with fresh-context reviewers, checks every finding against the code, fixes the real ones, and repeats until a round finds nothing new. Then it reports what was fixed, rejected, and left open."],
   ["unattended", "Sets the contract for a run no one watches: scope, a done command, caps, allowed one-way actions, and a park rule."],
   ["grill", "Interviews you one question at a time, in rounds. It settles a plan or design branch by branch until no branch is open."],
   ["assess", "Evaluates a proposed change, or weighs the options for an open question, through independent lenses like a panel. It returns one verdict with the facts it depends on, in a fixed table format."],
@@ -369,6 +370,7 @@ const ONESHOTS = [
     ["unslop", "Edits text to remove AI writing tells and restore a human voice."],
     ["writing-for-agents", "Writing rules for documents that agents read, such as skills and AGENTS.md."],
     ["mermaid", "Writes and validates Mermaid diagrams."],
+    ["report", "Shows any result, such as a recap, comparison, status, or skill output, as a scannable page with status chips and SVG diagrams, or as terminal markdown when no HTML view exists."],
     ["no-comments", "Removes comments and suppressions that restate the code and keeps durable constraints."]
   ]],
   ["Meta and tooling", [
@@ -384,8 +386,9 @@ const FULL = {
   "arena": "Builds competing candidate artifacts in isolation, scores them against a rubric, and synthesizes one result. Use when asked to implement or draft several versions and pick the best, not for one design to build or a feel test. Trigger on bake-off, score the options, or compare candidate implementations.",
   "assess": "Evaluates a proposed change, or weighs the options for an open question, through independent lenses and returns one verdict with evidence, covering whether it makes sense, what it buys, how big it is, and whether it is feasible. Use when deciding whether to make a change or which way to go, not how to make it or to prove it by building. Trigger on does this make sense, should we do this, is it worth it, how big a change, is this feasible, which option, roundtable, panel, or get perspectives.",
   "bro": "Restates the last message in plain words. Use when the user says that did not land or asks for it simpler.",
-  "build": "Implements a change test-first in small verified units. States the stack and a net-added-line budget before writing code and proves the result on the real artifact. Use for any code change that adds behavior or fixes a bug. Trigger on implement, build, fix, add, change, or refactor.",
+  "build": "Implements a change test-first in small verified units. States the stack and a net-added-line budget before writing code, proves the result on the real artifact, and ends with a review loop. Use for any code change that adds behavior or fixes a bug. Trigger on implement, build, fix, add, change, or refactor.",
   "diagnosing-bugs": "Runs a diagnosis loop for hard bugs and performance regressions that builds a red-capable feedback loop before hypothesising, then fixes at the root. Use when the user says diagnose or debug this, or reports something broken, throwing, failing, or slow, not for a failure whose cause is already known.",
+  "review": "Reviews a change with fresh-context reviewers, validates every finding against the code, fixes the real ones, and repeats until a round finds nothing new, then reports what was fixed, rejected, and left open. Use when a change is ready for review, when asked to review a diff or branch, or when asked to fix what a review found.",
   "domain-modeling": "Builds and sharpens a project's domain model by challenging terms, probing concrete scenarios, and writing the glossary as terms settle. Use when naming or defining a term. Merely reading a glossary for vocabulary is not this skill, and neither is a full question-by-question interview.",
   "figure-it-out": "Turns a vague or open goal into a checkable done condition, picks the route through the skill set, and drives it to the end on its own, deciding reversible steps and asking only at one-way doors. Use when given a goal without a method or told to handle something end to end. Trigger on figure it out, fix it, sort it out, deal with it, handle this, make it work, or a short instruction that names an outcome but no steps.",
   "grill": "Interviews the user one question at a time to sharpen a plan, decision, or idea, working a design tree in rounds until every branch is settled. Use when asked to grill me, interview me, or quiz me on my own thinking before building, with no written record wanted.",
@@ -395,8 +398,8 @@ const FULL = {
   "nixification": "Resolves a missing tool, binary, library, or dependency with Nix flakes or an ephemeral shell. Use on command not found, missing-package errors, or a request to create a flake.nix or reproducible environment. Not for NixOS system or home-manager configuration, nor for errors whose cause is not an absent tool.",
   "no-comments": "Removes code comments and suppressions that restate code, keeps durable constraints, and encodes recurring ones as structure. Use when comments or suppressions need cleanup.",
   "prototype": "Builds a throwaway prototype to answer one question, logic, UI, or feasibility, and captures the answer. Use to sanity-check whether a state model feels right, to explore what a UI should look like, or to prove a proof of concept or spike works, not for scoring finished candidates. Trigger on prototype, mock it up, proof of concept, POC, or spike.",
+  "report": "Renders any result worth scanning, such as a summary, answer, verdict, findings, comparison, status, or plan, as a page with status chips, grouped rows, and inline SVG diagrams, or as terminal markdown when no HTML view exists. Use when asked for a report, a summary, a recap, a page, an HTML view, or something easier to scan, or when a finished result is ready to show.",
   "research": "Finds answers outside the repo by searching the web, official docs, package registries, and library source, and returns a sourced answer with a confidence tier for each claim. Use when asked to look something up online, find a library, package, SDK, or API, check what the docs say, or compare options from sources. Trigger on research, look this up, search online, find a package, or what does the documentation say. Not for code in this repo and not for a verdict on whether to make a change.",
-  "review": "Takes a branch to a reviewed pull request. Runs the checks, opens the PR, reads PR-Agent's findings, fixes the real ones, and answers the rest. Use when work is ready for review or when PR-Agent has commented. Trigger on open a PR, address review comments, or ready for review.",
   "simple-english": "Writes or rewrites technical text to the rules of ASD-STE100 Simplified Technical English so it is clear and unambiguous for a non-native reader. Use when rewriting existing text for plain, unambiguous English or STE compliance, on runbooks, procedures, error messages, release notes, incident reports, and API guides. Also use on STE, Simplified Technical English, or ASD-STE100, or for docs that translate well. Not for general tone or document structure.",
   "skill-creator": "Creates new skills, modifies and improves existing skills, and measures skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy. Not for tightening the wording of a finished skill.",
   "teach": "Explains how something works so it is understood, not just stated, weaving a traced flow and its rationale into one plain account built up a step at a time. Use when asked to explain something or help someone really understand it. Trigger on explain this, how does X work, help me understand, or teach me. Not for a bare trace or a history lookup.",
@@ -413,10 +416,10 @@ const REFS = {
   "arena": [],
   "assess": ["architect", "arena", "build", "grill", "how", "investigate", "prototype", "to-questionnaire", "why"],
   "bro": ["domain-modeling", "simple-english"],
-  "build": ["figure-it-out"],
-  "diagnosing-bugs": ["build", "domain-modeling", "review", "why"],
+  "build": ["figure-it-out", "research", "review", "technical-writing"],
+  "diagnosing-bugs": ["build", "domain-modeling", "why"],
   "domain-modeling": [],
-  "figure-it-out": ["architect", "arena", "assess", "build", "diagnosing-bugs", "grill", "how", "investigate", "nixification", "no-comments", "prototype", "research", "review", "teach", "technical-writing", "to-questionnaire", "unattended", "why", "wizard"],
+  "figure-it-out": ["architect", "arena", "assess", "build", "diagnosing-bugs", "grill", "how", "investigate", "nixification", "no-comments", "prototype", "research", "teach", "technical-writing", "to-questionnaire", "unattended", "why", "wizard"],
   "grill": ["how", "why"],
   "how": ["why"],
   "investigate": ["assess", "build", "diagnosing-bugs", "how", "why"],
@@ -424,8 +427,9 @@ const REFS = {
   "nixification": [],
   "no-comments": [],
   "prototype": ["arena"],
-  "research": ["assess", "build", "prototype"],
-  "review": [],
+  "report": [],
+  "review": ["build", "report"],
+  "research": ["assess", "build", "prototype", "report"],
   "simple-english": ["unslop", "writing-for-agents"],
   "skill-creator": ["why", "writing-for-agents"],
   "teach": ["how", "mermaid", "unslop", "why"],

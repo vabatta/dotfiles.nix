@@ -1,7 +1,7 @@
 # Writing skills in this folder
 
-Rules for authoring and editing the `SKILL.md` files here. Follow these;
-`scripts/check-skills.sh` fails the build otherwise.
+Rules for authoring and editing the `SKILL.md` files here. **skill-creator** owns the
+method and **writing-for-agents** the wording.
 
 ## Frontmatter
 
@@ -26,8 +26,8 @@ parts.
 
 Then the local rules:
 
-- No colon and no semicolon anywhere in the description. The checker rejects both, since
-  the line is injected into a tool description where they confuse parsing.
+- No colon and no semicolon anywhere in the description. The line is injected into a
+  tool description, where both confuse parsing.
 - No ` #`, which YAML reads as a comment.
 - Never name another skill in the description. Each description stands alone. If two
   triggers collide, sharpen this skill's own trigger or fix the boundary between the
@@ -56,29 +56,31 @@ Then the local rules:
   completion criterion. A short sequential procedure can end on one instead, so done and not-done are checkable.
 - Route to other skills by their full name in bold, for example **build**. Do not
   restate another skill's contract; point at it.
-- The host is T3 with Claude Code or opencode, on macOS or Linux. Engram, subagents,
-  `delegate_task`, Nix, `git`, `grep`, `gh`, `jq`, `python3`, and `validate-mermaid` are always present.
-  Write no fallback for them, and assume no other tool.
+- Skills run in any agent harness, on macOS or Linux. Name the action, such as "dispatch a
+  subagent", "search the web", or "track the task list", never a harness's tool name. gm, Nix,
+  `git`, `grep`, `gh`, `jq`, `python3`, and `validate-mermaid` are always present. For
+  anything else a step needs, say what to do when it is absent.
 - Commands and scripts run on both macOS and Linux: bash 3.2, and only the flags BSD and
   GNU tools share. Branch on the OS only where the tools differ, as `open` and `xdg-open` do.
-- A skill that fans out runs its workers as subagents: the native subagent tool for a
-  same-model worker, `delegate_task` for another model or its own checkout. A step that would
-  ask the human names a default to use when no one answers (see **build** step 7).
+- A skill that fans out runs its workers as subagents where the harness has them, and says
+  what to do inline when it has none. A step that would ask the human names a default to use
+  when no one answers (see **build**, "Deciding without asking").
+- A skill that another skill can call ends its procedure by returning to the caller's next
+  step. A sub-skill's last line that reads like the end of the job stops the whole run.
+- Nothing commits, pushes, opens a pull request, or publishes unless the user's task says so.
 - Wording doctrine is owned by **writing-for-agents**.
 
 ## Artifact layout
 
 Skills keep almost nothing in files. The code is the source of truth. What code cannot
-say goes to Engram with `mem_save`, with a `topic_key` of `<skill>/<slug>`.
+say goes to a gm note through **memory**, with a `--topic` of `<skill>/<slug>`.
 
-- Durable project knowledge a reviewer needs, committed under `docs/`: `docs/glossary.md`,
+- Durable project knowledge a reviewer needs, under `docs/`: `docs/glossary.md`,
   and `docs/glossary-map.md` with `docs/glossary/<context>.md` when a repo has multiple
   contexts. Nothing else is promoted into `docs/`.
-- Throwaway working state, gitignored: `.prototypes/<slug>/`,
-  `.skill-workspaces/<skill-name>/`, and `.teaching/`. Nothing there may hold a secret,
-  token, or personal data.
-- A script a procedure leaves behind goes under `scripts/`, for example
-  `scripts/wizards/<slug>.sh`.
+- Everything else a skill writes goes under `.agents/<folder>/`: `prototypes/<slug>/`,
+  `evals/<skill-name>/`, `runs/<slug>.md`, `reports/<slug>.html`, `teaching/`, and
+  `wizards/<slug>.sh`. Nothing there may hold a secret, token, or personal data.
 - Work tracking lives in the issue tracker.
 
 One task uses one slug in every artifact it writes. Unrelated work starts a new slug.

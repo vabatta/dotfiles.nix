@@ -39,6 +39,8 @@ When a term is resolved, update `docs/glossary.md` (or `docs/glossary/<context>.
 
 ### Record decisions in memory, not in ADRs
 
-A decision that is hard to reverse, surprising without context, and the result of a real trade-off goes to Engram with `mem_save`, with the `path:symbol` it concerns. Write no new ADR. Leave existing ADRs where they are. When one states a rule that is still true, encode it as a test, a type, or a check, and the ADR can go.
+A decision that is hard to reverse, surprising without context, and the result of a real trade-off goes to a decision note with **memory**, anchored to the code it concerns. Write no new ADR. Leave existing ADRs where they are. When one states a rule that is still true, encode it as a test, a type, or a check, and the ADR can go.
 
 Done when each term resolved in the session is in the glossary and each qualifying decision is saved, or none qualified.
+
+If another skill called this one, return to its next step. This return ends the skill, not the turn.

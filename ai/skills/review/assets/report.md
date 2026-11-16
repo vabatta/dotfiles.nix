@@ -1,8 +1,22 @@
-**PR:** <url> · check <green | red> · <ready for the human to merge | blocked: why>
+```text
+Result: converged | not converged | capped, not converged
+Reviewers: <fresh subagent | same context, reread> · final pass: <other model or provider | same model | not run, why>
+Rounds: <n>
+```
 
-| Finding | Class | Action |
+## Acceptance
+| Line | Met | Proof |
 |---|---|---|
-| <file:line, one-line summary> | fix / reply / skip | <commit, or the one-line reason> |
+| <acceptance line, in the user's words> | yes or no | <test or real run> |
 
-**Changed since review:** <the fixes pushed, one line each, or "nothing">
-**For the human:** <decisions or risks left open, or "nothing". The merge stays with the human.>
+## Fixed
+- <id> <one line: the failure that no longer happens>
+
+## Rejected
+- <id> <the finding> · <why the code shows it is not a defect>
+
+## Open
+- <id> <deferred or unresolved finding, and what it would take>
+
+## Rulings
+- <choice made without asking> · <why> · <cost if wrong>

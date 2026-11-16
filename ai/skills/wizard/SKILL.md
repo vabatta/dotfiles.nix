@@ -7,7 +7,7 @@ description: "Generates an interactive bash wizard that walks a human through st
 
 A wizard is a bash script that walks a human step by step through a manual procedure. It opens URLs, gives exact click and copy instructions, captures values, writes them to `.env` or GitHub secrets, and shows stage N of M. Gate every irreversible stage with `confirm`.
 
-Author it at `scripts/wizards/<slug>.sh`. It is committed, so it never holds a secret value, only the prompts that collect one. Delete it once the procedure is done unless the procedure will run again.
+Author it at `.agents/wizards/<slug>.sh`. It never holds a secret value, only the prompts that collect one. Delete it once the procedure is done unless the procedure will run again.
 
 `scripts/template.sh` provides the user experience. Scope the procedure and author the stages below the `STAGES` marker. Do not hand-edit the library above that marker.
 

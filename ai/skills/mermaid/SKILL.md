@@ -13,11 +13,11 @@ Write Mermaid diagrams — text-based specifications that render into SVG graphi
 2. For anything bigger or an unfamiliar type, read `references/best-practices.md` for style rules, anti-patterns, and the CLEAR principles, before choosing a layout.
 3. Apply every rule below. Done when the Output Checklist passes.
 
-## Core Principles (Non-Negotiable)
+## Core Principles
 
-### 0. Mandatory: Validate Every Diagram Before Delivery
+### 0. Validate Every Diagram Before Delivery
 
-A diagram that does not parse is worse than no diagram — it renders as a broken-syntax error box. **Every Mermaid diagram produced or edited MUST be passed through the `validate-mermaid` validator before it is presented.** This is not optional and applies every time, including small edits.
+A diagram that does not parse is worse than no diagram — it renders as a broken-syntax error box. So pass every Mermaid diagram you produce or edit through the `validate-mermaid` validator before presenting it, small edits included, since a one-character change is enough to break the parse.
 
 `validate-mermaid` is a command on `PATH`, built from `scripts/validate_mermaid.mjs`. It runs the **real Mermaid parser** (`mermaid.parse()` — the exact grammar the renderer uses, run headless), so it catches every syntax error Mermaid itself would reject, with line numbers, across all diagram types. It reads a diagram on **stdin** (raw Mermaid or Markdown containing ```mermaid fences) and:
 
@@ -48,7 +48,7 @@ This is the genuine Mermaid grammar — if it passes, the diagram renders. Still
 
 Diagrams are **communication tools**, not code artefacts. Every visible label must use plain, meaningful language. Node IDs are free (`req`, `svcA`), and only the rendered label is constrained.
 
-**Forbidden as visible labels:**
+**Avoid as visible labels**, because the reader sees only the label and cannot look up what an ID means:
 - Single-letter IDs: `A`, `B`, `C`
 - Abbreviations without context: `svc`, `proc`, `mgr`, `ctrl`, `hdlr`
 - Technical jargon when business language exists: `msg_queue` when "Order Queue" works

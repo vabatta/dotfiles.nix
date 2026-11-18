@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: humanize-keeps-facts
+expected_outcome: |
+  The paragraph rewritten in plain words with every fact kept (840ms, 210ms, p95, March 3, caching layer) and the AI tells removed, and shorter than the original.

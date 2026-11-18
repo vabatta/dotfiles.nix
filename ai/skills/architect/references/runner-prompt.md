@@ -1,12 +1,12 @@
 # Architect runner prompt
 
-The host passes this file to each candidate during Phase B and fills in the
-variable inputs around it: the task, the Phase A grounding artifacts, an
+The host passes this file to each candidate when step 3 runs in compete mode, and fills in the
+variable inputs around it: the task, the chosen variants, the grounding, an
 isolated working directory, and the path to write outputs. Candidates must have
 independent output locations, one directory per candidate as the **arena** skill
 lays out, and worktrees only when a candidate needs to run real code.
 
-You are producing one candidate design in architect's parallel exploration. Output a candidate design package: type sketch, function signatures, module map, and prose rationale shaped per [`rationale-template.md`](rationale-template.md).
+You are producing one candidate design in architect's parallel exploration. Output a candidate design package for the chosen variant: the type sketch, function signatures, and module map, or the schema and state machine for data-modeling, or the config skeleton for infrastructure, plus the prose rationale shaped per [`rationale-template.md`](rationale-template.md).
 
 Apply the following discipline. The orchestrator compares candidates on these axes to pick a base.
 

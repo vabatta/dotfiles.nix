@@ -1,6 +1,6 @@
 ---
 name: no-comments
-description: "Removes code comments and suppressions that restate code, keeps durable constraints, and encodes recurring ones as structure. Use when comments or suppressions need cleanup."
+description: "Removes code comments and suppressions that restate code, keeps durable constraints, and encodes recurring ones as structure. Use when asked to remove useless or noisy comments, clean up comments in a diff, drop noqa, eslint-disable, or ts-ignore lines, or tidy a file before review, even when they only say the code has too many comments."
 ---
 
 # No Comments
@@ -22,7 +22,6 @@ linter or compiler warnings.
    cover the encoded constraint. With no test setup, a runtime check or a
    one-off script run is the proof, and the report says which.
 
-In report-only mode, edit nothing and fill in [assets/report.md](assets/report.md), one row per comment. In edit mode, reply with the same table for what changed. Done when every comment has a verdict.
+Edit by default. Use report-only mode when the user asks for a list or a review, or when the files are not theirs to change. In report-only mode, edit nothing and fill in [assets/report.md](assets/report.md), one row per comment. In edit mode, reply with the same table for what changed.
 
-Done when every remaining comment names a constraint the code cannot express
-and the verification ran.
+Done when every comment has a verdict, and in edit mode every remaining comment names a constraint the code cannot express and the verification ran.

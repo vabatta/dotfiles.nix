@@ -21,6 +21,7 @@ _Avoid_: Bill, payment request
 ## Rules
 
 - Be opinionated. When multiple words exist for the same concept, pick the best one and list the others under `_Avoid_`.
+- Mark a meaning no human has confirmed with a line `_Assumed_` under the entry. Remove the mark once the user confirms it.
 - Keep definitions tight. One or two sentences max. Define what it IS, not what it does.
 - Only include terms specific to this project's context. General programming concepts do not belong even if the project uses them extensively.
 - Group terms under subheadings when natural clusters emerge. If all terms belong to a single cohesive area, a flat list is fine.

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # Net added source lines since a base, excluding tests, generated files, lockfiles, and binaries.
-# Usage: net-lines.sh [base] [budget]. Base defaults to the merge-base with origin's default branch, else HEAD.
-# Counts committed, uncommitted, and untracked changes. Exits 1 when net exceeds the budget.
+# Usage: net-lines.sh [base]. Base defaults to the merge-base with origin's default branch, else HEAD.
+# Counts committed, uncommitted, and untracked changes.
 set -euo pipefail
-base="${1:-}" budget="${2:-}"
+base="${1:-}"
 if [ -z "$base" ]; then
   default="$(git symbolic-ref -q --short refs/remotes/origin/HEAD 2>/dev/null || true)"
   base="$( [ -n "$default" ] && git merge-base HEAD "$default" 2>/dev/null || git rev-parse HEAD)"
@@ -24,6 +24,3 @@ while IFS= read -r path; do
 done < <(git ls-files --others --exclude-standard)
 net=$((added - deleted))
 printf 'base %s\nadded %d\ndeleted %d\nnet %d\nexcluded files %d\n' "$(git rev-parse --short "$base")" "$added" "$deleted" "$net" "$skipped"
-[ -z "$budget" ] && exit 0
-printf 'budget %d: %s\n' "$budget" "$([ "$net" -le "$budget" ] && echo within || echo OVER)"
-[ "$net" -le "$budget" ]

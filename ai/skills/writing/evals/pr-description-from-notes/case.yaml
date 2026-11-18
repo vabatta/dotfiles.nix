@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: pr-description-from-notes
+expected_outcome: |
+  A PR description in the template's shape (Why, Evidence, Risk, with Shape only if useful) that states the double-charge problem and links #412, quotes the go test command as evidence, does not list or retell the files changed, and adds no fact the user did not give.

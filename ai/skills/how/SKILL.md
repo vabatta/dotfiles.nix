@@ -19,6 +19,6 @@ file names alone.
    opens with scope and entry point. Done when each claim in How It Works
    and Gotchas names a file or symbol.
 
-Label inference per **why**. Do not prescribe a change unless the user asks for one.
+Label every claim you inferred rather than read with a confidence tier as **why** defines them (Direct, Supported, Inferred, Speculative, Unknown), so the reader knows which parts to check. Do not prescribe a change unless the user asks for one.
 
 If another skill called this one, return to its next step. This return ends the skill, not the turn.

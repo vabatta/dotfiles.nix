@@ -2,7 +2,6 @@
 
 **Pick when:** something fails and the cause is unknown: an error, a flaky test, a regression, something slow.
 **Chain:** diagnosing-bugs, build
-**Journey:** yes
 **Done looks like:** the original repro no longer fails, a regression test guards it, and review has converged or reported why not.
 
 ## Steps

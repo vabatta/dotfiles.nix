@@ -2,7 +2,6 @@
 
 **Pick when:** the behaviour stays the same and the shape improves: simplify, remove duplication, rename, delete dead code, tidy comments.
 **Chain:** how, build
-**Journey:** no
 **Done looks like:** the same tests pass before and after, net lines went down or the reason is stated, and review has converged or reported why not.
 
 ## Steps

@@ -6,4 +6,4 @@
 
 **Assumptions:** <each answer written down instead of asked, or "none">
 **One-way doors waiting:** <action and why it needs the human, or "none">
-**Lines:** <net> net against a budget of <N>
+**Lines:** <net> net

@@ -36,4 +36,4 @@ Read the changelog between the two versions with **research**, and list the brea
 
 **Pick when:** only documentation or comments change.
 
-Use **technical-writing**. Make every path, command, and count true against the code at this commit, and run any command the doc shows.
+Use **writing**. Make every path, command, and count true against the code at this commit, and run any command the doc shows.

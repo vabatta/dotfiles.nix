@@ -2,7 +2,6 @@
 
 **Pick when:** a proposal or an open question must be settled before any code: should we, which option, is it worth it.
 **Chain:** grill, assess
-**Journey:** yes
 **Done looks like:** a verdict (do, don't, conditional, or the chosen option) with its load-bearing facts proven.
 
 ## Steps

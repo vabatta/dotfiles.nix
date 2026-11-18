@@ -95,6 +95,13 @@
     color: var(--muted); margin: 22px 0 10px;
   }
   p.lead { margin: 10px 0 18px; color: var(--muted); max-width: 78ch; }
+  table.pick { width: 100%; border-collapse: collapse; font-size: 14px; background: var(--panel); border: 1px solid var(--line); }
+  table.pick th, table.pick td { text-align: left; padding: 7px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.pick th { color: var(--muted); font-weight: 600; font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+  table.pick td:last-child { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; white-space: nowrap; }
+  table.pick tr.grp td { background: var(--panel-2); font-weight: 600; font-family: inherit; }
+  .flowline { font-size: 14px; background: var(--panel); border: 1px solid var(--line); padding: 10px 12px; margin: 0 0 8px; }
+  .flowline b { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
   code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.88em; }
   .layers { display: grid; grid-template-columns: repeat(auto-fit, minmax(176px, 1fr)); gap: 12px; margin-top: 14px; }
   .layer { background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--accent); border-radius: var(--radius); padding: 13px 15px; }
@@ -199,6 +206,7 @@
 <header>
   <h1>Skill guide</h1>
   <nav class="nav">
+    <a href="#start">Start here</a>
     <a href="#idea">Idea</a>
     <a href="#rules">Rules</a>
     <a href="#layout">Where things live</a>
@@ -214,11 +222,41 @@
 
 <main>
 
+  <section id="start">
+    <h2>Start here <span class="hint">say what you want, the skill follows</span></h2>
+    <p class="lead">To stay involved, name the step: "discuss the design", "grill me". To hand it off, say "handle it". Exploring is throwaway, designing ends at stubs and failing tests, and only <b>build</b> ships code.</p>
+    <div class="flowline">You lead: <b>grill</b> › <b>domain-modeling</b> › <b>architect</b> (discusses with you) › <b>build</b> › <b>review</b>. Add <b>prototype</b> or <b>arena</b> before architect when something is unknown.</div>
+    <div class="flowline">Autopilot: <b>figure-it-out</b> picks a playbook and runs the same skills itself. <b>architect</b> then competes through <b>arena</b> instead of asking. It stops only at one-way doors: push, publish, delete.</div>
+    <table class="pick">
+      <tr><th>You want to</th><th>Say something like</th><th>Skill</th></tr>
+      <tr class="grp"><td colspan="3">Hand it off</td></tr>
+      <tr><td>Get it done without you</td><td>handle it, sort it out, end to end</td><td>figure-it-out</td></tr>
+      <tr><td>Run it while you are away</td><td>overnight, while I am away</td><td>unattended</td></tr>
+      <tr class="grp"><td colspan="3">Decide</td></tr>
+      <tr><td>Think a plan through</td><td>grill me, poke holes in my thinking</td><td>grill</td></tr>
+      <tr><td>Get a verdict</td><td>should we do this, which option</td><td>assess</td></tr>
+      <tr><td>Find weak spots</td><td>where are we weak, audit reliability</td><td>investigate</td></tr>
+      <tr><td>Agree the business words</td><td>what should we call this, what do we mean by X</td><td>domain-modeling</td></tr>
+      <tr class="grp"><td colspan="3">Explore (throwaway)</td></tr>
+      <tr><td>Try it and throw it away</td><td>spike this, mock it up, does this library work</td><td>prototype</td></tr>
+      <tr><td>See competing options</td><td>give me options, bake-off, try a few versions</td><td>arena</td></tr>
+      <tr class="grp"><td colspan="3">Design and build</td></tr>
+      <tr><td>Design the code with you</td><td>discuss the design, design the data model, design the infra</td><td>architect</td></tr>
+      <tr><td>Write the code</td><td>implement, add, change, fix this (cause known)</td><td>build</td></tr>
+      <tr><td>Fix something broken (cause unknown)</td><td>debug this, it is flaky, it got slow</td><td>diagnosing-bugs</td></tr>
+      <tr class="grp"><td colspan="3">Understand and write</td></tr>
+      <tr><td>Understand code</td><td>trace this / why is it like this / explain it</td><td>how / why / teach</td></tr>
+      <tr><td>Look something up outside the repo</td><td>research, find a library</td><td>research</td></tr>
+      <tr><td>Write for people</td><td>write the README, PR, commit, tighten this skill, humanize this</td><td>writing</td></tr>
+      <tr><td>Hear it again, simpler</td><td>huh, ELI5</td><td>bro</td></tr>
+    </table>
+  </section>
+
   <section id="idea">
     <h2>The idea</h2>
     <p class="lead">Skills load on demand. The host reads the one-line description of each skill and loads the one that matches. The description alone decides the trigger. You call most skills as entry points. Other skills run the building blocks. There are four layers: the always-on rules, the journeys, and two kinds of skill.</p>
     <div class="layers">
-      <div class="layer"><span class="k">Rules</span><h4>Always on</h4><p>Six global rules load in every session in Claude Code and opencode. They apply to everything below and need no trigger. Each rule names a skill that the agent then loads.</p></div>
+      <div class="layer"><span class="k">Rules</span><h4>Always on</h4><p>Four global rules load in every session in Claude Code, opencode, and pi. They apply to everything below and need no trigger. Each rule names a skill that the agent then loads.</p></div>
       <div class="layer"><span class="k">Journeys</span><h4>Start here for a situation</h4><p>A named entry point for one real situation. It sets where you start.</p></div>
       <div class="layer"><span class="k">Process</span><h4>One workflow, several skills</h4><p>A named phase that puts other skills in order: design, plan, review, debug. Run it directly, or let a journey call it.</p></div>
       <div class="layer"><span class="k">One-shot</span><h4>One skill, one job</h4><p>A single invocation that produces one thing: a trace, a verdict, a diagram, or a fix.</p></div>
@@ -241,7 +279,8 @@
         <span class="p">    ├── <i class="d">memory/</i></span><span class="n">gm notes: why, what failed, outside facts (a .gmconfig can move them)</span>
         <span class="p">    ├── <i class="d">wizards/</i>slug.sh</span><span class="n">left behind by a procedure</span>
         <span class="p">    ├── <i class="a">prototypes/</i>slug/</span><span class="n">deleted after the verdict</span>
-        <span class="p">    ├── <i class="a">evals/</i>skill/</span><span class="n">skill evals</span>
+        <span class="p">    ├── <i class="a">arena/</i>slug/</span><span class="n">competing candidates, deleted after the pick</span>
+        <span class="p">    ├── <i class="a">evals/</i>skill/</span><span class="n">eval run workspaces</span>
         <span class="p">    ├── <i class="a">runs/</i>slug.md</span><span class="n">unattended run contracts</span>
         <span class="p">    ├── <i class="a">reports/</i>slug.html</span><span class="n">pages with no inline view</span>
         <span class="p">    └── <i class="a">teaching/</i></span><span class="n">multi-session teaching</span>
@@ -249,14 +288,14 @@
       <div class="legend">
         <span><i class="sw doc"></i><b>docs/</b> durable knowledge</span>
         <span><i class="sw agent"></i><b>.agents/</b> working state</span>
-        <span><i class="sw skill"></i><b>skill/</b> references, scripts, and assets are part of the skill</span>
+        <span><i class="sw skill"></i><b>skill/</b> references, scripts, assets, and test cases in evals/ are part of the skill</span>
       </div>
     </div>
   </section>
 
   <section id="journeys">
     <h2>Journeys <span class="hint">start from your situation. Each step names the skill to call.</span></h2>
-    <p class="lead">A journey is a preset entry point for one real situation. Journeys are grouped by family, and you can add more. Open one to see when to use it and its steps. To start, call the first skill by name, for example /build. When it finishes, come back for the next step and call that skill. A step lists only the skills that you call. Between the skills in one step, <b>then</b> means in order, <b>or</b> means pick one, and <b>+</b> means do both. A <b>uses</b> line shows the building blocks that the step runs for you. A branch line says when to do a step or skip it. The global rules above apply to every step: state the stack and the budget, verify the real artifact, continue on reversible work, and keep the trail. A done line says only what the steps produce. Nothing runs the journey for you.</p>
+    <p class="lead">A journey is the order you call skills in for one situation. Call the first skill by name, then come back for the next. In a step, <b>then</b> means in order, <b>or</b> means pick one, and <b>+</b> means both. <b>uses</b> lists what the step runs for you. Nothing runs a journey for you, except figure-it-out.</p>
     <div class="journeys" id="journeys-grid"></div>
   </section>
 
@@ -278,12 +317,12 @@
 <aside id="drawer" aria-label="Skill detail" aria-hidden="true"></aside>
 
 <footer>
-  Click a skill to open its detail panel. After you edit skills, run <code>bash scripts/check-skills.sh --write-guide ai/skills ai/skills-guide.html</code> to refresh the embedded data. Then run <code>bash scripts/check-skills.sh ai/skills ai/AGENTS.md ai/skills-guide.html</code>. The flake runs the same check. The check fails if a journey step lists a building block. List it in the text instead.
+  Click a skill to open its detail panel. After you edit a skill, update its description and references in the data below by hand, and reread the skill against <code>ai/skills/AGENTS.md</code>.
 </footer>
 
 <script>
 const RULES = [
-  ["Before you write code, state the stack and the budget in net added lines. Use what exists before you write new code.", "build"],
+  ["Before you write code, state the stack. Use what exists before you write new code.", "build"],
   ["Before you say that the work is done, verify the real artifact. Run it and read the value.", "build"],
   ["On reversible execution work, decide and continue. Ask first about product direction, one-way doors, and questions that shape the work.", "build"],
   ["The code is the source of truth. Behavior lives in test names and types. Write no plan or ADR that restates code. Treat a memory as a hint and check it against the code.", "build"]
@@ -300,10 +339,19 @@ const JOURNEYS = [
   ["Change code",
    "You know what to build. Use Fix a hard bug when the cause is unknown.",
    [
-     [["architect"], "", "Sketch the types, the signatures, and the failing tests first.", "If the change adds a module or an interface, do this step.", []],
-     [["build"], "", "State the acceptance lines, the stack, the budget, and the check. Go red first, then make the smallest change. Prove it on the real artifact.", "", ["review"]]
+     [["domain-modeling"], "", "Agree what the new business terms mean and write them to the glossary.", "If the change brings new or fuzzy business concepts, do this step.", []],
+     [["architect"], "", "Sketch the types, the signatures, and the failing tests first.", "If the change adds a module, an interface, a data shape, or infrastructure, do this step.", []],
+     [["build"], "", "State the acceptance lines, the stack, and the check. Go red first, then make the smallest change. Prove it on the real artifact.", "", ["review"]]
    ],
    "the check passes on the real artifact, review has converged, and the decisions are saved.", "implement X / add Y / change Z", "Change"],
+  ["Compete on implementations",
+   "The interface is fixed and how to implement it is open. Use Change code when the shape is the question.",
+   [
+     [["how"], "", "Trace the code the implementation plugs into.", "", []],
+     [["arena"], "", "Write the shared failing tests, then build two or three implementations from different stances and score them.", "", []],
+     [["build"], "", "Take the winning branch into production code and prove it on the real artifact.", "", ["review"]]
+   ],
+   "the winner is in production code, the shared tests pass, and review has converged.", "try a few implementations / which approach is fastest", "Change"],
   ["Fix a hard bug",
    "A failure with an unknown cause, a flaky test, or a performance regression.",
    [
@@ -311,6 +359,12 @@ const JOURNEYS = [
      [["build"], "", "Turn the repro into the regression test and prove the fix on the real artifact.", "If the diagnosis already produced the regression test, this step only proves it.", []]
    ],
    "the original repro no longer fails and the regression test passes.", "it fails sometimes / hard bug / flaky", "Change"],
+  ["Hand it off",
+   "You want the result, not the steps. Use Run while you are away when no one will answer.",
+   [
+     [["figure-it-out"], "", "Frame a done condition, pick the playbook, and drive design, build, and review on its own. It asks only before a push, a publish, or a delete.", "", []]
+   ],
+   "the done condition holds, or the run stops at a named one-way door.", "handle it / sort it out / do it end to end", "Run alone"],
   ["Run while you are away",
    "Long or scheduled work that no one watches.",
    [
@@ -328,7 +382,7 @@ const JOURNEYS = [
   ["Try a risky idea",
    "You do not know if an approach works. Answer the question with throwaway code.",
    [
-     [["prototype"], "", "Build a throwaway prototype that answers one question about logic, UI, or feasibility.", "", []],
+     [["prototype"], "", "Build a throwaway prototype that answers one question about a code design, a code implementation, or an idea.", "", []],
      [["assess"], "", "Judge the result against the kill criterion.", "", []]
    ],
    "the verdict is saved and the prototype is deleted.", "can we even do this / try it first / spike", "Explore"]
@@ -336,18 +390,18 @@ const JOURNEYS = [
 
 const FAMILIES = ["Decide", "Change", "Explore", "Run alone"];
 
-const PARTS = ["how", "no-comments", "domain-modeling", "writing-for-agents"];
+const PARTS = ["how", "no-comments"];
 
 const PROCESS = [
-  ["figure-it-out", "Turns a vague goal into a done condition you can check, picks the route through the skills, and drives it to the end on its own. Every code unit passes its gates: understand, examine, decide, de-risk, design, compare, build. It asks only at one-way doors."],
-  ["build", "Implements a change test-first in small verified units. It states the stack and a line budget first, proves the result on the real artifact, and ends with a review."],
+  ["figure-it-out", "The autopilot. Turns a goal into a done condition you can check, picks a playbook, and drives the skills to the end on its own. It asks only at one-way doors."],
+  ["build", "Implements a change test-first in small verified units. It states the stack first, proves the result on the real artifact, and ends with a review."],
   ["review", "Reviews a change with fresh-context reviewers, checks every finding against the code, fixes the real ones, and repeats until a round finds nothing new. Then it reports what was fixed, rejected, and left open."],
   ["unattended", "Sets the contract for a run no one watches: scope, a done command, caps, allowed one-way actions, and a park rule."],
   ["grill", "Interviews you one question at a time, in rounds. It settles a plan or design branch by branch until no branch is open."],
   ["assess", "Evaluates a proposed change, or weighs the options for an open question, through independent lenses like a panel. It returns one verdict with the facts it depends on, in a fixed table format."],
   ["investigate", "Examines a system against a broad quality goal and returns ranked findings, each marked proven or claimed, with a candidate fix for the top ones."],
-  ["architect", "Designs a module, an interface, or a data shape before you write code, as compilable stubs and failing tests."],
-  ["arena", "Builds competing candidates in isolation, scores them on a rubric, and synthesizes one."],
+  ["architect", "Designs before code, in four variants: code design, code implementation, data modeling, infrastructure. Called by you, it discusses each decision with you. Called by figure-it-out, it competes through arena. Ends in compilable stubs and failing tests, never in implementation."],
+  ["arena", "Builds two or three competing candidates, each from a different stance, scores them, and synthesizes one. Variants: code design, code implementation, ideas. It never ships, the caller takes the winner on."],
   ["diagnosing-bugs", "Builds a feedback loop that can fail, then finds the root cause and fixes it there."]
 ];
 
@@ -360,66 +414,58 @@ const ONESHOTS = [
     ["bro", "Restates the last message in plain language with no jargon."],
     ["to-questionnaire", "Turns a decision that you cannot answer alone into a questionnaire for the person who holds the knowledge."]
   ]],
-  ["Design and model", [
-    ["prototype", "Builds a throwaway prototype to answer one question about logic, UI, or feasibility."],
-    ["domain-modeling", "Builds and sharpens the domain model and keeps the glossary. Decisions go to memory, not to ADRs."]
+  ["Explore and model", [
+    ["prototype", "Answers one question with throwaway code, then deletes it. Variants: code design (does this shape feel right), code implementation (does it work at all), ideas (what should it look like)."],
+    ["domain-modeling", "Agrees what the business words mean and keeps them in docs/glossary.md, which architect uses for type names. Not for data structures."]
   ]],
   ["Write", [
-    ["technical-writing", "A standard with four layers (Diataxis, Google style, STE, Global English) for docs, RFCs, READMEs, and PR text."],
-    ["simple-english", "Rewrites technical text to ASD-STE100 Simplified Technical English."],
-    ["unslop", "Edits text to remove AI writing tells and restore a human voice."],
-    ["writing-for-agents", "Writing rules for documents that agents read, such as skills and AGENTS.md."],
+    ["writing", "Writes prose for its reader. Variants: people (docs, PRs, commits), agents (skills, prompts), controlled (STE for runbooks, errors, non-native readers). Every pass ends with the voice pass that removes AI tells, which also runs alone to humanize text."],
     ["mermaid", "Writes and validates Mermaid diagrams."],
     ["report", "Shows any result, such as a recap, comparison, status, or skill output, as a scannable page with status chips and SVG diagrams, or as terminal markdown when no HTML view exists."],
     ["no-comments", "Removes comments and suppressions that restate the code and keeps durable constraints."]
   ]],
   ["Meta and tooling", [
-    ["skill-creator", "Creates, edits, evaluates, and benchmarks skills, and tunes their descriptions."],
     ["nixification", "Resolves a missing tool or dependency with Nix flakes or an ephemeral shell."],
     ["wizard", "Generates an interactive bash wizard for steps that only a human can do."]
   ]]
 ];
 
-/* BEGIN GENERATED: skill data. Refresh with: bash scripts/check-skills.sh --write-guide ai/skills ai/skills-guide.html */
+/* Skill data: descriptions copied from each SKILL.md, references are the skills each one names. */
 const FULL = {
-  "architect": "Designs a new module, interface, or data shape before code, sketching types and boundaries, running competing candidates, then implementing against the chosen sketch. Use when designing something new before writing code, not for a mechanical edit to an existing shape. Trigger on design the interface, sketch the types, or design this module first.",
-  "arena": "Builds competing candidate artifacts in isolation, scores them against a rubric, and synthesizes one result. Use when asked to implement or draft several versions and pick the best, not for one design to build or a feel test. Trigger on bake-off, score the options, or compare candidate implementations.",
+  "architect": "Designs code before it is written, covering code shape, implementation internals, infrastructure, and data models, by grounding in the current system, settling one decision at a time, and ending in compilable stubs and failing tests for the build. Use when designing something new before writing code, not for a mechanical edit to an existing shape. Trigger on design this, discuss the design, architect this, sketch the types, design the interface, model the data, or design the infrastructure.",
+  "arena": "Builds competing candidate artifacts in isolation, pushing each writer toward a different stance for real diversity, scores them against a rubric, and synthesizes one result for the caller to use. Covers code designs, code implementations, and general ideas. Use when asked for several versions, options, or approaches to pick the best from, not for one design to build or a feel test. Trigger on bake-off, score the options, compare candidate implementations, give me options, or brainstorm competing ideas.",
   "assess": "Evaluates a proposed change, or weighs the options for an open question, through independent lenses and returns one verdict with evidence, covering whether it makes sense, what it buys, how big it is, and whether it is feasible. Use when deciding whether to make a change or which way to go, not how to make it or to prove it by building. Trigger on does this make sense, should we do this, is it worth it, how big a change, is this feasible, which option, roundtable, panel, or get perspectives.",
-  "bro": "Restates the last message in plain words. Use when the user says that did not land or asks for it simpler.",
-  "build": "Implements a change test-first in small verified units. States the stack and a net-added-line budget before writing code, proves the result on the real artifact, and ends with a review loop. Use for any code change that adds behavior or fixes a bug. Trigger on implement, build, fix, add, change, or refactor.",
-  "diagnosing-bugs": "Runs a diagnosis loop for hard bugs and performance regressions that builds a red-capable feedback loop before hypothesising, then fixes at the root. Use when the user says diagnose or debug this, or reports something broken, throwing, failing, or slow, not for a failure whose cause is already known.",
-  "review": "Reviews a change with fresh-context reviewers, validates every finding against the code, fixes the real ones, and repeats until a round finds nothing new, then reports what was fixed, rejected, and left open. Use when a change is ready for review, when asked to review a diff or branch, or when asked to fix what a review found.",
-  "domain-modeling": "Builds and sharpens a project's domain model by challenging terms, probing concrete scenarios, and writing the glossary as terms settle. Use when naming or defining a term. Merely reading a glossary for vocabulary is not this skill, and neither is a full question-by-question interview.",
+  "bro": "Restates the last message in plain words, shorter and without jargon. Use when the user says that did not land, huh, I am lost, ELI5, say that again simpler, or too long, even when they only reply with a confused question about what was just said. Not for rewriting a document.",
+  "build": "Implements a change test-first in small verified units. States the stack before writing code, proves the result on the real artifact, and ends with a review loop. Use for any code change that adds behavior or fixes a bug whose cause is known. Trigger on implement, build, add, change, refactor, or fix this when the fix is clear. Not for a failure whose cause is still unknown.",
+  "diagnosing-bugs": "Runs a diagnosis loop for hard bugs and performance regressions that builds a red-capable feedback loop before hypothesising, then fixes at the root. Use when the user says diagnose or debug this, or reports something broken, throwing, failing, flaky, or slow, even when they never say debug and only describe the symptom. Not for a failure whose cause is already known.",
+  "review": "Reviews a change with fresh-context reviewers, validates every finding against the code, fixes the real ones, and repeats until a round finds nothing new, then reports what was fixed, rejected, and left open. Use when a change is ready for review, when asked to review a diff, branch, or PR, look this over, check my changes, or fix what a review found, even when they only ask whether it is good to merge.",
+  "domain-modeling": "Builds and sharpens a project's domain model by challenging terms, probing concrete scenarios, and writing the glossary as terms settle. Use when naming or defining a term, when a word is ambiguous or overloaded, when two people mean different things by the same word, or when asked to build the glossary or ubiquitous language, even when they only ask what we should call this. Not for data structures, types, or schemas, not for merely reading a glossary, and not for a full question-by-question interview.",
   "figure-it-out": "Turns a vague or open goal into a checkable done condition, picks the route through the skill set, and drives it to the end on its own, deciding reversible steps and asking only at one-way doors. Use when given a goal without a method or told to handle something end to end. Trigger on figure it out, fix it, sort it out, deal with it, handle this, make it work, or a short instruction that names an outcome but no steps.",
-  "grill": "Interviews the user one question at a time to sharpen a plan, decision, or idea, working a design tree in rounds until every branch is settled. Use when asked to grill me, interview me, or quiz me on my own thinking before building, with no written record wanted.",
+  "grill": "Interviews the user one question at a time to sharpen a plan, decision, or idea, working a design tree in rounds until every branch is settled. Use when asked to grill me, interview me, quiz me, poke holes in my thinking, or challenge my own plan before building, even when they only say they want to think it through first. Not for a verdict on a proposal, and not for writing a record of the answers.",
   "how": "Traces a subsystem's call graph and data flow and returns a written trace. Use when asked to trace or map code or to answer where code lives. Trigger on trace this, map this, or where does this live. Not for teaching a learner.",
-  "investigate": "Examines the current state of a system against a broad quality goal and returns ranked, evidenced findings with candidate fixes, without building anything. Use when asked can we improve, where are we weak, why is this unreliable or flaky, or to audit a quality such as determinism, reliability, speed, or clarity. Trigger on investigate, audit, find weak spots, or can we improve. Not for judging one named change and not for one concrete bug.",
+  "investigate": "Examines the current state of a system against a broad quality goal and returns ranked, evidenced findings with candidate fixes, without building anything. Use when asked can we improve, where are we weak, why is this unreliable in general, or to audit a quality such as determinism, reliability, speed, or clarity. Trigger on investigate, audit, find weak spots, or can we improve. Not for judging one named change, and not for one concrete bug or one flaky test.",
   "mermaid": "Writes production-quality Mermaid diagrams. Use when asked to write, review, fix, or generate a Mermaid diagram or any diagram as text, including flowchart, sequence, class, state, ER, Gantt, pie, mindmap, timeline, gitgraph, C4, sankey, block, kanban, and architecture diagrams.",
   "nixification": "Resolves a missing tool, binary, library, or dependency with Nix flakes or an ephemeral shell. Use on command not found, missing-package errors, or a request to create a flake.nix or reproducible environment. Not for NixOS system or home-manager configuration, nor for errors whose cause is not an absent tool.",
-  "no-comments": "Removes code comments and suppressions that restate code, keeps durable constraints, and encodes recurring ones as structure. Use when comments or suppressions need cleanup.",
-  "prototype": "Builds a throwaway prototype to answer one question, logic, UI, or feasibility, and captures the answer. Use to sanity-check whether a state model feels right, to explore what a UI should look like, or to prove a proof of concept or spike works, not for scoring finished candidates. Trigger on prototype, mock it up, proof of concept, POC, or spike.",
+  "no-comments": "Removes code comments and suppressions that restate code, keeps durable constraints, and encodes recurring ones as structure. Use when asked to remove useless or noisy comments, clean up comments in a diff, drop noqa, eslint-disable, or ts-ignore lines, or tidy a file before review, even when they only say the code has too many comments.",
+  "prototype": "Builds a throwaway prototype to answer one question about a code design, a code implementation, or an idea, and captures the answer. Use to sanity-check whether a state model or interface feels right, to prove an approach, library, or integration works, or to feel out a UI, CLI flow, or format, not for scoring finished candidates. Trigger on prototype, mock it up, try it out, proof of concept, POC, or spike.",
   "report": "Renders any result worth scanning, such as a summary, answer, verdict, findings, comparison, status, or plan, as a page with status chips, grouped rows, and inline SVG diagrams, or as terminal markdown when no HTML view exists. Use when asked for a report, a summary, a recap, a page, an HTML view, or something easier to scan, or when a finished result is ready to show.",
   "research": "Finds answers outside the repo by searching the web, official docs, package registries, and library source, and returns a sourced answer with a confidence tier for each claim. Use when asked to look something up online, find a library, package, SDK, or API, check what the docs say, or compare options from sources. Trigger on research, look this up, search online, find a package, or what does the documentation say. Not for code in this repo and not for a verdict on whether to make a change.",
-  "simple-english": "Writes or rewrites technical text to the rules of ASD-STE100 Simplified Technical English so it is clear and unambiguous for a non-native reader. Use when rewriting existing text for plain, unambiguous English or STE compliance, on runbooks, procedures, error messages, release notes, incident reports, and API guides. Also use on STE, Simplified Technical English, or ASD-STE100, or for docs that translate well. Not for general tone or document structure.",
-  "skill-creator": "Creates new skills, modifies and improves existing skills, and measures skill performance. Use when users want to create a skill from scratch, edit, or optimize an existing skill, run evals to test a skill, benchmark skill performance with variance analysis, or optimize a skill's description for better triggering accuracy. Not for tightening the wording of a finished skill.",
   "teach": "Explains how something works so it is understood, not just stated, weaving a traced flow and its rationale into one plain account built up a step at a time. Use when asked to explain something or help someone really understand it. Trigger on explain this, how does X work, help me understand, or teach me. Not for a bare trace or a history lookup.",
-  "technical-writing": "Structures and words human-facing docs by document type, reader address, and sentence clarity. Use when creating or structuring a doc, readme, RFC, PR description, or commit message.",
-  "to-questionnaire": "Turns a decision the user cannot answer alone into a fillable questionnaire for the person who holds the knowledge. Use when the missing information lives with another human rather than in the code, history, or sources.",
+  "to-questionnaire": "Turns a decision the user cannot answer alone into a fillable questionnaire for the person who holds the knowledge. Use when the missing information lives with another human rather than in the code, history, or sources, such as when asked to prepare questions for the PM, legal, a client, or another team, or to send a stakeholder what we need from them.",
   "unattended": "Sets the contract for a run no one is watching, covering scope, done condition, caps, what may be published, and what to do when stuck. Use before a long or scheduled run, a /goal that runs overnight, or work started by a schedule or webhook. Trigger on overnight, unattended, while I am away, or run on its own.",
-  "unslop": "Edits text to remove AI writing tells and restore a human voice. Use when asked to humanize text, de-slop it, or remove AI tells, or as the last pass on narrative prose for human readers.",
+  "writing": "Writes and rewrites prose for the reader who will read it, picking the rules by that reader. People get docs structured by document type and worded for a tired engineer, agents get skills and prompts that trigger and run predictably, and non-native or regulated readers get ASD-STE100 Simplified Technical English. Every pass ends by removing AI writing tells. Use when writing or editing a README, tutorial, how-to, design doc, RFC, docs page, runbook, error message, release note, incident report, PR description, or commit message, when tightening a skill, AGENTS.md, CLAUDE.md, or prompt, when checking text for STE compliance, or when asked to humanize text, de-slop it, or make it sound less like AI, even when they only say write this up or make this clearer. Not for restating the last chat message, and not for rendering results as a page.",
   "why": "Searches history, ADRs, and sources for the motive behind a design choice, threshold, or past decision, separating facts from inference. Use when asked why did we choose X or what the recorded reasoning was.",
   "wizard": "Generates an interactive bash wizard that walks a human through steps only they can perform. Use when provisioning infrastructure, setting up credentials or CI secrets, walking a third-party dashboard, or running a one-off migration or cutover. Do not use it for steps the agent can perform itself.",
-  "writing-for-agents": "Tightens the prose of agent-consumed documents such as skills, AGENTS.md, and referenced files. Use when tightening the wording of a skill or AGENTS.md. Not for creating or evaluating a skill.",
 };
 const REFS = {
-  "architect": ["arena", "build", "how", "why"],
-  "arena": [],
+  "architect": ["arena", "build", "domain-modeling", "grill", "how", "prototype", "why"],
+  "arena": ["architect", "build", "prototype"],
   "assess": ["architect", "arena", "build", "grill", "how", "investigate", "prototype", "to-questionnaire", "why"],
-  "bro": ["domain-modeling", "simple-english"],
-  "build": ["figure-it-out", "research", "review", "technical-writing"],
+  "bro": ["domain-modeling", "writing"],
+  "build": ["architect", "diagnosing-bugs", "prototype", "research", "review", "writing"],
   "diagnosing-bugs": ["build", "domain-modeling", "why"],
   "domain-modeling": [],
-  "figure-it-out": ["architect", "arena", "assess", "build", "diagnosing-bugs", "grill", "how", "investigate", "nixification", "no-comments", "prototype", "research", "teach", "technical-writing", "to-questionnaire", "unattended", "why", "wizard"],
+  "figure-it-out": ["architect", "arena", "assess", "build", "diagnosing-bugs", "grill", "how", "investigate", "nixification", "no-comments", "prototype", "research", "review", "teach", "to-questionnaire", "unattended", "why", "wizard", "writing"],
   "grill": ["how", "why"],
   "how": ["why"],
   "investigate": ["assess", "build", "diagnosing-bugs", "how", "why"],
@@ -430,16 +476,12 @@ const REFS = {
   "report": [],
   "review": ["build", "report"],
   "research": ["assess", "build", "prototype", "report"],
-  "simple-english": ["unslop", "writing-for-agents"],
-  "skill-creator": ["why", "writing-for-agents"],
-  "teach": ["how", "mermaid", "unslop", "why"],
-  "technical-writing": ["simple-english", "unslop"],
+  "teach": ["how", "mermaid", "why", "writing"],
   "to-questionnaire": ["grill", "how", "why"],
   "unattended": ["figure-it-out"],
-  "unslop": ["simple-english"],
+  "writing": [],
   "why": ["to-questionnaire"],
   "wizard": [],
-  "writing-for-agents": ["skill-creator"],
 };
 /* END GENERATED */
 

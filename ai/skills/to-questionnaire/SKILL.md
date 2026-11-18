@@ -1,6 +1,6 @@
 ---
 name: to-questionnaire
-description: "Turns a decision the user cannot answer alone into a fillable questionnaire for the person who holds the knowledge. Use when the missing information lives with another human rather than in the code, history, or sources."
+description: "Turns a decision the user cannot answer alone into a fillable questionnaire for the person who holds the knowledge. Use when the missing information lives with another human rather than in the code, history, or sources, such as when asked to prepare questions for the PM, legal, a client, or another team, or to send a stakeholder what we need from them."
 ---
 
 # To questionnaire

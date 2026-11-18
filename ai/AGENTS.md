@@ -1,7 +1,7 @@
 # Global agent principles
 
 These rules apply in every session:
-- Before code, state the stack and a net-added-line budget (load build).
+- Before code, state the stack (load build).
 - Verify the real artifact before declaring done (load build).
 - On reversible work, decide and proceed (load build).
 - For a vague or open goal, load figure-it-out.

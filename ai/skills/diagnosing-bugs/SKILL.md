@@ -1,6 +1,6 @@
 ---
 name: diagnosing-bugs
-description: "Runs a diagnosis loop for hard bugs and performance regressions that builds a red-capable feedback loop before hypothesising, then fixes at the root. Use when the user says diagnose or debug this, or reports something broken, throwing, failing, or slow, not for a failure whose cause is already known."
+description: "Runs a diagnosis loop for hard bugs and performance regressions that builds a red-capable feedback loop before hypothesising, then fixes at the root. Use when the user says diagnose or debug this, or reports something broken, throwing, failing, flaky, or slow, even when they never say debug and only describe the symptom. Not for a failure whose cause is already known."
 ---
 
 # Diagnosing bugs

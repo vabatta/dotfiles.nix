@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: check-cites-real-rules
+expected_outcome: |
+  A check report in the skill's check-report shape that cites only rule numbers that exist in references/rules.md, and a rewrite with conditions first, no contractions, no 'should', and no semicolon.

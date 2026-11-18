@@ -1,6 +1,6 @@
 ---
 name: investigate
-description: "Examines the current state of a system against a broad quality goal and returns ranked, evidenced findings with candidate fixes, without building anything. Use when asked can we improve, where are we weak, why is this unreliable or flaky, or to audit a quality such as determinism, reliability, speed, or clarity. Trigger on investigate, audit, find weak spots, or can we improve. Not for judging one named change and not for one concrete bug."
+description: "Examines the current state of a system against a broad quality goal and returns ranked, evidenced findings with candidate fixes, without building anything. Use when asked can we improve, where are we weak, why is this unreliable in general, or to audit a quality such as determinism, reliability, speed, or clarity. Trigger on investigate, audit, find weak spots, or can we improve. Not for judging one named change, and not for one concrete bug or one flaky test."
 ---
 
 # Investigate

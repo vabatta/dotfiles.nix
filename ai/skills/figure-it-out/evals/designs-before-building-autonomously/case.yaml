@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: designs-before-building-autonomously
+expected_outcome: |
+  With no one watching, the agent frames a done condition, runs the Design gate through architect in compete mode (arena on sketches) instead of discussing, writes stubs and failing tests before implementation, and asks nothing except at a one-way door.

@@ -2,7 +2,6 @@
 
 **Pick when:** the goal is knowledge, not a change: where does this live, how does it work, why is it this way, explain it.
 **Chain:** how, why, teach
-**Journey:** no
 **Done looks like:** the answer, with file:line references a reader can check.
 
 ## Steps

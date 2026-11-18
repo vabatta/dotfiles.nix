@@ -1,95 +1,59 @@
 ---
 name: architect
-description: "Designs a new module, interface, or data shape before code, sketching types and boundaries, running competing candidates, then implementing against the chosen sketch. Use when designing something new before writing code, not for a mechanical edit to an existing shape. Trigger on design the interface, sketch the types, or design this module first."
+description: "Designs code before it is written, covering code shape, implementation internals, infrastructure, and data models, by grounding in the current system, settling one decision at a time, and ending in compilable stubs and failing tests for the build. Use when designing something new before writing code, not for a mechanical edit to an existing shape. Trigger on design this, discuss the design, architect this, sketch the types, design the interface, model the data, or design the infrastructure."
 ---
 
 # Architect
 
-Design before implementing. Sketch types, function signatures, class shapes, and module boundaries with `not implemented` bodies and pseudocode. Synthesize across independent candidate perspectives, then fill in code against the chosen sketch. If implementation proves the sketch wrong, throw it out and redesign.
+Design before production code. Settle the shape decision by decision, then write it down as code that compiles and tests that fail. Architect writes no implementation. **build** fills the bodies against the sketch.
 
-## Start
+## Pick the variants
 
-Record one task-list entry per phase before starting when the host provides task
-tracking. Otherwise keep the phase list in the working notes so autonomous runs
-still show their position and do not silently skip phases.
+Read only the variants the work needs. A new system walks them in this order, because each one constrains the next: data-modeling, code-design, code-implementation. Infrastructure joins wherever the work runs, deploys, or is configured.
 
-- A: Ground
-- B: Sketch
-- C: Agree (if opted in)
-- D: Implement
-- E: Scrap (if triggered)
+| Variant | Pick when |
+|---|---|
+| [data-modeling](references/variants/data-modeling.md) | New state, records, schema, wire or file format, or a change to who owns data |
+| [code-design](references/variants/code-design.md) | New module, package, interface, or extension point, or a boundary moves |
+| [code-implementation](references/variants/code-implementation.md) | The shape is fixed and the internals are not obvious: algorithm, control flow, error model, concurrency |
+| [infrastructure](references/variants/infrastructure.md) | Runtime, deployment, CI, Nix, networking, secrets, or environments |
 
-## Phase A: Ground the problem
+Done when the chosen variants and their order are named in one line.
 
-Build a real mental model of every system the new code touches. Run the **how** skill over the relevant subsystems.
+## 1. Ground
 
-Naming a file isn't grounding. Produce the traced model **how** prescribes. If the design redefines ownership or layering, also run the **why** skill on the existing shape so the rationale becomes a constraint, not a guess.
+Run **how** over every system the design touches, and **why** when the design moves ownership or layering, so the existing rationale becomes a constraint. Run **domain-modeling** when a term is fuzzy or overloaded. Skip only for greenfield work with nothing to integrate. Done when you can name the callers, the data, and the constraints the design must honour.
 
-Skip Phase A only when the work is genuinely greenfield with no surrounding system to integrate.
+## 2. Frame the decisions
 
-## Phase B: Sketch
+For each variant, list the decisions it must settle, using the variant's own list. Order them so no decision depends on one that is still open. Done when the decision list is written in the task list.
 
-Run the **arena** workflow with the design-sketch task and the Phase A grounding artifacts. Pass `references/runner-prompt.md` as each runner's brief. Ask **arena** for the selected artifact only, since Phase C implements it. Each candidate produces a design package shaped per `references/rationale-template.md`: the caller's usage written first, then the type sketch, function signatures, module map, and prose rationale derived from it.
+## 3. Settle each decision
 
-Design it twice, per **arena**. Whole-shape alternatives, not point fixes inside one shape.
+Pick the mode once.
 
-Screen every candidate against [`references/design-red-flags.md`](references/design-red-flags.md) before synthesis. Reject or revise shallow modules, information leakage, temporal decomposition, and pass-through methods.
+- **Discuss** when the user invoked this skill and is present. Work the decision list in **grill**'s rounds. For each decision give the recommendation, the strongest alternative, and the cost of each, all grounded in the facts found. The user decides. A pushback is new grounding: re-check the decisions downstream of it.
+- **Compete** when another skill such as **figure-it-out** called this one, when no one is watching, when the user asks for options, or when two whole shapes survive discussion. Run **arena** with its code-design variant for every architect variant, since each candidate is still a sketch: types, schemas, config skeletons, or internal stubs with pseudocode. Competing working implementations are a separate route, not part of design. Give each runner [references/runner-prompt.md](references/runner-prompt.md) plus the chosen variant file, and add up to two rubric points from the variant to arena's default. Ask for the selected artifact only.
+- An unproven fact under a decision goes to **prototype** first, in the variant that matches the doubt.
 
-Hand arena this default rubric: interface depth, fit of the data structures, agreement with the caller's usage, and red-flag count. Add task-specific points up to six.
+Screen the settled shape against [references/design-red-flags.md](references/design-red-flags.md). Prefer the shape that hides more behind a smaller surface. Done when every decision is settled or written as an assumption with its default, and the screen is clean or each flag is answered.
 
-Prefer the design that hides more complexity behind a smaller, simpler public surface.
+## 4. Write the sketch
 
-The arena workflow returns one synthesized design package. The synthesis decision populates the rationale's "Synthesis decision" section. Copy the package to its home (see Outputs) before arena deletes its candidate directories.
-Done when one synthesized package exists at that home with a red-flag screen result.
+Write the caller's usage first, then derive the types from it. Commit to the codebase in one change:
 
-## Phase C: Agree (opt-in)
+- types and signatures as compilable stubs, with the language's `not implemented` error for bodies and pseudocode for tricky logic;
+- failing tests whose names state the behaviour;
+- for infrastructure, the config or module skeleton plus the check that will prove it, such as a build, a plan, or a dry run.
 
-Default: proceed directly to implementation with the synthesized design. No human checkpoint. When **build** follows as the next step, stop after this phase and hand it the package. Done when the package is handed on or signed off.
+Give the rationale in the reply, shaped per [references/rationale-template.md](references/rationale-template.md). Save each decision that is hard to reverse with **memory**. Write no design document and no ADR. Done when the stubs compile, the tests run and fail for the stated reason, and the rationale is given.
 
-Opt in to a checkpoint when the invoker explicitly asks to stop and show the
-design before implementation. Then surface the synthesized design and pause for
-sign-off.
+## 5. Hand off
 
-The synthesis can ship as its own commit either way. That's the "scaffold first" mode: data shape first; subsequent commits read as filling in bodies against a stable contract. Planned and scoped breakage during fill-in is fine. For adversarial pressure on the design before implementing, ask for an independent review of the synthesized sketch from a fresh-context subagent, on a different model or provider when you have one.
-
-If the human pushes back on the shape (in a checkpoint or after the fact), treat that as Phase A evidence. Re-ground and re-run Phase B before writing more code.
-
-## Phase D: Implement against the sketch
-
-Replace `not implemented` bodies with code, pseudocode with logic. The synthesized sketch is the contract.
-
-Deviations from the sketch are signal worth surfacing, not friction to absorb silently. If a function needs a parameter the sketch didn't anticipate, ask whether the sketch was wrong, the requirement was missed, or the implementation is overreaching. Surface it; don't bolt it on. Record each deviation under "Open questions and risks" in the rationale and in the final report; an absent human does not block.
-
-Done when every sketch signature is implemented or removed, the usage examples run, and each deviation is listed.
-
-## Phase E: Scrap when the architecture is wrong
-
-If implementation keeps producing friction the sketch can't absorb, throw the sketch out. Don't bolt fixes onto a wrong design.
-
-The signal is a *pattern*, not single instances. Tells:
-
-- The same shape of workaround appearing repeatedly across unrelated code.
-- Multiple unrelated edge cases that all need special-case branches.
-- Types that need escape hatches (`any`, casts, optional fields always set in practice) to compile.
-- The "we need a lock" reflex when the sketch said the state wasn't shared.
-- Callers having to know the abstraction's internal rules to use it.
-- Two or more independent Phase D deviations of the same shape across the implementation. Surfacing deviations is Phase D's job; a repeated pattern of them is Phase E's trigger.
-
-When you scrap:
-
-1. Re-run the **how** skill over what's been built. The implementation lessons enter the new design as inputs, not vibes.
-2. Redesign as if the new constraints had been day-one assumptions.
-3. Subtract before adding. The new sketch should be smaller than the old one before it grows.
-4. Return to Phase B and re-run arena.
-
-## Outputs
-
-The caller's usage is written first and the type sketch derived from it. One file of types and signatures, plus a module map when more than one module is involved. The rationale ships alongside, shaped per `references/rationale-template.md`, including the usage sketch and the synthesis decision. Write the types and signatures as compilable stubs in the codebase, with failing tests that state the behavior, in one commit. Give the rationale in the reply and save the load-bearing decisions with **memory**. Write no design document and no ADR.
+Hand **build** the sketch, the rationale, and the assumptions. If building later shows the same deviation from the sketch again and again, the sketch is wrong: come back to step 1 with what was learned, redesign as if the new constraint had been there on day one, and make the new sketch smaller than the old one before it grows.
 
 ## Vocabulary
 
-Use the shared vocabulary for module design, not the words component, service, API, or boundary. See [deep-modules.md](references/deep-modules.md) for Module, Interface, Depth, Seam, Adapter, Leverage, and Locality plus the deletion test, and [deepening.md](references/deepening.md) for how dependencies decide the seam and the test strategy.
-
-Apply these design lenses to the sketch. Validate at boundaries and trust types inside. Model the domain with types, not branch ladders, and get the data shape right first. Make state transitions idempotent. Give each writer its own state and merge at the read boundary. When replacing an API, migrate every caller and delete the old one in the same change. When a new requirement arrives, redesign as if it had been foundational.
+Use the module vocabulary in [references/deep-modules.md](references/deep-modules.md), not component, service, API, or boundary. [references/deepening.md](references/deepening.md) says how a dependency's kind decides the seam and the tests.
 
 If another skill called this one, return to its next step. This return ends the skill, not the turn.

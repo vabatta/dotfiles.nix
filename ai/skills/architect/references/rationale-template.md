@@ -4,7 +4,7 @@ The prose that ships alongside the type sketch. One page. Sentence-case headings
 
 ## Problem
 
-*One paragraph. What we're trying to do, and what about the existing system or constraints makes the shape non-obvious. If Phase A surfaced constraints the design must honor (existing types to interop with, callers we can't break, invariants that crossed our boundary), name them here so the reader sees the same constraints you saw.*
+*One paragraph. What we're trying to do, and what about the existing system or constraints makes the shape non-obvious. If grounding surfaced constraints the design must honor (existing types to interop with, callers we can't break, invariants that crossed our boundary), name them here so the reader sees the same constraints you saw.*
 
 ## Usage (caller's view)
 
@@ -16,7 +16,7 @@ The prose that ships alongside the type sketch. One page. Sentence-case headings
 
 ## Synthesis decision
 
-*Filled in by **arena**. Records which candidate became the base and why, what was adapted from each of the others, and what was rejected and why.*
+*Filled in when **arena** ran. Otherwise, the decisions settled in discussion and who settled each. Records which candidate became the base and why, what was adapted from each of the others, and what was rejected and why.*
 
 ## Tradeoffs accepted
 
@@ -32,4 +32,4 @@ The prose that ships alongside the type sketch. One page. Sentence-case headings
 
 ## Next implementation step
 
-*The first thing to build against the sketch. One sentence. What you'd start writing immediately after synthesis (or after Phase C sign-off, if a checkpoint was opted into).*
+*The first thing to build against the sketch. One sentence. What you'd start writing immediately after synthesis (after the user signs off, when they are present).*

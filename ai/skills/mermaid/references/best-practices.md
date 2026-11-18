@@ -65,37 +65,7 @@ Rule of thumb: if you cannot write a legend for your colour scheme in one senten
 
 ## Diagram Type Selection
 
-Choosing the wrong diagram type is the most common high-level mistake. Use this decision guide:
-
-### "I want to show steps, decisions, and branching logic"
-→ **Flowchart** (`flowchart`). The workhorse. Good for processes, algorithms, decision trees, and any directed flow.
-
-### "I want to show messages between systems or people over time"
-→ **Sequence Diagram** (`sequenceDiagram`). The temporal dimension (top-to-bottom = time passing) is the key differentiator from flowcharts. If the order of messages matters, this is the type.
-
-### "I want to show object structure, inheritance, or composition"
-→ **Class Diagram** (`classDiagram`). Shows static structure — types, relationships, methods. Not for runtime behaviour.
-
-### "I want to show how something changes state over its lifetime"
-→ **State Diagram** (`stateDiagram-v2`). Models a single entity's lifecycle as states and transitions. If you're saying "when X happens, the thing moves from state A to state B", this is the type.
-
-### "I want to show how database tables relate"
-→ **ER Diagram** (`erDiagram`). Entities, attributes, cardinality, keys. The standard for data modelling.
-
-### "I want to show a project schedule"
-→ **Gantt Chart** (`gantt`). Tasks on a timeline with dependencies, milestones, and critical paths.
-
-### "I want to show proportions or a breakdown"
-→ **Pie Chart** (`pie`). Simple proportional breakdown. Keep to ≤ 6 slices.
-
-### "I want to brainstorm or show a concept hierarchy"
-→ **Mindmap** (`mindmap`). Radial hierarchy from a central idea. Good for brainstorming, taxonomy, or topic decomposition.
-
-### "I want to show system context at the C4 level"
-→ **C4 Diagram** (`C4Context`, `C4Container`, `C4Component`). Simon Brown's C4 model for software architecture at increasing levels of detail.
-
-### "I want to show git branching strategy"
-→ **GitGraph** (`gitGraph`). Branches, commits, merges, tags, cherry-picks.
+Pick the type from the table in SKILL.md, Core Principle 2. The most common high-level mistake is a flowchart where the order of messages matters, which is a sequence diagram, or a class diagram for runtime behaviour.
 
 ---
 

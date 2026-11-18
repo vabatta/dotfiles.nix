@@ -46,10 +46,10 @@ Done when every part of the content has a block or is left out because it is emp
 
 ## Write
 
-- Start with the answer. Put no heading, title banner, or intro above the lead.
+- Start with the answer. Put no heading, title banner, or intro above the lead, because the reader scans the first line and decides from it.
 - Each row holds one item. Name the item, give the reason in a few words, and end with one chip.
-- Move the evidence below the answer. In HTML, fold it into a `details` block whose summary counts each tier.
-- Give a status as a chip. Never spell a tier in capitals inside prose.
+- Move the evidence below the answer, so it is there for the reader who doubts and out of the way for the one who does not. In HTML, fold it into a `details` block whose summary counts each tier.
+- Give a status as a chip. Do not spell a tier in capitals inside prose, since the chip already carries it and capitals in prose read as shouting.
 - Draw a figure only when the relations matter. Prose that explains the figure means the figure needs to be redrawn.
 
 Done when the rendered result follows the chosen variant and its check passes.

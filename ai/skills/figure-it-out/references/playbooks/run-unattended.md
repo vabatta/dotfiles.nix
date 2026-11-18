@@ -2,7 +2,6 @@
 
 **Pick when:** the work is long, overnight, scheduled, or started by a webhook, and no one will answer questions.
 **Chain:** unattended, figure-it-out
-**Journey:** yes
 **Done looks like:** the contract's done command exits 0, or the cap is reached with every unit landed or parked.
 
 ## Steps

@@ -1,6 +1,6 @@
 ---
 name: grill
-description: "Interviews the user one question at a time to sharpen a plan, decision, or idea, working a design tree in rounds until every branch is settled. Use when asked to grill me, interview me, or quiz me on my own thinking before building, with no written record wanted."
+description: "Interviews the user one question at a time to sharpen a plan, decision, or idea, working a design tree in rounds until every branch is settled. Use when asked to grill me, interview me, quiz me, poke holes in my thinking, or challenge my own plan before building, even when they only say they want to think it through first. Not for a verdict on a proposal, and not for writing a record of the answers."
 ---
 
 # Grill

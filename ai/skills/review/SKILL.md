@@ -1,6 +1,6 @@
 ---
 name: review
-description: "Reviews a change with fresh-context reviewers, validates every finding against the code, fixes the real ones, and repeats until a round finds nothing new, then reports what was fixed, rejected, and left open. Use when a change is ready for review, when asked to review a diff or branch, or when asked to fix what a review found."
+description: "Reviews a change with fresh-context reviewers, validates every finding against the code, fixes the real ones, and repeats until a round finds nothing new, then reports what was fixed, rejected, and left open. Use when a change is ready for review, when asked to review a diff, branch, or PR, look this over, check my changes, or fix what a review found, even when they only ask whether it is good to merge."
 ---
 
 # Review

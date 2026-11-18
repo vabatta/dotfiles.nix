@@ -1,6 +1,6 @@
 ---
 name: domain-modeling
-description: "Builds and sharpens a project's domain model by challenging terms, probing concrete scenarios, and writing the glossary as terms settle. Use when naming or defining a term. Merely reading a glossary for vocabulary is not this skill, and neither is a full question-by-question interview."
+description: "Builds and sharpens a project's domain model by challenging terms, probing concrete scenarios, and writing the glossary as terms settle. Use when naming or defining a term, when a word is ambiguous or overloaded, when two people mean different things by the same word, or when asked to build the glossary or ubiquitous language, even when they only ask what we should call this. Not for data structures, types, or schemas, not for merely reading a glossary, and not for a full question-by-question interview."
 ---
 
 # Domain Modeling
@@ -40,6 +40,8 @@ When a term is resolved, update `docs/glossary.md` (or `docs/glossary/<context>.
 ### Record decisions in memory, not in ADRs
 
 A decision that is hard to reverse, surprising without context, and the result of a real trade-off goes to a decision note with **memory**, anchored to the code it concerns. Write no new ADR. Leave existing ADRs where they are. When one states a rule that is still true, encode it as a test, a type, or a check, and the ADR can go.
+
+When no one can answer, write your recommended meaning to the glossary marked `_Assumed_`, since what a business word means is the user's call and the mark lets them find and confirm it later.
 
 Done when each term resolved in the session is in the glossary and each qualifying decision is saved, or none qualified.
 

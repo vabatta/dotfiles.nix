@@ -5,7 +5,7 @@ description: "Searches history, ADRs, and sources for the motive behind a design
 
 # Why
 
-Use why when the motivation or history matters. Start with the code and Git
+Use why when the motivation or history matters. Read [epistemics.md](references/epistemics.md) first for the confidence tiers and calibrated phrasing, since every claim gets one. Start with the code and Git
 history. Search issues, documents, conversations, observability, error reports,
 or analytics only when the host provides those sources.
 
@@ -23,8 +23,7 @@ or analytics only when the host provides those sources.
    implementation. Done when every intent claim carries a tier label, and a
    citation unless the tier is Unknown.
 
-Read [epistemics.md](references/epistemics.md) before writing the answer, for
-the confidence tiers and calibrated phrasing. Read
+Read
 [code-archaeology.md](references/code-archaeology.md) for the git and `gh`
 queries behind step 2.
 

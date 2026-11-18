@@ -2,7 +2,6 @@
 
 **Pick when:** the goal is a quality, not a change: can we improve, where are we weak, why is it unreliable or slow.
 **Chain:** investigate, assess
-**Journey:** yes
 **Done looks like:** findings ranked with evidence, and a verdict on the top candidate fix.
 
 ## Steps

@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: cloudflare-ci-secrets
+expected_outcome: |
+  A bash wizard under .agents/wizards/ with one stage per value, collecting the token with a hidden prompt, setting both secrets and the variable on GitHub, passing scripts/verify.sh, and holding no secret value.
+context:
+  scaffold_script: place-files.sh

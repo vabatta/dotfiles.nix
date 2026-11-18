@@ -48,7 +48,6 @@
         path = ../taps/tableplus;
         name = "homebrew-tableplus";
       };
-      "wouterdebie/homebrew-tap" = inputs.homebrew-wouterdebie;
     };
     mutableTaps = false;
 
@@ -56,7 +55,6 @@
     # Entries are added on activation and are not removed when dropped from this list.
     trust.casks = [
       "local/tableplus/tableplus"
-      "wouterdebie/tap/davit"
     ];
   };
 

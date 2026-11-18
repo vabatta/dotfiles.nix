@@ -1,11 +1,15 @@
 {
   pkgs,
   lib,
+  inputs,
   hostUsername,
   ...
 }:
 {
   networking.hostName = "mbp";
+
+  nix-homebrew.taps."wouterdebie/homebrew-tap" = inputs.homebrew-wouterdebie;
+  nix-homebrew.trust.casks = [ "wouterdebie/tap/davit" ];
 
   homebrew.casks = [
     "docker-desktop"

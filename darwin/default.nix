@@ -66,6 +66,7 @@
       imports = [
         inputs.nvf.homeModules.default # neovim
         ../home
+        ../home/github-keys.nix
       ];
     };
     extraSpecialArgs = {

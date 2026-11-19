@@ -17,7 +17,7 @@ let
   '';
 in
 {
-  options.ai.mcp.remote = lib.mkEnableOption "the remote OAuth MCP servers (Cloudflare, OpenRouter)";
+  options.ai.mcp.remote = lib.mkEnableOption "the remote OAuth MCP server (Cloudflare)";
 
   config = {
     home.packages = [ validate-mermaid gm ];
@@ -30,12 +30,8 @@ in
           args = [ "mcp" ];
         };
       }
-      // lib.optionalAttrs pkgs.stdenv.hostPlatform.isDarwin {
-        "1password".command = "/Applications/1Password.app/Contents/MacOS/1password-mcp";
-      }
       // lib.optionalAttrs config.ai.mcp.remote {
         cloudflare.url = "https://mcp.cloudflare.com/mcp";
-        openrouter.url = "https://mcp.openrouter.ai/mcp";
       };
     };
 

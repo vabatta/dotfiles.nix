@@ -2,6 +2,8 @@
 {
   programs.gh = {
     enable = true;
+    # git talks to GitHub over ssh only (git.nix rewrites https), so gh is not git's credential helper.
+    gitCredentialHelper.enable = false;
 
     settings = {
       editor = "nvim";

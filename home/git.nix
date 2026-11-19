@@ -61,6 +61,9 @@
       github = {
         user = "vabatta";
       };
+      # GitHub over ssh only: an https URL (a clone link, a submodule, a tool) is rewritten to ssh, so no token is used for
+      # git. The gh token stays for the API (gh pr, gh api).
+      url."git@github.com:".insteadOf = "https://github.com/";
       init = {
         defaultBranch = "main";
       };

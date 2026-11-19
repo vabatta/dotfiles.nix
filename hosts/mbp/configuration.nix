@@ -25,8 +25,14 @@
     "Tailscale" = 1475387142;
   };
 
-  home-manager.users.${hostUsername} = {
+  home-manager.users.${hostUsername} = { config, ... }: {
     ai.mcp.remote = true;
+
+    git.allowedSigningKeys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBlzbJwBmmgZQauXtPJWQe+C5QajgFfCX7wyS6Q8eJAX"
+      # previous 1Password signing key, so older commits still verify
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIERFqyE4flUaslGeGLB/O0KXoPfi+Azp35X8UJ0oAE3U"
+    ];
 
     xdg.enable = true;
     home.preferXdgDirectories = true;
@@ -38,7 +44,8 @@
 
     home.sessionVariables.SSH_AUTH_SOCK = "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
 
-    programs.ssh.settings."*".IdentityAgent = "\"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\"";
+    programs.ssh.settings."*".IdentityAgent =
+      "\"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\"";
 
     programs = {
       zsh.initContent = lib.mkOrder 1500 ''
@@ -48,9 +55,13 @@
       git = {
         settings.user.name = "vabatta";
         settings.user.email = "2137077+vabatta@users.noreply.github.com";
+        # Signing uses an on-disk key and never asks the 1Password agent, which keeps the push key.
         signing = {
           format = "ssh";
-          key = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIERFqyE4flUaslGeGLB/O0KXoPfi+Azp35X8UJ0oAE3U";
+          key = "${config.home.homeDirectory}/.ssh/id_ed25519_signing.pub";
+          signer = "${pkgs.writeShellScript "ssh-keygen-no-agent" ''
+            exec env -u SSH_AUTH_SOCK ${pkgs.openssh}/bin/ssh-keygen "$@"
+          ''}";
           signByDefault = true;
         };
         settings.credential.helper = "osxkeychain";

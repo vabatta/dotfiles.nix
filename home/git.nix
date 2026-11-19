@@ -1,6 +1,13 @@
 { config, lib, ... }:
 {
-  programs.git = {
+  options.git.allowedSigningKeys = lib.mkOption {
+    type = lib.types.listOf lib.types.str;
+    default = lib.optional (config.programs.git.signing.key != null) config.programs.git.signing.key;
+    defaultText = lib.literalExpression "[ config.programs.git.signing.key ]";
+    description = "Public keys that allowed_signers trusts for user.email. Set it when signing.key is a file path.";
+  };
+
+  config.programs.git = {
     enable = true;
 
     lfs.enable = true;
@@ -197,11 +204,13 @@
     };
   };
 
-  home.shellAliases.g = "git";
+  config.home.shellAliases.g = "git";
 
-  home.file."${config.xdg.configHome}/git/allowed_signers" =
-    lib.mkIf (config.programs.git.signing.key != null)
+  config.home.file."${config.xdg.configHome}/git/allowed_signers" =
+    lib.mkIf (config.git.allowedSigningKeys != [ ])
       {
-        text = "${config.programs.git.settings.user.email} ${config.programs.git.signing.key}\n";
+        text = lib.concatMapStrings (
+          key: "${config.programs.git.settings.user.email} ${key}\n"
+        ) config.git.allowedSigningKeys;
       };
 }

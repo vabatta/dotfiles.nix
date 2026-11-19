@@ -54,7 +54,7 @@ nixosConfigurations.<host> = dotfiles.inputs.nixpkgs.lib.nixosSystem {
 Check a profile change without a machine: `scripts/check-devbox.sh` evaluates it on a throwaway host, and `--build` also builds it (needs Linux or an x86_64-linux builder).
 
 1. Create keys on the box, never copy private keys from a laptop: `ssh-keygen -t ed25519 -C devbox` for push, and `ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519_signing -C "devbox signing"` for commit signing.
-2. Add each key to GitHub once, for its own job: `gh ssh-key add ~/.ssh/id_ed25519.pub --type authentication --title devbox` and `gh ssh-key add ~/.ssh/id_ed25519_signing.pub --type signing --title "devbox signing"`. Set the host's `programs.git.signing.key` to `~/.ssh/id_ed25519_signing.pub` and put the public key in `git.allowedSigningKeys`. Leave old signing keys on GitHub so older commits still verify.
+2. Add each key to GitHub once, for its own job: `gh ssh-key add ~/.ssh/id_ed25519.pub --type authentication --title devbox` and `gh ssh-key add ~/.ssh/id_ed25519_signing.pub --type signing --title "devbox signing"`. Set the host's `programs.git.signing.key` to `~/.ssh/id_ed25519_signing.pub` and put the public key in `git.allowedSigningKeys`. GitHub keeps older commits verified after their key is removed; keep the old public key in `git.allowedSigningKeys` so they also verify locally.
 3. Allow your laptop to log in: run `ssh-copy-id <user>@devbox` from the laptop.
 
 The box has no 1Password. Export `OPENROUTER_API_KEY` in the environment that starts `opencode`; the wrapper in `home/opencode.nix` uses `op` only when it is unset.

@@ -28,11 +28,9 @@
   home-manager.users.${hostUsername} = {
     ai.mcp.remote = true;
 
+    # 1Password, Macbook Personal: "github - mbp push" and "github - mbp signing".
     github.keys = {
       enable = true;
-      vault = "xfii5oabfu3sksmaglachpyy3a"; # Macbook Personal
-      pushItem = "github - mbp push";
-      signingItem = "github - mbp signing";
       pushPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDcFFbuWULh/AS3I2SMR1ugDww3mU5+9maNIxQk+LC89";
       signingPublicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDn1Nh+Oexkh9cWo6bUCYKRWg0NLnXelge9GB/bihMsN";
     };

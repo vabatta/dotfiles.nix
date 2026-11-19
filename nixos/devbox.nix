@@ -31,7 +31,6 @@ in
 
     xdg.enable = true;
     home.preferXdgDirectories = true;
-    opencode.opVault = "Devbox";
 
     # headless T3 server for the Mac app; updated with `nix flake update llm-agents`, not `t3 update`
     systemd.user.services.t3 = {

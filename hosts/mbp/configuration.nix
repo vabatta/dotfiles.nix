@@ -47,15 +47,15 @@
 
     home.sessionVariables.SSH_AUTH_SOCK = "$HOME/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock";
 
+    # sops runs this only to decrypt, so the homelab admin age key stays in 1Password and in memory.
+    home.sessionVariables.SOPS_AGE_KEY_CMD = "op document get 'sops - admin age key' --vault px4vlmp4izi6h7auravxrwcx3a";
+
     programs.ssh.settings."*".IdentityAgent =
       "\"~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock\"";
 
     programs = {
       zsh.initContent = lib.mkOrder 1500 ''
         source ${../../scripts/shell-functions.sh}
-
-        # The homelab admin age key lives only in 1Password and reaches sops in memory, per command.
-        sops() { SOPS_AGE_KEY="$(op document get 'sops - admin age key' --vault px4vlmp4izi6h7auravxrwcx3a)" command sops "$@"; }
       '';
 
       git = {

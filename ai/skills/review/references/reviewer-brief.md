@@ -12,7 +12,13 @@ Read the diff and enough of the surrounding code to judge it. Check, in this ord
 2. **Correctness.** Wrong results, unhandled states, broken error paths, races, resource leaks, and security holes.
 3. **Tests.** Does a test fail if the behavior breaks? Flag a test that was deleted, weakened, or made to pass without proving anything.
 4. **Scope.** Code nobody asked for: compatibility shims, speculative options, unrelated refactors, new dependencies the standard library or an installed package already covers.
-5. **Language traps** from the language files.
+5. **Boundaries.** Flag these, each with its Failure line like any other finding:
+   - A wire, storage, or framework type on a public surface. It is blocking, and its Failure names the outside change that would break every caller.
+   - A port with one adapter and no certain second one.
+   - A change that needs coordinated edits across several modules, which means one decision leaked out of the module that should own it.
+   - A diff that changes what the boundary config allows, such as a contract, slice, layer, or ignored import, with no acceptance line asking for it. It is blocking, because the config is the map and only the human owner changes it. A plausible reason beside the entry does not make it allowed.
+   - A change that removes the reason a comment states, while the comment stays. The comment must be updated or deleted. In the boundary config this is a comment edit, not a map edit, so fix it like any other stale comment.
+6. **Language traps** from the language files.
 
 Skip style and naming unless they hide a defect. A reviewer asked to find problems always finds something, so report only what you can defend.
 

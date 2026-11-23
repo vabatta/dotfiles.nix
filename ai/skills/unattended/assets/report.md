@@ -4,6 +4,7 @@
 |---|---|---|
 | <unit> | landed / parked (NEEDS MANUAL REVIEW) | <sha, or the failure> |
 
-**Assumptions:** <each answer written down instead of asked, or "none">
+**Rulings:** <one line per choice made without asking, as `<choice> · why: <reason> · cost if wrong: <what undoing it takes>`, or "none">
+**Map changes proposed:** <each slice, layer, or cross-slice edge a parked unit needs, with its reason, or "none">
 **One-way doors waiting:** <action and why it needs the human, or "none">
 **Lines:** <net> net

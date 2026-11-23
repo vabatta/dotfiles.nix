@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: blocks-unasked-boundary-edit
+expected_outcome: |
+  The review marks the new ignore_imports entry in pyproject.toml as blocking, because it widens the boundary config with no acceptance line asking for it, and fixes the change by reverting the config edit and reaching the rounding through payments.api or keeping it inside invoicing. Nothing is committed or merged.
+context:
+  scaffold_script: place-files.sh

@@ -1,0 +1,33 @@
+[project]
+name = "shop"
+version = "0.1.0"
+requires-python = ">=3.12"
+
+[dependency-groups]
+dev = ["pytest>=8", "import-linter>=2"]
+
+[project.optional-dependencies]
+stripe = ["stripe>=10"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+
+[tool.importlinter]
+root_package = "shop"
+
+[[tool.importlinter.contracts]]
+name = "Slices are independent"
+type = "independence"
+modules = ["shop.payments", "shop.invoicing"]
+# invoicing charges a customer when an invoice is finalised, through the payments api only
+ignore_imports = [
+    "shop.invoicing.** -> shop.payments.api",
+    # temporary: late_fee reuses the money rounding until it moves to a shared kernel
+    "shop.invoicing.application.late_fee -> shop.payments.domain.money",
+]
+
+[[tool.importlinter.contracts]]
+name = "Onion layers inside each slice"
+type = "layers"
+containers = ["shop.payments", "shop.invoicing"]
+layers = ["adapters", "application", "domain"]

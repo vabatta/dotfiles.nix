@@ -17,7 +17,7 @@ A loop that ends on evidence, not on a feeling of done. The builder reviewing it
 
    Read only the matching files. With none matching, the brief alone applies.
 
-2. Fresh review. Dispatch a reviewer with fresh context, as a subagent where you can. Give it [references/reviewer-brief.md](references/reviewer-brief.md) with the diff, the acceptance lines, and the chosen language files. Do not pass your own account of the change, since a reviewer handed the builder's claims tends to confirm them. With no way to start a fresh context, run the brief yourself after rereading only the diff, and say so in the report. Done when the reviewer's findings are in hand as it wrote them.
+2. Fresh review. Dispatch a reviewer with fresh context, as a subagent where you can. Give it [references/reviewer-brief.md](references/reviewer-brief.md) with the diff, the acceptance lines, and the chosen language files. Do not pass your own account of the change, since a reviewer handed the builder's claims tends to confirm them. With no way to start a fresh context, run the brief yourself after rereading only the diff, and say so in the report. Also run [scripts/stale-refs.sh](scripts/stale-refs.sh) from the repo root. Each name it prints is a gm note or a comment that points at a symbol or file the repo no longer has, so add each one as a finding, since a stale pointer sends the next reader to code that is gone. Done when the reviewer's findings and the script's output are in hand as they were written.
 
 3. Validate. Check each finding against the code before acting on it, because most review comments that developers reject are false positives. Mark each one:
    - `valid`: you reproduced it or read the line that proves it.
@@ -39,7 +39,7 @@ A loop that ends on evidence, not on a feeling of done. The builder reviewing it
 The loop has no round limit of its own. It stops on one of these:
 
 - **Converged.** A round gives no new valid blocking finding. Deferred findings go into the report, not into more rounds.
-- **Stalled.** The same finding stays open after its fix, comes back after being fixed, or the count of blocking findings stops falling. Escalate once: hand the finding to a fresh implementer, on a stronger model where you can. If it still holds, write a ruling with both arguments and mark the result `not converged`.
+- **Stalled.** The same finding stays open after its fix, comes back after being fixed, or the count of blocking findings stops falling. Who settles it, and whether the user gets a question, is row 6 of the decision rights in **build**. Follow that row, and mark the result `not converged` when the finding still holds.
 - **Capped.** A limit the user set, such as rounds, time, or one pass only, overrides the rules above. Reaching it is `capped, not converged`, never done.
 
 Two rules keep the loop from churning. A reviewer may not re-file a rejected finding without new evidence. A finding outside the change never extends the loop.

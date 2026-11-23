@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: asks-owner-before-new-edge
+expected_outcome: |
+  The user is present and asked to discuss. The design needs invoicing to read the tier from customers, an edge the boundary config does not allow, so it is a map decision the owner makes in Discuss mode. The agent asks one question at a time, puts the edge first as a map change with a recommendation, the strongest alternative, and the cost of each, and writes no code or config before the answer.
+context:
+  scaffold_script: place-files.sh

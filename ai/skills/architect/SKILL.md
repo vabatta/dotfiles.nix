@@ -30,13 +30,13 @@ For each variant, list the decisions it must settle, using the variant's own lis
 
 ## 3. Settle each decision
 
-Pick the mode once.
+Pick the mode once. Who settles each decision, with the user present and absent, is in the decision rights of **build**. Read them before picking, because a map change and a port have their own rows.
 
-- **Discuss** when the user invoked this skill and is present. Work the decision list in **grill**'s rounds. For each decision give the recommendation, the strongest alternative, and the cost of each, all grounded in the facts found. The user decides. A pushback is new grounding: re-check the decisions downstream of it.
+- **Discuss** when the user invoked this skill and is present. Work the decision list in **grill**'s rounds. For each decision give the recommendation, the strongest alternative, and the cost of each, all grounded in the facts found. A pushback is new grounding: re-check the decisions downstream of it.
 - **Compete** when another skill such as **figure-it-out** called this one, when no one is watching, when the user asks for options, or when two whole shapes survive discussion. Run **arena** with its code-design variant for every architect variant, since each candidate is still a sketch: types, schemas, config skeletons, or internal stubs with pseudocode. Competing working implementations are a separate route, not part of design. Give each runner [references/runner-prompt.md](references/runner-prompt.md) plus the chosen variant file, and add up to two rubric points from the variant to arena's default. Ask for the selected artifact only.
 - An unproven fact under a decision goes to **prototype** first, in the variant that matches the doubt.
 
-Screen the settled shape against [references/design-red-flags.md](references/design-red-flags.md). Prefer the shape that hides more behind a smaller surface. Done when every decision is settled or written as an assumption with its default, and the screen is clean or each flag is answered.
+Screen the settled shape against [references/design-red-flags.md](references/design-red-flags.md). Prefer the shape that hides more behind a smaller surface. Done when every decision is settled or written as a ruling with its default, why, and the cost if wrong, and the screen is clean or each flag is answered.
 
 ## 4. Write the sketch
 
@@ -44,13 +44,14 @@ Write the caller's usage first, then derive the types from it. Commit to the cod
 
 - types and signatures as compilable stubs, with the language's `not implemented` error for bodies and pseudocode for tricky logic;
 - failing tests whose names state the behaviour;
+- for code-design, the boundary config that holds the map, with a constraint comment beside each allowed edge;
 - for infrastructure, the config or module skeleton plus the check that will prove it, such as a build, a plan, or a dry run.
 
 Give the rationale in the reply, shaped per [references/rationale-template.md](references/rationale-template.md). Save each decision that is hard to reverse with **memory**. Write no design document and no ADR. Done when the stubs compile, the tests run and fail for the stated reason, and the rationale is given.
 
 ## 5. Hand off
 
-Hand **build** the sketch, the rationale, and the assumptions. If building later shows the same deviation from the sketch again and again, the sketch is wrong: come back to step 1 with what was learned, redesign as if the new constraint had been there on day one, and make the new sketch smaller than the old one before it grows.
+Hand **build** the sketch, the rationale, and the rulings. If building later shows the same deviation from the sketch again and again, the sketch is wrong: come back to step 1 with what was learned, redesign as if the new constraint had been there on day one, and make the new sketch smaller than the old one before it grows.
 
 ## Vocabulary
 

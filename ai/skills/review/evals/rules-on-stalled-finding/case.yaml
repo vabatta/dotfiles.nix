@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: rules-on-stalled-finding
+expected_outcome: |
+  Finding F1 came back after its fix, because the user's own test pins half-up rounding while the acceptance says half-even. That is a stalled finding. With the owner away, the agent gets a stronger second opinion with both arguments, writes a ruling, marks the result not converged, and stops that unit instead of looping another fix.
+context:
+  scaffold_script: place-files.sh

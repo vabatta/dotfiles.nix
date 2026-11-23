@@ -1,6 +1,6 @@
 ---
 name: investigate
-description: "Examines the current state of a system against a broad quality goal and returns ranked, evidenced findings with candidate fixes, without building anything. Use when asked can we improve, where are we weak, why is this unreliable in general, or to audit a quality such as determinism, reliability, speed, or clarity. Trigger on investigate, audit, find weak spots, or can we improve. Not for judging one named change, and not for one concrete bug or one flaky test."
+description: "Examines the current state of a system against a broad quality goal and returns ranked, evidenced findings with candidate fixes, without building anything. Use when asked can we improve, where are we weak, why is this unreliable in general, or to audit a quality such as determinism, reliability, speed, clarity, or coupling. Trigger on investigate, audit, find weak spots, or can we improve. Not for judging one named change, and not for one concrete bug or one flaky test."
 ---
 
 # Investigate
@@ -25,6 +25,7 @@ Read only the variant that matches the goal. It names what to measure, how, wher
 | [clarity](references/goals/clarity.md) | The code should be easier to read and change |
 | [security](references/goals/security.md) | Less should go wrong if someone tries |
 | [cost](references/goals/cost.md) | It should cost less: money, tokens, compute, CI minutes |
+| [coupling](references/goals/coupling.md) | A change to one feature should not need edits in others |
 
 ## Collect evidence
 

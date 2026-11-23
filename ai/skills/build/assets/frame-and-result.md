@@ -17,6 +17,6 @@ Lines: <net> net (added <a>, deleted <d>)
 Removed: <what was deleted first, or "nothing needed removing">
 Review: <converged | not converged | capped | skipped by request> · see the review report
 Held back: <scope not in the acceptance lines, or "nothing">
-Rulings: <each choice made without asking, why, cost if wrong, or "none">
+Rulings: <one line per choice made without asking, as `<choice> · why: <reason> · cost if wrong: <what undoing it takes>`, or "none">
 Delivered: <what the task asked for: commit, PR link, or "nothing asked">
 ```

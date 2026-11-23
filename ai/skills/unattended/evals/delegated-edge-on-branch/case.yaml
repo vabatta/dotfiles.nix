@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: delegated-edge-on-branch
+expected_outcome: |
+  The user delegates the map row. The agent writes the delegation into the run contract, decides the edge through arena and a ruling, adds only the invoicing to customers.api edge with its reason beside it, implements and tests the discount, and leaves everything on a branch with the map change listed in the report for the owner to reverse.
+context:
+  scaffold_script: place-files.sh

@@ -5,7 +5,7 @@
 **Done looks like:** a verdict (do, don't, conditional, or the chosen option) with its load-bearing facts proven.
 
 ## Steps
-1. **grill**, only when the idea is still fuzzy and the user can answer. Hand it the goal and the grounding. Out: settled criteria and options. In an unattended run, skip it and write the criteria as assumptions.
+1. **grill**, only when the idea is still fuzzy and the user can answer. Hand it the goal and the grounding. Out: settled criteria and options. In an unattended run, skip it and write the criteria as rulings.
 2. **assess**. Hand it the options, the criteria, and the grounding. Out: the verdict table.
 3. Do → continue with change-code when the goal includes building it. Don't → stop and report what would change the answer.
 

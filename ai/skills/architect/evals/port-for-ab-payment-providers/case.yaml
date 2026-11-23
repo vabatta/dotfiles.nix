@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: port-for-ab-payment-providers
+expected_outcome: |
+  The agent designs the payment provider as a port with a Stripe adapter, an Adyen adapter, and the per-customer A/B choice behind the same interface instead of a flag callers check. It writes the map as the project's boundary config, with the payments and invoicing slices, onion layers inside each, and the one invoicing to payments api edge carrying a reason comment, next to compilable stubs and failing tests. It writes no implementation and no architecture document.
+context:
+  scaffold_script: place-files.sh

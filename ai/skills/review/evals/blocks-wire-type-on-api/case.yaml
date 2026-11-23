@@ -1,0 +1,6 @@
+schema_version: "1.1"
+name: blocks-wire-type-on-api
+expected_outcome: |
+  payments.api.get_charge returns the raw Stripe PaymentIntent payload as a dict, and invoicing reads its Stripe status string. The review marks this as blocking because a provider wire shape sits on the slice's public entry, with a Failure line naming the provider change that breaks invoicing, and fixes it by returning a domain type. Nothing is committed.
+context:
+  scaffold_script: place-files.sh

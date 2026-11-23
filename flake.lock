@@ -151,11 +151,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1794836681,
-        "narHash": "sha256-7tnpzH4s+oe+rWF8HoHaVPyw9vAwxNPd029ALH6Asoo=",
+        "lastModified": 1795467026,
+        "narHash": "sha256-HspbP2wjwzPXLcMXUw5YJGgw4zksB+IKVTlnrDdjC2Y=",
         "owner": "vabatta",
         "repo": "gm",
-        "rev": "638b328fa28b3105af20ab1663e0f4a7c913282d",
+        "rev": "5eb4732b425159056b1b4074972899d6d2da9509",
         "type": "github"
       },
       "original": {
